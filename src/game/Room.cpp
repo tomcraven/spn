@@ -1,13 +1,39 @@
-#include "game/IRoom.h"
+#include "game/Room.h"
 #include "core/Algorithm.h"
 #include "core/Assert.h"
 #include "core/Time.h"
 
 #include "s3e.h"
 
+namespace
+{
+	const float kTimeStepSeconds = 1.0f / 30.0f;
+	const uint32_t kTimeStepMilliseconds = uint32_t( kTimeStepSeconds * 1000.0f );
+}
+
 namespace game
 {
-	bool IRoom::update()
+	bool Room::go()
+	{
+		while (!s3eDeviceCheckQuitRequest())
+		{
+			onUpdateStart();
+
+			CHECK( update() );
+			CHECK( render() );
+
+			onUpdateEnd( kTimeStepMilliseconds );
+		}
+
+		return true;
+	}
+
+	bool Room::render()
+	{
+		return true;
+	}
+
+	bool Room::update()
 	{
 		CHECK_S3E_RESULT( s3eKeyboardUpdate() );
 		CHECK_S3E_RESULT( s3ePointerUpdate() );
@@ -15,12 +41,12 @@ namespace game
 		return true;
 	}
 
-	void IRoom::onUpdateStart()
+	void Room::onUpdateStart()
 	{
 		core::Time::getMilliseconds( updateStartMilliseconds );
 	}
 
-	void IRoom::onUpdateEnd( uint32_t timeStepMilliseconds )
+	void Room::onUpdateEnd( uint32_t timeStepMilliseconds )
 	{
 		uint64_t endMilliseconds;
 		core::Time::getMilliseconds( endMilliseconds );
@@ -29,5 +55,10 @@ namespace game
 		uint32_t yieldTimeMilliseconds = core::Algorithm::max( 0, remainingUpdateTimeMilliseconds );
 
         s3eDeviceYield( yieldTimeMilliseconds );
+	}
+
+	float Room::getTimeStepSeconds()
+	{
+		return kTimeStepSeconds;
 	}
 }

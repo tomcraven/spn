@@ -10,14 +10,17 @@ namespace component
 
 namespace game
 {
-	class IRoom
+	class Room
 	{
 	public:
 		virtual bool init() = 0;
-		virtual bool go() = 0;
+		virtual bool go();
 		virtual bool shutdown() = 0;
 
+		float getTimeStepSeconds();
+
 	protected:
+		virtual bool render();
 		virtual bool update();
 
 	protected:
