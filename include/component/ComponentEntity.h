@@ -14,15 +14,22 @@ namespace component
 		bool attach( component::IComponent* component );
 
 		template<class T>
-		T* getComponent( T* outComponent = 0 )
+		T* getComponent( T** outComponent = 0 )
 		{
 			uint32_t type = T().getType();
 			for ( uint32_t i = 0; i < numComponents; ++i )
 			{
 				if ( type == components[i]->getType() )
 				{
-					outComponent = static_cast<T*>( components[i] );
-					return outComponent;
+					if ( outComponent )
+					{
+						*outComponent = static_cast<T*>( components[i] );
+						return *outComponent;
+					}
+					else
+					{
+						return static_cast<T*>( components[i] );
+					}
 				}
 			}
 
