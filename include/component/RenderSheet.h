@@ -15,12 +15,14 @@ namespace component
 	{
 	public:
 		RenderSheet();
-		void setTexture( Texture* t, Dimensions* d, uint32_t frameWidth, uint32_t frameHeight, float speed );
+		void setFrameDimensions( uint32_t frameWidth, uint32_t frameHeight );
+		void setFrameSpeed( float speed );
 
 	public: // IRender
 		bool render( const Position& p );
 
 	public: // IComponent
+		virtual bool init( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
 		virtual uint32_t getType();
 
@@ -34,6 +36,7 @@ namespace component
 	private:
 		RenderTexture r;
 		Texture* texture;
+		Dimensions* dimensions;
 		uint32_t frameWidth, frameHeight;
 		uint32_t numFramesX, numFramesY;
 		float speed, timeUntilFrameChange;

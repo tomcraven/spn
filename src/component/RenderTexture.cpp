@@ -26,9 +26,4 @@ namespace component
 	{
 		return typeId;
 	}
-
-	bool RenderTexture::needsUpdating()
-	{
-		return false;
-	}
 } // component

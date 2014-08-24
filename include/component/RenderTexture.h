@@ -21,7 +21,6 @@ namespace component
 
 	public: // IComponent
 		virtual uint32_t getType();
-		virtual bool needsUpdating();
 
 	private:
 		Texture* texture;

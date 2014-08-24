@@ -1,5 +1,7 @@
 #include "component/Texture.h"
 #include "component/Dimensions.h"
+#include "component/ComponentEntity.h"
+#include "core/Assert.h"
 #include "draw/TexturePool.h"
 
 namespace
@@ -13,11 +15,11 @@ namespace component
 	{
 	}
 
-	void Texture::setTexture( const char* path, Dimensions& d )
+	void Texture::setTexturePath( const char* path )
 	{
 		texture = draw::TexturePool::get().loadTexture( path );
-		d.width = getWidth();
-		d.height = getHeight();
+		dimensions->width = getWidth();
+		dimensions->height = getHeight();
 	}
 
 	CIw2DImage* Texture::getTexture()
@@ -38,5 +40,11 @@ namespace component
 	uint32_t Texture::getType()
 	{
 		return typeId;
+	}
+
+	bool Texture::init( ComponentEntity* entity )
+	{
+		CHECK( entity->getComponent<Dimensions>( &dimensions ) );
+		return true;
 	}
 }

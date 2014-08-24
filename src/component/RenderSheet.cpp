@@ -19,7 +19,7 @@ namespace component
 	RenderSheet::RenderSheet() : 
 		frameWidth( 0 ), frameHeight( 0 ), 
 		numFramesX( 0 ), numFramesY( 0 ), 
-		speed( 0 )
+		speed( 0.0f )
 	{
 		currentFrame[0] = 0;
 		currentFrame[1] = 0;
@@ -27,20 +27,24 @@ namespace component
 		flagNeedsUpdating = true;
 	}
 
-	void RenderSheet::setTexture( Texture* t, Dimensions* d, uint32_t inFrameWidth, uint32_t inFrameHeight, float inSpeed )
+	void RenderSheet::setFrameDimensions( uint32_t inFrameWidth, uint32_t inFrameHeight )
 	{
-		r.setTexture( t );
-		texture = t;
+		/// @todo Do we need to do this?
+		//r.setTexture( t );
 
 		frameWidth = inFrameWidth;
 		frameHeight = inFrameHeight;
-		numFramesX = t->getWidth() / inFrameWidth;
-		numFramesY = t->getHeight() / inFrameHeight;
+		numFramesX = texture->getWidth() / inFrameWidth;
+		numFramesY = texture->getHeight() / inFrameHeight;
+
+		dimensions->width = frameWidth;
+		dimensions->height = frameHeight;
+	}
+
+	void RenderSheet::setFrameSpeed( float inSpeed )
+	{
 		speed = inSpeed;
 		timeUntilFrameChange = inSpeed;
-
-		d->width = frameWidth;
-		d->height = frameHeight;
 	}
 
 	bool RenderSheet::render( const Position& p )
@@ -53,6 +57,13 @@ namespace component
 				static_cast<float>( currentFrame[1] * frameHeight ) ),
 			CIwFVec2( static_cast<float>( frameWidth ), static_cast<float>( frameHeight ) ) );
 
+		return true;
+	}
+
+	bool RenderSheet::init( ComponentEntity* entity )
+	{
+		CHECK( entity->getComponent< Texture >( &texture ) );
+		CHECK( entity->getComponent< Dimensions >( &dimensions ) );
 		return true;
 	}
 

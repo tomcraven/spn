@@ -14,8 +14,8 @@ namespace component
 {
 	bool Clickable::init( ComponentEntity* entity )
 	{
-		CHECK( entity->getComponent<Position>( position ) );
-		CHECK( entity->getComponent<Dimensions>( dimensions ) );
+		CHECK( entity->getComponent<Position>( &position ) );
+		CHECK( entity->getComponent<Dimensions>( &dimensions ) );
 
 		return true;
 	}

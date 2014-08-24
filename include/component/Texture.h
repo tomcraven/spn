@@ -8,13 +8,14 @@ class CIw2DImage;
 namespace component
 {
 	class Dimensions;
+	class ComponentEntity;
 
 	class Texture : public IComponent
 	{
 	public:
 		Texture();
 
-		void setTexture( const char* path, Dimensions& d );
+		void setTexturePath( const char* path );
 		CIw2DImage* getTexture();
 
 		uint32_t getWidth();
@@ -22,9 +23,11 @@ namespace component
 
 	public: // Component
 		virtual uint32_t getType();
+		virtual bool init( ComponentEntity* entity );
 
 	private:
 		CIw2DImage* texture;
+		Dimensions *dimensions;
 	};
 }
 
