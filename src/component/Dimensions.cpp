@@ -11,9 +11,4 @@ namespace component
 	{
 		return typeId;
 	}
-
-	bool Dimensions::needsUpdating()
-	{
-		return false;
-	}
 }

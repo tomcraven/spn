@@ -12,6 +12,14 @@ namespace
 
 namespace component
 {
+	bool Clickable::init( ComponentEntity* entity )
+	{
+		CHECK( entity->getComponent<Position>( position ) );
+		CHECK( entity->getComponent<Dimensions>( dimensions ) );
+
+		return true;
+	}
+
 	bool Clickable::onAttach( ComponentEntity* entity )
 	{
 		CHECK( input::Input::get().addConsumer( this ) );
@@ -25,9 +33,6 @@ namespace component
 			return true;
 		}
 
-		Position* position = entity->getComponent<Position>();
-		Dimensions* d = entity->getComponent<Dimensions>();
-
 		std::vector<ClickPosition>::iterator clickPositionIter = clickPositions.begin();
 		for ( ; clickPositionIter != clickPositions.end(); ++clickPositionIter )
 		{
@@ -36,8 +41,8 @@ namespace component
 				pos.y, 
 				static_cast<uint32_t>( position->x ), 
 				static_cast<uint32_t>( position->y ), 
-				d->width, 
-				d->height ) )
+				dimensions->width, 
+				dimensions->height ) )
 			{
 				entity->onClickableConsumerClick();
 			}

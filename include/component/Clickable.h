@@ -6,9 +6,13 @@
 
 namespace component
 {
+	class Dimensions;
+	class Position;
+
 	class Clickable : public IComponent, public input::Input::Consumer
 	{
 	public: // IComponent
+		virtual bool init( ComponentEntity* entity );
 		virtual bool onAttach( ComponentEntity* entity );
 		virtual uint32_t getType();
 		virtual bool update( ComponentEntity* entity, float timeStep );
@@ -29,6 +33,9 @@ namespace component
 			uint32_t x, y;
 		};
 		std::vector<ClickPosition> clickPositions;
+
+		Position* position;
+		Dimensions* dimensions;
 	};
 }
 

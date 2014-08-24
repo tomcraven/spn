@@ -16,10 +16,15 @@ namespace
 
 namespace component
 {
-	RenderSheet::RenderSheet() : frameWidth( 0 ), frameHeight( 0 ), numFramesX( 0 ), numFramesY( 0 ), speed( 0 )
+	RenderSheet::RenderSheet() : 
+		frameWidth( 0 ), frameHeight( 0 ), 
+		numFramesX( 0 ), numFramesY( 0 ), 
+		speed( 0 )
 	{
 		currentFrame[0] = 0;
 		currentFrame[1] = 0;
+
+		flagNeedsUpdating = true;
 	}
 
 	void RenderSheet::setTexture( Texture* t, Dimensions* d, uint32_t inFrameWidth, uint32_t inFrameHeight, float inSpeed )
@@ -41,6 +46,7 @@ namespace component
 	bool RenderSheet::render( const Position& p )
 	{
 		CIw2DImage* image = texture->getTexture();
+		CHECK( image );
 		Iw2DDrawImageRegion( image,
 			CIwFVec2( p.x, p.y ),
 			CIwFVec2( static_cast<float>( currentFrame[0] * frameWidth ), 
@@ -59,11 +65,6 @@ namespace component
 	uint32_t RenderSheet::getType()
 	{
 		return typeId;
-	}
-
-	bool RenderSheet::needsUpdating()
-	{
-		return true;
 	}
 
 	bool RenderSheet::updateCurrentFrame( float timeStep, ComponentEntity* entity )

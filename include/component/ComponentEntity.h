@@ -14,21 +14,24 @@ namespace component
 		bool attach( component::IComponent* component );
 
 		template<class T>
-		T* getComponent()
+		T* getComponent( T* outComponent = 0 )
 		{
 			uint32_t type = T().getType();
 			for ( uint32_t i = 0; i < numComponents; ++i )
 			{
 				if ( type == components[i]->getType() )
 				{
-					return reinterpret_cast<T*>( components[i] );
+					outComponent = static_cast<T*>( components[i] );
+					return outComponent;
 				}
 			}
 
 			return 0;
 		}
 
-		bool update( float timeStep );
+	public: // game::Entity
+		virtual bool init();
+		virtual bool update( float timeStep );
 
 	private:
 		// @todo do something about this...

@@ -12,7 +12,6 @@ namespace component
 
 	public: // Component
 		virtual uint32_t getType();
-		virtual bool needsUpdating();
 	};
 }
 

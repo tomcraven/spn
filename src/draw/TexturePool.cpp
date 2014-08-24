@@ -44,8 +44,6 @@ namespace draw
 		
 		texturePath.texture->GetMaterial()->SetFiltering( false );
 
-		Iw2DSetUseMipMapping( false );
-
 		return texturePath.texture;
 	}
 

@@ -8,12 +8,11 @@ namespace component
 {
 	class Dimensions : public IComponent
 	{
-	public:
-		uint32_t width, height;
-
 	public: // Component
 		virtual uint32_t getType();
-		virtual bool needsUpdating();
+
+	public:
+		uint32_t width, height;
 	};
 }
 

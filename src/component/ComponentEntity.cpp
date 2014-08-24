@@ -22,8 +22,17 @@ namespace component
 			++numUpdatableComponents;
 		}
 
-		component->onAttach( this );
+		CHECK( component->onAttach( this ) );
 
+		return true;
+	}
+
+	bool ComponentEntity::init()
+	{
+		for ( uint32_t i = 0; i < numComponents; ++i )
+		{
+			CHECK( components[i]->init( this ) );
+		}
 		return true;
 	}
 
@@ -33,7 +42,6 @@ namespace component
 		{
 			CHECK( updatableComponents[i]->update( this, timeStep ) );
 		}
-
 		return true;
 	}
 }

@@ -10,13 +10,19 @@ namespace component
 	class IComponent
 	{
 	public:
-		virtual uint32_t getType() = 0;
-		virtual bool needsUpdating() = 0;
+		IComponent() : flagNeedsUpdating( false ) {}
+		virtual ~IComponent() {}
 
+		virtual uint32_t getType() = 0;
+		static uint32_t generateTypeId();
+
+		virtual bool init( ComponentEntity* entity ) { return true; }
+		virtual bool needsUpdating() { return flagNeedsUpdating; }
 		virtual bool update( ComponentEntity* entity, float timeStep ) { return true; }
 		virtual bool onAttach( ComponentEntity* entity ) { return true; }
 
-		static uint32_t generateTypeId();
+	protected:
+		bool flagNeedsUpdating;
 	};
 }
 

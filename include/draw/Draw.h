@@ -24,6 +24,7 @@ namespace draw
 		bool clear( uint32_t colour );
 
 		float scaleValue( float val );
+		void setScale( float scale );
 
 	private:
 		CIw2DSurface* surface;

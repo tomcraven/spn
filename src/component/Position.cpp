@@ -11,9 +11,4 @@ namespace component
 	{
 		return typeId;
 	}
-
-	bool Position::needsUpdating()
-	{
-		return false;
-	}
 } // component

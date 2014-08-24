@@ -39,9 +39,4 @@ namespace component
 	{
 		return typeId;
 	}
-
-	bool Texture::needsUpdating()
-	{
-		return false;
-	}
 }

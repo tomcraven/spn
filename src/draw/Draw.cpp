@@ -7,8 +7,7 @@
 namespace
 {
 	draw::Draw instance;
-
-	float kScale = 2.0f;
+	float scale = 1.0f;
 }
 
 namespace draw
@@ -29,13 +28,15 @@ namespace draw
 	bool Draw::init()
 	{
 		Iw2DInit();
-		
-		uint32_t width = uint32_t( float( IwGxGetScreenWidth() ) / kScale );
-		uint32_t height = uint32_t( float( IwGxGetScreenHeight() ) / kScale );
+
+		uint32_t width = uint32_t( float( IwGxGetScreenWidth() ) / scale );
+		uint32_t height = uint32_t( float( IwGxGetScreenHeight() ) / scale );
 		surface = Iw2DCreateSurface( width, height );
 		surfaceImage = Iw2DCreateImage( surface );
 		
 		surfaceImage->GetMaterial()->SetFiltering( false );
+		
+		Iw2DSetUseMipMapping( false );
 
 		return true;
 	}
@@ -63,9 +64,6 @@ namespace draw
 		Iw2DDrawImage( surfaceImage, 
 			CIwFVec2( 0, 0 ), 
 			CIwFVec2( scaleValue( surfaceImage->GetWidth() ), scaleValue( surfaceImage->GetHeight() ) ) );
-#if 0
-		Iw2DFinishDrawing();
-#endif
 		Iw2DSurfaceShow();
 		CHECK( Iw2DSetSurface( surface ) );
 
@@ -80,6 +78,11 @@ namespace draw
 
 	float Draw::scaleValue( float val )
 	{
-		return val * kScale;
+		return val * scale;
+	}
+
+	void Draw::setScale( float inScale )
+	{
+		scale = inScale;
 	}
 }

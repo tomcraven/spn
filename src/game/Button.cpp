@@ -23,7 +23,14 @@ namespace game
 
 	void Button::setConsumer( Consumer* inConsumer )
 	{
-		consumer = inConsumer;
+		if ( consumer )
+		{
+			consumer = inConsumer;
+		}
+		else
+		{
+			consumer = &nullButtonConsumer;
+		}
 	}
 
 	bool Button::onClickableConsumerClick()
