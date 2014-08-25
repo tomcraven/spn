@@ -2,13 +2,19 @@
 #define GAME_BUTTON_H
 
 #include "component/ComponentEntity.h"
+#include "component/Clickable.h"
+#include "component/Dimensions.h"
+#include "component/Texture.h"
+#include "component/Position.h"
+#include "component/RenderTexture.h"
 
 namespace game
 {
 	class Button : public component::ComponentEntity
 	{
 	public:
-		explicit Button( uint32_t id );
+		Button();
+		Button( uint32_t id );
 
 		class Consumer
 		{
@@ -18,10 +24,18 @@ namespace game
 
 		void setConsumer( Consumer* inConsumer );
 		bool onClickableConsumerClick();
+		const uint32_t getId();
+		virtual bool render();
 
 	private:
 		uint32_t id;
 		Consumer* consumer;
+
+		component::Clickable c;
+		component::Position p;
+		component::Dimensions d;
+		component::Texture t;
+		component::RenderTexture r;
 	};
 }
 

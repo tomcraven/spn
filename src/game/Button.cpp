@@ -13,12 +13,27 @@ namespace
 	};
 
 	NullButtonConsumer nullButtonConsumer;
+
+	uint32_t generateUniqueButtonId()
+	{
+		static uint32_t id = 0;
+		return id++;
+	}
 }
 
 namespace game
 {
+	Button::Button() : Button( generateUniqueButtonId() )
+	{
+	}
+
 	Button::Button( uint32_t inId ) : id( inId ), consumer( &nullButtonConsumer )
 	{
+		attach( &c );
+		attach( &p );
+		attach( &t );
+		attach( &d );
+		attach( &r );
 	}
 
 	void Button::setConsumer( Consumer* inConsumer )
@@ -36,6 +51,17 @@ namespace game
 	bool Button::onClickableConsumerClick()
 	{
 		CHECK( consumer->onButtonConsumerClick( id ) );
+		return true;
+	}
+
+	const uint32_t Button::getId()
+	{
+		return id;
+	}
+
+	bool Button::render()
+	{
+		r.render( p );
 		return true;
 	}
 }
