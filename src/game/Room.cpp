@@ -40,7 +40,7 @@ namespace game
 
 	bool Room::shouldExit()
 	{
-		return s3eDeviceCheckQuitRequest();
+		return s3eDeviceCheckQuitRequest() != 0;
 	}
 
 	bool Room::update()
