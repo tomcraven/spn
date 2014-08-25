@@ -13,7 +13,6 @@ namespace component
 	public: // IComponent
 		virtual bool update( ComponentEntity* entity, float timeStep );
 		virtual uint32_t getType();
-		virtual bool needsUpdating();
 
 		float x, y;
 	};

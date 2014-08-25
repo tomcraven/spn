@@ -37,9 +37,4 @@ namespace component
 	{
 		return typeId;
 	}
-
-	bool WindowTouchCollision::needsUpdating()
-	{
-		return true;
-	}
 } // component

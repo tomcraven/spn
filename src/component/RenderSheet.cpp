@@ -23,15 +23,10 @@ namespace component
 	{
 		currentFrame[0] = 0;
 		currentFrame[1] = 0;
-
-		flagNeedsUpdating = true;
 	}
 
 	void RenderSheet::setFrameDimensions( uint32_t inFrameWidth, uint32_t inFrameHeight )
 	{
-		/// @todo Do we need to do this?
-		//r.setTexture( t );
-
 		frameWidth = inFrameWidth;
 		frameHeight = inFrameHeight;
 		numFramesX = texture->getWidth() / inFrameWidth;

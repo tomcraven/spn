@@ -24,9 +24,4 @@ namespace component
 	{
 		return typeId;
 	}
-
-	bool Velocity::needsUpdating()
-	{
-		return true;
-	}
 } // component

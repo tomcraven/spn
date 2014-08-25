@@ -34,9 +34,4 @@ namespace component
 	{
 		return typeId;
 	}
-
-	bool WindowExitCollision::needsUpdating()
-	{
-		return true;
-	}
 } // component
