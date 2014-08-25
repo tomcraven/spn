@@ -1,3 +1,4 @@
+#include "core/Assert.h"
 #include "component/Velocity.h"
 #include "component/Position.h"
 #include "component/IComponent.h"
@@ -10,10 +11,14 @@ namespace
 
 namespace component
 {
+	bool Velocity::init( ComponentEntity* entity )
+	{
+		CHECK( entity->getComponent< Position >( &p ) );
+		return true;
+	}
+
 	bool Velocity::update( ComponentEntity* entity, float timeStep )
 	{
-		Position* p = entity->getComponent<Position>();
-
 		p->x += x * timeStep;
 		p->y += y * timeStep;
 
