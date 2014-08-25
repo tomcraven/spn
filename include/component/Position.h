@@ -8,6 +8,9 @@ namespace component
 	class Position : public IComponent
 	{
 	public:
+		Position();
+		void set( float x, float y );
+
 		float x, y;
 
 	public: // Component
