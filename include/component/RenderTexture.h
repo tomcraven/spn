@@ -20,6 +20,7 @@ namespace component
 		bool render( const Position& p );
 
 	public: // IComponent
+		virtual bool init( ComponentEntity* entity );
 		virtual uint32_t getType();
 
 	private:
