@@ -5,42 +5,29 @@
 
 namespace component
 {
-	ComponentEntity::ComponentEntity() : numComponents( 0 ), numUpdatableComponents( 0 )
-	{
-	}
-
 	bool ComponentEntity::attach( IComponent* component )
 	{
-		CHECK( numComponents != kMaxComponents );
-		components[numComponents] = component;
-		++numComponents;
-
-		if ( component->needsUpdating() )
-		{
-			CHECK( numUpdatableComponents != kMaxUpdatableComponents );
-			updatableComponents[numUpdatableComponents] = component;
-			++numUpdatableComponents;
-		}
-
+		components.push_back( component );
 		CHECK( component->onAttach( this ) );
-
 		return true;
 	}
 
 	bool ComponentEntity::init()
 	{
-		for ( uint32_t i = 0; i < numComponents; ++i )
+		std::vector< component::IComponent* >::iterator compIter = components.begin();
+		for ( ; compIter != components.end(); ++compIter )
 		{
-			CHECK( components[i]->init( this ) );
+			CHECK( (*compIter)->init( this ) );
 		}
 		return true;
 	}
 
 	bool ComponentEntity::update( float timeStep )
 	{
-		for ( uint32_t i = 0; i < numUpdatableComponents; ++i )
+		std::vector< component::IComponent* >::iterator compIter = components.begin();
+		for ( ; compIter != components.end(); ++compIter )
 		{
-			CHECK( updatableComponents[i]->update( this, timeStep ) );
+			CHECK( (*compIter)->update( this, timeStep ) );
 		}
 		return true;
 	}

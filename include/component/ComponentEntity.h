@@ -10,25 +10,26 @@ namespace component
 	class ComponentEntity : public game::Entity
 	{
 	public:
-		ComponentEntity();
 		bool attach( component::IComponent* component );
 
 		template<class T>
 		T* getComponent( T** outComponent = 0 )
 		{
 			uint32_t type = T().getType();
-			for ( uint32_t i = 0; i < numComponents; ++i )
+			std::vector< component::IComponent* >::iterator compIter = components.begin();
+			for ( ; compIter != components.end(); ++compIter )
 			{
-				if ( type == components[i]->getType() )
+				IComponent* component = *compIter;
+				if ( type == component->getType() )
 				{
 					if ( outComponent )
 					{
-						*outComponent = static_cast<T*>( components[i] );
+						*outComponent = static_cast<T*>( component ) ;
 						return *outComponent;
 					}
 					else
 					{
-						return static_cast<T*>( components[i] );
+						return static_cast<T*>( component );
 					}
 				}
 			}
@@ -41,14 +42,7 @@ namespace component
 		virtual bool update( float timeStep );
 
 	private:
-		// @todo do something about this...
-		static const uint32_t kMaxComponents = 16;
-		component::IComponent* components[kMaxComponents];
-		uint32_t numComponents;
-
-		static const uint32_t kMaxUpdatableComponents = 4;
-		component::IComponent* updatableComponents[kMaxUpdatableComponents];
-		uint32_t numUpdatableComponents;
+		std::vector< component::IComponent* > components;
 	};
 }
 
