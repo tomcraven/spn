@@ -15,7 +15,7 @@ namespace game
 {
 	bool Room::go()
 	{
-		while (!s3eDeviceCheckQuitRequest())
+		while ( !shouldExit() )
 		{
 			onUpdateStart();
 
@@ -28,9 +28,19 @@ namespace game
 		return true;
 	}
 
+	bool Room::shutdown()
+	{
+		return true;
+	}
+
 	bool Room::render()
 	{
 		return true;
+	}
+
+	bool Room::shouldExit()
+	{
+		return s3eDeviceCheckQuitRequest();
 	}
 
 	bool Room::update()
