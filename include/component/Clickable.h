@@ -32,7 +32,7 @@ namespace component
 			ClickPosition( uint32_t inX, uint32_t inY ) : x( inX ), y( inY ) {}
 			uint32_t x, y;
 		};
-		std::vector<ClickPosition> clickPositions;
+		std::vector< ClickPosition > clickPositions;
 
 		Position* position;
 		Dimensions* dimensions;

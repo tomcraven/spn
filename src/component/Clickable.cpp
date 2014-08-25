@@ -16,7 +16,6 @@ namespace component
 	{
 		CHECK( entity->getComponent<Position>( &position ) );
 		CHECK( entity->getComponent<Dimensions>( &dimensions ) );
-
 		return true;
 	}
 
@@ -33,7 +32,7 @@ namespace component
 			return true;
 		}
 
-		std::vector<ClickPosition>::iterator clickPositionIter = clickPositions.begin();
+		std::vector< ClickPosition >::iterator clickPositionIter = clickPositions.begin();
 		for ( ; clickPositionIter != clickPositions.end(); ++clickPositionIter )
 		{
 			ClickPosition& pos = *clickPositionIter;
@@ -44,11 +43,11 @@ namespace component
 				dimensions->width, 
 				dimensions->height ) )
 			{
-				entity->onClickableConsumerClick();
+				CHECK( entity->onClickableConsumerClick() );
 			}
 		}
 
-		std::vector<ClickPosition> temp;
+		std::vector< ClickPosition > temp;
 		clickPositions.swap( temp );
 
 		return true;
