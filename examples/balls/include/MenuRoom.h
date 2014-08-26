@@ -9,7 +9,7 @@ class MenuRoom : public game::Room, game::Button::Consumer
 public:
 	MenuRoom();
 
-	enum class MenuSelection
+	enum MenuSelection
 	{
 		kPlay,
 		kExit,

@@ -3,7 +3,7 @@
 #include "draw/Colour.h"
 #include "draw/Draw.h"
 
-MenuRoom::MenuRoom() : menuSelection( MenuSelection::kUnknown )
+MenuRoom::MenuRoom() : menuSelection( kUnknown )
 {
 }
 
@@ -19,15 +19,15 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 {
 	if ( id == playButton.getId() )
 	{
-		menuSelection = MenuSelection::kPlay;
+		menuSelection = kPlay;
 	}
 	else if ( id == exitButton.getId() )
 	{
-		menuSelection = MenuSelection::kExit;
+		menuSelection = kExit;
 	}
 	else
 	{
-		menuSelection = MenuSelection::kUnknown;
+		menuSelection = kUnknown;
 	}
 
 	return true;
@@ -66,7 +66,7 @@ MenuRoom::MenuSelection MenuRoom::getMenuSelection()
 
 bool MenuRoom::hasMadeMenuSelection()
 {
-	return menuSelection != MenuSelection::kUnknown;
+	return menuSelection != kUnknown;
 }
 
 bool MenuRoom::initialiseAndPlaceButton( game::Button& button, const char* filename, float x, float y )
@@ -75,6 +75,10 @@ bool MenuRoom::initialiseAndPlaceButton( game::Button& button, const char* filen
 	button.setConsumer( this );
 	
 	component::Position* position = button.getComponent< component::Position >();
+	if ( !position )
+	{
+		int lol = 1;
+	}
 	position->set( x, y );
 
 	component::Texture* texture = button.getComponent< component::Texture >();

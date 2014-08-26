@@ -40,13 +40,13 @@ int main()
 		MenuRoom::MenuSelection menuSelection = menuRoom.getMenuSelection();
 		switch( menuSelection )
 		{
-		case MenuRoom::MenuSelection::kPlay:
+		case MenuRoom::kPlay:
 			{
 				MainRoom mainRoom;
 				CHECK_AND_RETURN( initGoAndShudownRoom( mainRoom ), 1 );
 			}
 			break;
-		case MenuRoom::MenuSelection::kExit:
+		case MenuRoom::kExit:
 			break;
 		default:
 			break;
