@@ -3,11 +3,6 @@
 
 #include "core/Types.h"
 
-namespace component
-{
-	class ComponentEntity;
-}
-
 namespace game
 {
 	class Room
