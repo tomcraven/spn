@@ -75,10 +75,6 @@ bool MenuRoom::initialiseAndPlaceButton( game::Button& button, const char* filen
 	button.setConsumer( this );
 	
 	component::Position* position = button.getComponent< component::Position >();
-	if ( !position )
-	{
-		int lol = 1;
-	}
 	position->set( x, y );
 
 	component::Texture* texture = button.getComponent< component::Texture >();
