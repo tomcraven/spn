@@ -12,18 +12,26 @@ namespace
 
 namespace component
 {
+	bool WindowExitCollision::init( ComponentEntity* entity )
+	{
+		CHECK( entity->getComponent< Position >( &p ) );
+		CHECK( entity->getComponent< Dimensions >( &d ) );
+
+		screenWidth = draw::Draw::get().getScreenWidth();
+		screenHeight = draw::Draw::get().getScreenHeight();
+
+		return true;
+	}
+
 	bool WindowExitCollision::update( ComponentEntity* entity, float timeStep )
 	{
-		Position* p = entity->getComponent<Position>();
-		Dimensions* d = entity->getComponent<Dimensions>();
-
 		uint32_t width = d->width;
 		uint32_t height = d->height;
 
 		bool left = p->x + width < 0;
-		bool right = p->x > draw::Draw::get().getScreenWidth();
+		bool right = p->x > screenWidth;
 		bool top = p->y + height < 0;
-		bool bottom = p->y > draw::Draw::get().getScreenHeight();
+		bool bottom = p->y > screenHeight;
 
 		if ( left || right || top || bottom )
 		{
