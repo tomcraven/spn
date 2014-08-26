@@ -14,7 +14,6 @@ namespace game
 	{
 	public:
 		Button();
-		Button( uint32_t id );
 
 		class Consumer
 		{

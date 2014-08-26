@@ -23,11 +23,7 @@ namespace
 
 namespace game
 {
-	Button::Button() : Button( generateUniqueButtonId() )
-	{
-	}
-
-	Button::Button( uint32_t inId ) : id( inId ), consumer( &nullButtonConsumer )
+	Button::Button() : id( generateUniqueButtonId() ), consumer( &nullButtonConsumer )
 	{
 		attach( &c );
 		attach( &p );
