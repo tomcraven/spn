@@ -25,7 +25,10 @@ namespace component
 		bool top = p->y + height < 0;
 		bool bottom = p->y > draw::Draw::get().getScreenHeight();
 
-		CHECK( entity->onWindowExit( left, right, top, bottom ) );
+		if ( left || right || top || bottom )
+		{
+			CHECK( entity->onWindowExit( left, right, top, bottom ) );
+		}
 
 		return true;
 	}
