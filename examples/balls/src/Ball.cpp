@@ -18,10 +18,16 @@ bool Ball::init()
 	CHECK( ComponentEntity::init() );
 
 	t.setTexturePath( "assets/circle_sheet.png" );
-	r.setFrameDimensions( 16, 16 );
+
+	const uint32_t kFrameWidth = 16;
+	const uint32_t kFrameHeight = 16;
+	r.setFrameDimensions( kFrameWidth, kFrameHeight );
 	
-	v.x = float( rand() % 1000 ) / 1000.0f * 100.0f;
-	v.y = float( rand() % 1000 ) / 1000.0f * 100.0f;
+	v.x = 100.0f - ( float( rand() % 1000 ) / 1000.0f * 200.0f );
+	v.y = 100.0f - ( float( rand() % 1000 ) / 1000.0f * 200.0f );
+	
+	p.x = float( rand() % 1000 ) / 1000.0f * ( draw::Draw::get().getScreenWidth() - kFrameWidth );
+	p.y = float( rand() % 1000 ) / 1000.0f * ( draw::Draw::get().getScreenHeight() - kFrameHeight );
 
 	return true;
 }
