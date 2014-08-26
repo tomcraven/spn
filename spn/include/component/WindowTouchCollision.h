@@ -5,11 +5,22 @@
 
 namespace component
 {
+	class Position;
+	class Dimensions;
+
 	class WindowTouchCollision : public IComponent
 	{
 	public: // Component
+		virtual bool init( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
 		virtual uint32_t getType();
+
+	private:
+		Position* p;
+		Dimensions* d;
+
+		uint32_t screenWidth;
+		uint32_t screenHeight;
 	};
 }
 

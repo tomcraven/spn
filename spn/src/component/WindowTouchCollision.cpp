@@ -15,18 +15,26 @@ namespace
 
 namespace component
 {
+	bool WindowTouchCollision::init( ComponentEntity* entity )
+	{
+		CHECK( entity->getComponent< Position >( &p ) );
+		CHECK( entity->getComponent< Dimensions >( &d ) );
+		
+		screenWidth = draw::Draw::get().getScreenWidth();
+		screenHeight = draw::Draw::get().getScreenHeight();
+
+		return true;
+	}
+
 	bool WindowTouchCollision::update( ComponentEntity* entity, float timeStep )
 	{
-		Position* p = entity->getComponent<Position>();
-		Dimensions* d = entity->getComponent<Dimensions>();
-
 		uint32_t width = d->width;
 		uint32_t height = d->height;
 
 		bool left = p->x < 0;
-		bool right = p->x + width > draw::Draw::get().getScreenWidth();
+		bool right = p->x + width > screenWidth;
 		bool top = p->y < 0;
-		bool bottom = p->y + height > draw::Draw::get().getScreenHeight();
+		bool bottom = p->y + height > screenHeight;
 
 		if ( left || right || top || bottom )
 		{
