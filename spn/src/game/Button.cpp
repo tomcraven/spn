@@ -57,7 +57,7 @@ namespace game
 
 	bool Button::render()
 	{
-		r.render( p );
+		CHECK( r.render( p ) );
 		return true;
 	}
 }

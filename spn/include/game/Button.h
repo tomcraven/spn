@@ -29,11 +29,12 @@ namespace game
 	private:
 		uint32_t id;
 		Consumer* consumer;
-
-		component::Clickable c;
-		component::Position p;
-		component::Dimensions d;
+		
+	protected:
 		component::Texture t;
+		component::Position p;
+		component::Clickable c;
+		component::Dimensions d;
 		component::RenderTexture r;
 	};
 }
