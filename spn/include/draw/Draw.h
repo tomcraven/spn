@@ -5,6 +5,7 @@
 
 class CIw2DImage;
 class CIw2DSurface;
+class CIw2DFont;
 
 namespace draw
 {
@@ -16,6 +17,7 @@ namespace draw
 		bool init();
 
 		void blit( CIw2DImage* texture, float x, float y );
+		void text( const char* text, float x, float y );
 
 		uint32_t getScreenWidth();
 		uint32_t getScreenHeight();
@@ -29,6 +31,7 @@ namespace draw
 	private:
 		CIw2DSurface* surface;
 		CIw2DImage* surfaceImage;
+		CIw2DFont* font;
 	};
 }
 
