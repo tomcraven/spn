@@ -15,11 +15,14 @@ namespace
 
 bool MainRoom::init()
 {
-	balls = new Ball[kNumBalls];
+	freeBalls = new Ball[kNumBalls];
 
 	for ( uint32_t i = 0; i < kNumBalls; ++i )
 	{
-		CHECK( balls[i].init() );
+		balls.push_back( &freeBalls[i] );
+
+		CHECK( balls[i]->init() );
+		balls[i]->setConsumer( this );
 	}
 
 	return true;
@@ -27,17 +30,18 @@ bool MainRoom::init()
 
 bool MainRoom::shutdown()
 {
-	delete[] balls;
+	delete[] freeBalls;
 	return true;
 }
 
 bool MainRoom::update()
 {
 	CHECK( Room::update() );
-
-	for ( uint32_t i = 0; i < kNumBalls; ++i )
+	
+	std::vector< Ball* >::iterator ballIter = balls.begin();
+	for ( ; ballIter != balls.end(); ++ballIter )
 	{
-		CHECK( balls[i].update( getTimeStepSeconds() ) );
+		CHECK( ( *ballIter )->update( getTimeStepSeconds() ) );
 	}
 
 	return true;
@@ -46,12 +50,28 @@ bool MainRoom::update()
 bool MainRoom::render()
 {
 	CHECK( draw::Draw::get().clear( 0xFF000000 ) );
-
-	for ( uint32_t i = 0; i < kNumBalls; ++i )
+	
+	std::vector< Ball* >::iterator ballIter = balls.begin();
+	for ( ; ballIter != balls.end(); ++ballIter )
 	{
-		CHECK( balls[i].render() );
+		CHECK( ( *ballIter )->render() );
 	}
 
 	CHECK( draw::Draw::get().flip() );
+	return true;
+}
+
+bool MainRoom::onButtonConsumerClick( uint32_t id )
+{
+	std::vector< Ball* >::iterator ballIter = balls.begin();
+	for ( ; ballIter != balls.end(); ++ballIter )
+	{
+		if ( ( *ballIter )->getId() == id )
+		{
+			balls.erase( ballIter );
+			break;
+		}
+	}
+
 	return true;
 }
