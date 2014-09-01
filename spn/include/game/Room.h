@@ -19,9 +19,9 @@ namespace game
 		virtual bool update();
 		virtual bool shouldExit();
 
-	protected:
-		void onUpdateStart();
-		void onUpdateEnd( uint32_t timeStepMilliseconds );
+	private:
+		bool onUpdateStart();
+		bool onUpdateEnd( uint32_t timeStepMilliseconds );
 
 		uint64_t updateStartMilliseconds;
 	};

@@ -5,6 +5,9 @@
 
 #include "s3e.h"
 
+// remove
+#include <stdio.h>
+
 namespace
 {
 	const float kTimeStepSeconds = 1.0f / 30.0f;
@@ -17,12 +20,12 @@ namespace game
 	{
 		while ( !shouldExit() )
 		{
-			onUpdateStart();
+			CHECK( onUpdateStart() );
 
 			CHECK( update() );
 			CHECK( render() );
 
-			onUpdateEnd( kTimeStepMilliseconds );
+			CHECK( onUpdateEnd( kTimeStepMilliseconds ) );
 		}
 
 		return true;
@@ -51,20 +54,22 @@ namespace game
 		return true;
 	}
 
-	void Room::onUpdateStart()
+	bool Room::onUpdateStart()
 	{
-		core::Time::getMilliseconds( updateStartMilliseconds );
+		CHECK( core::Time::getMilliseconds( updateStartMilliseconds ) );
+		return true;
 	}
 
-	void Room::onUpdateEnd( uint32_t timeStepMilliseconds )
+	bool Room::onUpdateEnd( uint32_t timeStepMilliseconds )
 	{
 		uint64_t endMilliseconds;
-		core::Time::getMilliseconds( endMilliseconds );
+		CHECK( core::Time::getMilliseconds( endMilliseconds ) );
 		uint32_t totalUpdateMilliseconds = uint32_t( endMilliseconds - updateStartMilliseconds );
 		int32_t remainingUpdateTimeMilliseconds = timeStepMilliseconds - totalUpdateMilliseconds;
 		uint32_t yieldTimeMilliseconds = core::Algorithm::max( 0, remainingUpdateTimeMilliseconds );
-
         s3eDeviceYield( yieldTimeMilliseconds );
+
+		return true;
 	}
 
 	float Room::getTimeStepSeconds()
