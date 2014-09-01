@@ -4,7 +4,7 @@
 #include "game/Room.h"
 #include "game/Button.h"
 
-class MenuRoom : public game::Room, game::Button::Consumer
+class MenuRoom : public game::Room, public game::Button::Consumer
 {
 public:
 	MenuRoom();
