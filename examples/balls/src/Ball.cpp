@@ -5,12 +5,9 @@
 
 Ball::Ball() : incrementFrame( false )
 {
-	attach( &p );
 	attach( &r );
-	attach( &v );
 	attach( &w );
-	attach( &d );
-	attach( &t );
+	attach( &v );
 }
 
 bool Ball::init()

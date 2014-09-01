@@ -8,11 +8,11 @@
 #include "component/Velocity.h"
 #include "component/WindowTouchCollision.h"
 #include "component/Dimensions.h"
-#include "component/Texture.h"
+#include "game/Button.h"
 
 #include <stdlib.h>
 
-class Ball : public component::ComponentEntity
+class Ball : public game::Button
 {
 public:
 	Ball();
@@ -22,12 +22,9 @@ public:
 	bool shouldIncrementFrame();
 
 private:
-	component::Position p;
-	component::Dimensions d;
 	component::RenderSheetCustom r;
 	component::Velocity v;
 	component::WindowTouchCollision w;
-	component::Texture t;
 
 	bool incrementFrame;
 };
