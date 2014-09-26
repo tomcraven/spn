@@ -38,6 +38,8 @@ namespace draw
 		CIw2DSurface* surface;
 		CIw2DImage* surfaceImage;
 		CIw2DFont* font;
+
+		float scale;
 	};
 }
 

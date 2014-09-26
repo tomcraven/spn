@@ -4,11 +4,6 @@
 #include <Iw2D.h>
 #include <IwGx.h>
 
-namespace
-{
-	float scale = 2.0f;
-}
-
 namespace draw
 {
 	Draw& Draw::get()
