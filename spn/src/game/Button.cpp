@@ -1,6 +1,11 @@
 #include "game/Button.h"
 #include "core/Assert.h"
 
+// remove
+#include "draw/Draw.h"
+#include "draw/ScopedColour.h"
+#include "draw/Colour.h"
+
 namespace
 {
 	class NullButtonConsumer : public game::Button::Consumer
@@ -34,7 +39,7 @@ namespace game
 
 	void Button::setConsumer( Consumer* inConsumer )
 	{
-		if ( consumer )
+		if ( inConsumer )
 		{
 			consumer = inConsumer;
 		}
