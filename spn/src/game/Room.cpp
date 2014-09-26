@@ -2,11 +2,10 @@
 #include "core/Algorithm.h"
 #include "core/Assert.h"
 #include "core/Time.h"
+#include "input/Input.h"
 
+// Todo - can we remove this include?
 #include "s3e.h"
-
-// remove
-#include <stdio.h>
 
 namespace
 {
@@ -43,7 +42,7 @@ namespace game
 
 	bool Room::shouldExit()
 	{
-		return s3eDeviceCheckQuitRequest() != 0;
+		return input::Input::userHasRequestedToExit();
 	}
 
 	bool Room::update()
@@ -66,7 +65,7 @@ namespace game
 		CHECK( core::Time::getMilliseconds( endMilliseconds ) );
 		uint32_t totalUpdateMilliseconds = uint32_t( endMilliseconds - updateStartMilliseconds );
 		int32_t remainingUpdateTimeMilliseconds = timeStepMilliseconds - totalUpdateMilliseconds;
-		uint32_t yieldTimeMilliseconds = core::Algorithm::max( 0, remainingUpdateTimeMilliseconds );
+		uint32_t yieldTimeMilliseconds = core::algorithm::max( 0, remainingUpdateTimeMilliseconds );
         s3eDeviceYield( yieldTimeMilliseconds );
 
 		return true;
