@@ -6,14 +6,14 @@
 
 namespace
 {
-	draw::Draw instance;
-	float scale = 1.0f;
+	float scale = 2.0f;
 }
 
 namespace draw
 {
 	Draw& Draw::get()
 	{
+		static draw::Draw instance;
 		return instance;
 	}
 
@@ -47,6 +47,16 @@ namespace draw
 		return true;
 	}
 
+	void Draw::setColour( uint32_t colour )
+	{
+		Iw2DSetColour( colour );
+	}
+
+	uint32_t Draw::getColour()
+	{
+		return Iw2DGetColour().Get();
+	}
+
 	void Draw::blit( CIw2DImage* texture, float x, float y )
 	{
 		Iw2DDrawImage( texture, 
@@ -61,6 +71,20 @@ namespace draw
 			CIwFVec2( static_cast< float >( Iw2DGetStringWidth( text ) ), 10.0f ),
 			IW_2D_FONT_ALIGN_CENTRE,
 			IW_2D_FONT_ALIGN_CENTRE );
+	}
+
+	void Draw::filledRect( float x, float y, float width, float height )
+	{
+		Iw2DFillRect(
+			CIwFVec2( x, y ), 
+			CIwFVec2( width, height ) );
+	}
+
+	void Draw::filledCircle( float x, float y, float radius )
+	{
+		Iw2DFillArc( CIwFVec2( x, y ),
+			CIwFVec2( radius, radius ),
+			0, PI * 2 );
 	}
 
 	uint32_t Draw::getScreenWidth()
@@ -89,6 +113,11 @@ namespace draw
 	{
 		Iw2DSurfaceClear( colour );
 		return true;
+	}
+
+	float Draw::inverseScaleValue( float val )
+	{
+		return ( 1.0f / scale ) * val;
 	}
 
 	float Draw::scaleValue( float val )
