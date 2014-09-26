@@ -7,6 +7,11 @@ namespace game
 		return true;
 	}
 
+	bool Entity::shutdown()
+	{
+		return true;
+	}
+
 	bool Entity::update( float timeStep )
 	{
 		return true;

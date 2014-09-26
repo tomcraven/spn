@@ -11,6 +11,7 @@ namespace game
 	{
 	public:
 		virtual bool init();
+		virtual bool shutdown();
 		virtual bool update( float timeStep );
 		virtual bool render();
 		
