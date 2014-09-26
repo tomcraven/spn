@@ -33,6 +33,7 @@ int main()
 {
 	CHECK_AND_RETURN( initialiseSingletons(), 1 );
 	
+	while ( !input::Input::userHasRequestedToExit() )
 	{
 		MenuRoom menuRoom;
 		CHECK_AND_RETURN( initGoAndShudownRoom( menuRoom ), 1 );
@@ -47,6 +48,7 @@ int main()
 			}
 			break;
 		case MenuRoom::kExit:
+			input::Input::simulateUserRequestToExit();
 			break;
 		default:
 			break;
