@@ -3,6 +3,7 @@
 #include "component/Position.h"
 #include "component/Dimensions.h"
 #include "core/Assert.h"
+#include "draw/Draw.h"
 #include "math/Intersect.h"
 
 namespace
@@ -16,39 +17,36 @@ namespace component
 	{
 		CHECK( entity->getComponent<Position>( &position ) );
 		CHECK( entity->getComponent<Dimensions>( &dimensions ) );
+		
+		CHECK( input::Input::get().addConsumer( this ) );
+
+		hasClickPosition = false;
+
 		return true;
 	}
 
-	bool Clickable::onAttach( ComponentEntity* entity )
+	bool Clickable::shutdown( ComponentEntity* entity )
 	{
-		CHECK( input::Input::get().addConsumer( this ) );
+		CHECK( input::Input::get().removeConsumer( this ) );
 		return true;
 	}
 
 	bool Clickable::update( ComponentEntity* entity, float timeStep )
 	{
-		if ( clickPositions.size() == 0 )
+		if ( !hasClickPosition )
 		{
 			return true;
 		}
 
-		std::vector< ClickPosition >::iterator clickPositionIter = clickPositions.begin();
-		for ( ; clickPositionIter != clickPositions.end(); ++clickPositionIter )
+		if ( math::Intersect::pointRect( 
+			clickPositionX, clickPositionY,
+			static_cast<uint32_t>( position->x ), 
+			static_cast<uint32_t>( position->y ), 
+			dimensions->width, 
+			dimensions->height ) )
 		{
-			ClickPosition& pos = *clickPositionIter;
-			if ( math::Intersect::pointRect( pos.x, 
-				pos.y, 
-				static_cast<uint32_t>( position->x ), 
-				static_cast<uint32_t>( position->y ), 
-				dimensions->width, 
-				dimensions->height ) )
-			{
-				CHECK( entity->onClickableConsumerClick() );
-			}
+			CHECK( entity->onClickableConsumerClick() );
 		}
-
-		std::vector< ClickPosition > temp;
-		clickPositions.swap( temp );
 
 		return true;
 	}
@@ -60,7 +58,9 @@ namespace component
 	
 	bool Clickable::onInputConsumerButtonDown( uint32_t x, uint32_t y )
 	{
-		clickPositions.push_back( ClickPosition( x, y ) );
+		hasClickPosition = true;
+		clickPositionX = draw::Draw::get().inverseScaleValue( x );
+		clickPositionY = draw::Draw::get().inverseScaleValue( y );
 		return true;
 	}
 }

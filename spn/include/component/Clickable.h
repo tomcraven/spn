@@ -13,7 +13,7 @@ namespace component
 	{
 	public: // IComponent
 		virtual bool init( ComponentEntity* entity );
-		virtual bool onAttach( ComponentEntity* entity );
+		virtual bool shutdown( ComponentEntity* entity );
 		virtual uint32_t getType();
 		virtual bool update( ComponentEntity* entity, float timeStep );
 
@@ -27,12 +27,9 @@ namespace component
 		virtual bool onInputConsumerButtonDown( uint32_t x, uint32_t y );
 
 	private:
-		struct ClickPosition
-		{
-			ClickPosition( uint32_t inX, uint32_t inY ) : x( inX ), y( inY ) {}
-			uint32_t x, y;
-		};
-		std::vector< ClickPosition > clickPositions;
+		bool hasClickPosition;
+		uint32_t clickPositionX;
+		uint32_t clickPositionY;
 
 		Position* position;
 		Dimensions* dimensions;
