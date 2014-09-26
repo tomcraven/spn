@@ -1,5 +1,6 @@
 #include "component/InputConsumer.h"
 #include "component/ComponentEntity.h"
+#include "core/Assert.h"
 
 namespace
 {
@@ -8,12 +9,12 @@ namespace
 
 namespace component
 {
-	bool InputConsumer::onAttach( ComponentEntity* entity )
+	bool InputConsumer::init( ComponentEntity* entity )
 	{
-		input::Input::get().addConsumer( entity );
+		CHECK( input::Input::get().addConsumer( entity ) );
 		return true;
 	}
-	
+
 	uint32_t InputConsumer::getType()
 	{
 		return typeId;

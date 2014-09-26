@@ -9,7 +9,7 @@ namespace component
 	class InputConsumer : public IComponent
 	{
 	public: // IComponent
-		virtual bool onAttach( ComponentEntity* entity );
+		virtual bool init( ComponentEntity* entity );
 		virtual uint32_t getType();
 	};
 }
