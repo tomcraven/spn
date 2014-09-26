@@ -2,6 +2,7 @@
 #include "core/Assert.h"
 
 #include <s3ePointer.h>
+#include "s3e.h"
 
 namespace
 {
@@ -29,6 +30,16 @@ namespace input
 		return instance;
 	}
 
+	bool Input::userHasRequestedToExit()
+	{
+		return s3eDeviceCheckQuitRequest() != 0;
+	}
+
+	void Input::simulateUserRequestToExit()
+	{
+		s3eDeviceRequestQuit();
+	}
+
 	bool Input::init()
 	{
 		CHECK_S3E_RESULT( s3ePointerRegister( S3E_POINTER_BUTTON_EVENT, 
@@ -51,6 +62,17 @@ namespace input
 	bool Input::addConsumer( Consumer* consumer )
 	{
 		inputConsumers.push_back( consumer );
+		return true;
+	}
+
+	bool Input::removeConsumer( Consumer* consumer )
+	{
+		std::vector<Consumer*>::iterator consumerIter;
+		consumerIter = std::find( inputConsumers.begin(), inputConsumers.end(), consumer );
+
+		CHECK( consumerIter != inputConsumers.end() );
+		inputConsumers.erase( consumerIter );
+
 		return true;
 	}
 

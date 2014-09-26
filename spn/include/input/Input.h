@@ -9,6 +9,8 @@ namespace input
 	{
 	public:
 		static Input& get();
+		static bool userHasRequestedToExit();
+		static void simulateUserRequestToExit();
 
 		bool init();
 		bool shutdown();
@@ -19,6 +21,7 @@ namespace input
 			virtual bool onInputConsumerButtonDown( uint32_t x, uint32_t y ) = 0;
 		};
 		bool addConsumer( Consumer* consumer );
+		bool removeConsumer( Consumer* consumer );
 
 		void onButtonPress( uint32_t x, uint32_t y );
 
