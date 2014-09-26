@@ -15,6 +15,14 @@ bool MenuRoom::init()
 	return true;
 }
 
+bool MenuRoom::shutdown()
+{
+	playButton.shutdown();
+	exitButton.shutdown();
+
+	return true;
+}
+
 bool MenuRoom::onButtonConsumerClick( uint32_t id )
 {
 	if ( id == playButton.getId() )
@@ -35,7 +43,7 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 
 bool MenuRoom::render()
 {
-	CHECK( draw::Draw::get().clear( draw::kLightBlue ) );
+	CHECK( draw::Draw::get().clear( draw::colour::kLightBlue ) );
 	
 	CHECK( playButton.render() );
 	CHECK( exitButton.render() );

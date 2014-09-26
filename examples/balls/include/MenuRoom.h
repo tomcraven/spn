@@ -21,6 +21,7 @@ public:
 
 public: // game::Room
 	virtual bool init();
+	virtual bool shutdown();
 	virtual bool render();
 	virtual bool update();
 	virtual bool shouldExit();
