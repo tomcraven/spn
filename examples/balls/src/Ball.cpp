@@ -1,11 +1,12 @@
 #include "Ball.h"
 
 #include "core/Assert.h"
+#include "draw/Colour.h"
 #include "draw/Draw.h"
+#include "draw/ScopedColour.h"
 
-Ball::Ball() : incrementFrame( false )
+Ball::Ball()
 {
-	attach( &r );
 	attach( &w );
 	attach( &v );
 }
@@ -14,24 +15,29 @@ bool Ball::init()
 {
 	CHECK( ComponentEntity::init() );
 
-	t.setTexturePath( "assets/circle_sheet.png" );
+	t.setTexturePath( "assets/circle_white.png" );
 
-	const uint32_t kFrameWidth = 16;
-	const uint32_t kFrameHeight = 16;
-	r.setFrameDimensions( kFrameWidth, kFrameHeight );
-	
 	v.x = 100.0f - ( float( rand() % 1000 ) / 1000.0f * 200.0f );
 	v.y = 100.0f - ( float( rand() % 1000 ) / 1000.0f * 200.0f );
-	
+
+	const uint32_t kFrameWidth = t.getWidth();
+	const uint32_t kFrameHeight = t.getHeight();
 	p.x = float( rand() % 1000 ) / 1000.0f * ( draw::Draw::get().getScreenWidth() - kFrameWidth );
 	p.y = float( rand() % 1000 ) / 1000.0f * ( draw::Draw::get().getScreenHeight() - kFrameHeight );
+
+	colour = draw::colour::colourFromRGBA(
+		rand() % 255,
+		rand() % 255,
+		rand() % 255);
 
 	return true;
 }
 
 bool Ball::render()
 {
+	draw::ScopedColour scopedColour( colour );
 	CHECK( r.render( p ) );
+
 	return true;
 }
 
@@ -39,28 +45,13 @@ bool Ball::onWindowTouch( bool left, bool right, bool top, bool bottom )
 {
 	if ( left || right )
 	{
-		incrementFrame = true;
 		v.x *= -1;
 	}
 
 	if ( top || bottom )
 	{
-		incrementFrame = true;
 		v.y *= -1;
 	}
 
 	return true;
-}
-
-bool Ball::shouldIncrementFrame()
-{
-	if ( incrementFrame )
-	{
-		incrementFrame = false;
-		return true;
-	}
-	else
-	{
-		return false;
-	}
 }
