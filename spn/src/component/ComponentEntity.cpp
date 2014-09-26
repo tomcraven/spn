@@ -8,7 +8,6 @@ namespace component
 	bool ComponentEntity::attach( IComponent* component )
 	{
 		components.push_back( component );
-		CHECK( component->onAttach( this ) );
 		return true;
 	}
 
@@ -18,6 +17,16 @@ namespace component
 		for ( ; compIter != components.end(); ++compIter )
 		{
 			CHECK( (*compIter)->init( this ) );
+		}
+		return true;
+	}
+
+	bool ComponentEntity::shutdown()
+	{
+		std::vector< component::IComponent* >::iterator compIter = components.begin();
+		for ( ; compIter != components.end(); ++compIter )
+		{
+			CHECK( (*compIter)->shutdown( this ) );
 		}
 		return true;
 	}

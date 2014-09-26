@@ -39,6 +39,7 @@ namespace component
 
 	public: // game::Entity
 		virtual bool init();
+		virtual bool shutdown();
 		virtual bool update( float timeStep );
 
 	private:
