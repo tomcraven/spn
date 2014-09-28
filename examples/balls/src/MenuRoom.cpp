@@ -9,6 +9,8 @@ MenuRoom::MenuRoom() : menuSelection( kUnknown )
 
 bool MenuRoom::init()
 {
+	CHECK( draw::Draw::get().rescale( 1.0f ) );
+
 	CHECK( initialiseAndPlaceButton( playButton, "assets/play_button.png", 20.0f, 20.0f ) );
 	CHECK( initialiseAndPlaceButton( exitButton, "assets/exit_button.png", 20.0f, 100.0f ) );
 
