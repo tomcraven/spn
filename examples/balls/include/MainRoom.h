@@ -2,6 +2,7 @@
 #define MAINROOM_H
 
 #include "game/Room.h"
+#include "game/Button.h"
 #include "Ball.h"
 #include "PlayTimer.h"
 
@@ -21,6 +22,8 @@ public: // PlayTimer::IExpiredListener
 	virtual bool onTimerExpired( uint32_t id );
 
 private:
+	bool createExitButton();
+
 	bool onEndOfGame();
 
 	bool updateInGame();
@@ -46,6 +49,8 @@ private:
 	PlayTimer playTimer;
 
 	bool flagShouldExit;
+
+	game::Button exitButton;
 };
 
 #endif

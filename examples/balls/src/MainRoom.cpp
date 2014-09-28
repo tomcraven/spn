@@ -17,6 +17,8 @@ namespace
 
 bool MainRoom::init()
 {
+	CHECK( draw::Draw::get().rescale( 2.0f ) );
+
 	freeBalls = new Ball[kNumBalls];
 
 	for ( uint32_t i = 0; i < kNumBalls; ++i )
@@ -37,6 +39,8 @@ bool MainRoom::init()
 	fadeOutColour = draw::colour::kLightBlue ^ 0xFF000000;
 
 	flagShouldExit = false;
+	
+	CHECK( createExitButton() );
 
 	return true;
 }
@@ -68,9 +72,10 @@ bool MainRoom::updateInGame()
 	CHECK( Room::update() );
 	
 	float timeStepSeconds = getTimeStepSeconds();
-	
+
 	CHECK( updateBalls( timeStepSeconds ) );
 	CHECK( playTimer.update( timeStepSeconds ) );
+	CHECK( exitButton.update( timeStepSeconds ) );
 
 	return true;
 }
@@ -136,6 +141,7 @@ bool MainRoom::renderInGame()
 	CHECK( draw.clear( draw::colour::kLightBlue ) );
 	CHECK( playTimer.render() );
 	CHECK( renderBalls() );
+	CHECK( exitButton.render() );
 
 	CHECK( draw.flip() );
 	return true;
@@ -148,6 +154,7 @@ bool MainRoom::renderEndGame()
 	CHECK( draw.clear( draw::colour::kLightBlue ) );
 	CHECK( renderBalls() );
 	CHECK( playTimer.render() );
+	CHECK( exitButton.render() );
 	CHECK( renderFadeOut() );
 
 	CHECK( draw.flip() );
@@ -185,13 +192,20 @@ bool MainRoom::shouldExit()
 
 bool MainRoom::onButtonConsumerClick( uint32_t id )
 {
-	BallContainer::iterator ballIter = balls.begin();
-	for ( ; ballIter != balls.end(); ++ballIter )
+	if ( id == exitButton.getId() )
 	{
-		if ( ( *ballIter )->getId() == id )
+		CHECK( onEndOfGame() );
+	}
+	else
+	{
+		BallContainer::iterator ballIter = balls.begin();
+		for ( ; ballIter != balls.end(); ++ballIter )
 		{
-			ballsToErase.push_back( ballIter );
-			break;
+			if ( ( *ballIter )->getId() == id )
+			{
+				ballsToErase.push_back( ballIter );
+				break;
+			}
 		}
 	}
 
@@ -214,6 +228,27 @@ bool MainRoom::onEndOfGame()
 	{
 		balls[i]->setConsumer( 0 );
 	}
+
+	return true;
+}
+
+bool MainRoom::createExitButton()
+{
+	CHECK( exitButton.init() );
+	exitButton.setConsumer( this );
+
+	component::Texture* texture = exitButton.getComponent< component::Texture >();
+	CHECK( texture );
+	texture->setTexturePath( "assets/exit_main_game.png" );
+	
+	component::Position* position = exitButton.getComponent< component::Position >();
+	CHECK( position );
+	component::Dimensions* dimensions = exitButton.getComponent< component::Dimensions >();
+	CHECK( dimensions );
+	
+	float yPosition = static_cast< float >( draw::Draw::get().getScreenHeight() - dimensions->height );
+	float xPosition = static_cast< float >( draw::Draw::get().getScreenWidth() - dimensions->width );
+	position->set( xPosition, yPosition );
 
 	return true;
 }
