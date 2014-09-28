@@ -78,8 +78,8 @@ bool PlayTimer::updateTimer( float timeStep )
 bool PlayTimer::render()
 {
 	draw::Draw& draw = draw::Draw::get();
-	static uint32_t screenWidth = draw.getScreenWidth();
-	static uint32_t halfScreenWidth = screenWidth / 2;
+	uint32_t screenWidth = draw.getScreenWidth();
+	uint32_t halfScreenWidth = screenWidth / 2;
 
 	float factor = ( timeUntilTimeoutSeconds / timeoutSeconds );
 	float width = screenWidth * factor;
