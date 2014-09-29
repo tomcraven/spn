@@ -34,6 +34,7 @@ private:
 	bool renderEndGame();
 	bool renderFadeOut();
 	bool renderBalls();
+	bool renderScore();
 	uint32_t fadeOutColour;
 	uint32_t fadeOutAlpha;
 
@@ -44,13 +45,16 @@ private:
 
 	typedef std::vector< Ball* > BallContainer;
 	BallContainer balls;
-	std::vector< BallContainer::iterator > ballsToErase;
+	BallContainer::iterator ballToErase;
 
 	PlayTimer playTimer;
 
 	bool flagShouldExit;
 
 	game::Button exitButton;
+
+	uint32_t clickedBallCount;
+	char clickedBallCountBuffer[5];
 };
 
 #endif

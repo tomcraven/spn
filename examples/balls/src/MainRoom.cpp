@@ -42,6 +42,11 @@ bool MainRoom::init()
 	
 	CHECK( createExitButton() );
 
+	clickedBallCount = 0;
+	snprintf( clickedBallCountBuffer, 5, "%u\0", clickedBallCount );
+
+	ballToErase = balls.end();
+
 	return true;
 }
 
@@ -112,19 +117,18 @@ bool MainRoom::updateBalls( float timeStepSeconds )
 		CHECK( ( *ballIter )->update( timeStepSeconds ) );
 	}
 
-	std::vector< BallContainer::iterator >::iterator eraseBallIter = ballsToErase.begin();
-	for ( ; eraseBallIter != ballsToErase.end(); ++eraseBallIter )
+	if ( ballToErase != balls.end() )
 	{
-		( *( *eraseBallIter ) )->shutdown();
-		balls.erase( *eraseBallIter );
+		CHECK( ( *ballToErase )->shutdown() );
+		balls.erase( ballToErase );
+		ballToErase = balls.end();
+		
+		if ( balls.size() == 0 )
+		{
+			CHECK( onEndOfGame() );
+		}
 	}
-	ballsToErase.clear();
 	
-	if ( balls.size() == 0 )
-	{
-		CHECK( onEndOfGame() );
-	}
-
 	return true;
 }
 
@@ -139,6 +143,7 @@ bool MainRoom::renderInGame()
 	draw::Draw& draw = draw::Draw::get();
 
 	CHECK( draw.clear( draw::colour::kLightBlue ) );
+	CHECK( renderScore() );
 	CHECK( playTimer.render() );
 	CHECK( renderBalls() );
 	CHECK( exitButton.render() );
@@ -152,6 +157,7 @@ bool MainRoom::renderEndGame()
 	draw::Draw& draw = draw::Draw::get();
 
 	CHECK( draw.clear( draw::colour::kLightBlue ) );
+	CHECK( renderScore() );
 	CHECK( renderBalls() );
 	CHECK( playTimer.render() );
 	CHECK( exitButton.render() );
@@ -185,6 +191,23 @@ bool MainRoom::renderBalls()
 	return true;
 }
 
+bool MainRoom::renderScore()
+{
+	draw::ScopedColour scopedColour( 0xFF000000 );
+	
+	draw::Draw& draw = draw::Draw::get();
+
+	uint32_t textHeight = draw.getTextHeight();
+	uint32_t textWidth = draw.getTextWidth( clickedBallCountBuffer );
+
+	float xPosition = static_cast< float >( ( draw.getScreenWidth() / 2 ) - ( textWidth / 2 ) );
+	float yPosition = static_cast< float >( ( draw.getScreenHeight() / 2 ) - ( textHeight / 2 ) );
+
+	draw.text( clickedBallCountBuffer, xPosition, yPosition );
+
+	return true;
+}
+
 bool MainRoom::shouldExit()
 {
 	return Room::shouldExit() || flagShouldExit;
@@ -203,7 +226,8 @@ bool MainRoom::onButtonConsumerClick( uint32_t id )
 		{
 			if ( ( *ballIter )->getId() == id )
 			{
-				ballsToErase.push_back( ballIter );
+				ballToErase = ballIter;
+				snprintf( clickedBallCountBuffer, 5, "%u\0", ++clickedBallCount );
 				break;
 			}
 		}
@@ -237,14 +261,15 @@ bool MainRoom::createExitButton()
 	CHECK( exitButton.init() );
 	exitButton.setConsumer( this );
 
-	component::Texture* texture = exitButton.getComponent< component::Texture >();
-	CHECK( texture );
+	component::Texture* texture;
+	CHECK( exitButton.getComponent< component::Texture >( &texture ) );
 	texture->setTexturePath( "assets/exit_main_game.png" );
 	
-	component::Position* position = exitButton.getComponent< component::Position >();
-	CHECK( position );
-	component::Dimensions* dimensions = exitButton.getComponent< component::Dimensions >();
-	CHECK( dimensions );
+	component::Position* position;
+	CHECK( exitButton.getComponent< component::Position >( &position ) );
+	
+	component::Dimensions* dimensions;
+	CHECK( exitButton.getComponent< component::Dimensions >( &dimensions ) );
 	
 	float yPosition = static_cast< float >( draw::Draw::get().getScreenHeight() - dimensions->height );
 	float xPosition = static_cast< float >( draw::Draw::get().getScreenWidth() - dimensions->width );
