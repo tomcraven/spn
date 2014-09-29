@@ -1,4 +1,5 @@
 #include "draw/Draw.h"
+#include "draw/Colour.h"
 #include "core/Assert.h"
 
 #include <Iw2D.h>
@@ -6,6 +7,10 @@
 
 namespace draw
 {
+	Draw::Draw() : scale( 1.0f ), inverseScale( 1.0f / scale )
+	{
+	}
+
 	Draw& Draw::get()
 	{
 		static draw::Draw instance;
@@ -14,10 +19,16 @@ namespace draw
 
 	bool Draw::shutdown()
 	{
-		delete surfaceImage;
-		delete surface;
+		CHECK( shutdownSurface() );
 		delete font;
 		Iw2DTerminate();
+		return true;
+	}
+
+	bool Draw::shutdownSurface()
+	{
+		delete surfaceImage;
+		delete surface;
 		return true;
 	}
 
@@ -28,6 +39,13 @@ namespace draw
 		font = Iw2DCreateFont( "assets/arial8.gxfont" );
 		CHECK( font );
 
+		CHECK( initialiseSurface() );
+
+		return true;
+	}
+
+	bool Draw::initialiseSurface()
+	{
 		uint32_t width = uint32_t( float( IwGxGetScreenWidth() ) / scale );
 		uint32_t height = uint32_t( float( IwGxGetScreenHeight() ) / scale );
 		surface = Iw2DCreateSurface( width, height );
@@ -38,7 +56,7 @@ namespace draw
 		
 		surfaceImage->GetMaterial()->SetFiltering( false );
 		Iw2DSetUseMipMapping( false );
-
+		
 		return true;
 	}
 
@@ -50,6 +68,16 @@ namespace draw
 	uint32_t Draw::getColour()
 	{
 		return Iw2DGetColour().Get();
+	}
+
+	uint32_t Draw::getTextWidth( const char* text )
+	{
+		return Iw2DGetStringWidth( text );
+	}
+
+	uint32_t Draw::getTextHeight()
+	{
+		return font->GetHeight();
 	}
 
 	void Draw::blit( CIw2DImage* texture, float x, float y )
@@ -112,7 +140,7 @@ namespace draw
 
 	float Draw::inverseScaleValue( float val )
 	{
-		return ( 1.0f / scale ) * val;
+		return inverseScale * val;
 	}
 
 	float Draw::scaleValue( float val )
@@ -123,5 +151,19 @@ namespace draw
 	void Draw::setScale( float inScale )
 	{
 		scale = inScale;
+		inverseScale = 1.0f / scale;
+	}
+
+	bool Draw::rescale( float inScale )
+	{
+		setScale( inScale );
+
+		CHECK( shutdownSurface() );
+		CHECK( initialiseSurface() );
+		
+		CHECK( clear( colour::kDefault ) );
+		CHECK( Iw2DSetSurface( surface ) );
+
+		return true;
 	}
 }

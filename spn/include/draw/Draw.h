@@ -12,12 +12,17 @@ namespace draw
 	class Draw
 	{
 	public:
+		Draw();
+
 		static Draw& get();
 		bool shutdown();
 		bool init();
 
 		void setColour( uint32_t colour );
 		uint32_t getColour();
+
+		uint32_t getTextWidth( const char* text );
+		uint32_t getTextHeight();
 
 		void blit( CIw2DImage* texture, float x, float y );
 		void text( const char* text, float x, float y );
@@ -33,13 +38,18 @@ namespace draw
 		float inverseScaleValue( float val );
 		float scaleValue( float val );
 		void setScale( float scale );
+		bool rescale( float scale );
 
 	private:
+		bool initialiseSurface();
+		bool shutdownSurface();
+
 		CIw2DSurface* surface;
 		CIw2DImage* surfaceImage;
 		CIw2DFont* font;
 
 		float scale;
+		float inverseScale;
 	};
 }
 
