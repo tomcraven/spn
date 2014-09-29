@@ -17,9 +17,6 @@ namespace component
 		CHECK( entity->getComponent< Position >( &p ) );
 		CHECK( entity->getComponent< Dimensions >( &d ) );
 
-		screenWidth = draw::Draw::get().getScreenWidth();
-		screenHeight = draw::Draw::get().getScreenHeight();
-
 		return true;
 	}
 
@@ -27,6 +24,9 @@ namespace component
 	{
 		uint32_t width = d->width;
 		uint32_t height = d->height;
+		
+		uint32_t screenWidth = draw::Draw::get().getScreenWidth();
+		uint32_t screenHeight = draw::Draw::get().getScreenHeight();
 
 		bool left = p->x + width < 0;
 		bool right = p->x > screenWidth;

@@ -18,9 +18,6 @@ namespace component
 	private:
 		Position* p;
 		Dimensions* d;
-
-		uint32_t screenWidth;
-		uint32_t screenHeight;
 	};
 }
 
