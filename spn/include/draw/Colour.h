@@ -19,7 +19,6 @@ namespace draw
 
 		void rgbaFromColour( uint32_t colour, uint8_t& r, uint8_t& g, uint8_t& b, uint8_t& a )
 		{
-			// untested
 			r = colour & 0xFF;
 			g = ( colour >> 8 ) & 0xFF;
 			b = ( colour >> 16 ) & 0xFF;
