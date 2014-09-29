@@ -59,8 +59,10 @@ namespace component
 	bool Clickable::onInputConsumerButtonDown( uint32_t x, uint32_t y )
 	{
 		hasClickPosition = true;
-		clickPositionX = draw::Draw::get().inverseScaleValue( x );
-		clickPositionY = draw::Draw::get().inverseScaleValue( y );
+		clickPositionX = static_cast< uint32_t >(
+			draw::Draw::get().inverseScaleValue( static_cast< float >( x ) ) );
+		clickPositionY = static_cast< uint32_t >(
+			draw::Draw::get().inverseScaleValue( static_cast< float >( y ) ) );
 		return true;
 	}
 }
