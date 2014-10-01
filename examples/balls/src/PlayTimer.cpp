@@ -109,13 +109,13 @@ uint32_t PlayTimer::getId()
 
 void PlayTimer::setListener( PlayTimer::IExpiredListener* inListener )
 {
-	static NullExpiredListener nullExpiredListener;
 	if ( inListener )
 	{
 		listener = inListener;
 	}
 	else
 	{
+		static NullExpiredListener nullExpiredListener;
 		listener = &nullExpiredListener;
 	}
 }
