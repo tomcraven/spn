@@ -5,6 +5,13 @@
 #include "game/Entity.h"
 #include "component/IComponent.h"
 
+#define USE_COMPONENT( componentEntity, ComponentType, function ) \
+	{ \
+		ComponentType* component; \
+		CHECK( componentEntity.getComponent< ComponentType >( &component ) ); \
+		component->function; \
+	}
+
 namespace component
 {
 	class ComponentEntity : public game::Entity

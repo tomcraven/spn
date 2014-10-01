@@ -19,8 +19,8 @@ bool MenuRoom::init()
 
 bool MenuRoom::shutdown()
 {
-	playButton.shutdown();
-	exitButton.shutdown();
+	CHECK( playButton.shutdown() );
+	CHECK( exitButton.shutdown() );
 
 	return true;
 }
@@ -83,12 +83,8 @@ bool MenuRoom::initialiseAndPlaceButton( game::Button& button, const char* filen
 {
 	CHECK( button.init() );
 	button.setConsumer( this );
-	
-	component::Position* position = button.getComponent< component::Position >();
-	position->set( x, y );
-
-	component::Texture* texture = button.getComponent< component::Texture >();
-	texture->setTexturePath( filename );
+	USE_COMPONENT( button, component::Position, set( x, y ) );
+	USE_COMPONENT( button, component::Texture, setTexturePath( filename ) );
 
 	return true;
 }

@@ -261,19 +261,13 @@ bool MainRoom::createExitButton()
 	CHECK( exitButton.init() );
 	exitButton.setConsumer( this );
 
-	component::Texture* texture;
-	CHECK( exitButton.getComponent< component::Texture >( &texture ) );
-	texture->setTexturePath( "assets/exit_main_game.png" );
-	
-	component::Position* position;
-	CHECK( exitButton.getComponent< component::Position >( &position ) );
+	USE_COMPONENT( exitButton, component::Texture, setTexturePath( "assets/exit_main_game.png" ) );
 	
 	component::Dimensions* dimensions;
 	CHECK( exitButton.getComponent< component::Dimensions >( &dimensions ) );
-	
 	float yPosition = static_cast< float >( draw::Draw::get().getScreenHeight() - dimensions->height );
 	float xPosition = static_cast< float >( draw::Draw::get().getScreenWidth() - dimensions->width );
-	position->set( xPosition, yPosition );
+	USE_COMPONENT( exitButton, component::Position, set( xPosition, yPosition ) );
 
 	return true;
 }
