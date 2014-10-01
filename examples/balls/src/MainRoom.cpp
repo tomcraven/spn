@@ -15,37 +15,24 @@ namespace
 	const uint32_t kNumBalls = 10;
 }
 
+MainRoom::MainRoom() :
+	updateFunction( &MainRoom::updateInGame ),
+	renderFunction( &MainRoom::renderInGame ),
+	fadeOutAlpha( 0 ),
+	fadeOutColour( draw::colour::kLightBlue ^ 0xFF000000 ),
+	clickedBallCount( 0 ),
+	flagShouldExit( false )
+{
+}
+
 bool MainRoom::init()
 {
 	CHECK( draw::Draw::get().rescale( 2.0f ) );
 
-	freeBalls = new Ball[kNumBalls];
-
-	for ( uint32_t i = 0; i < kNumBalls; ++i )
-	{
-		balls.push_back( &freeBalls[i] );
-
-		CHECK( balls[i]->init() );
-		balls[i]->setConsumer( this );
-	}
-
-	CHECK( playTimer.init( 30.0f, false ) );
-	playTimer.setListener( this );
-
-	updateFunction = &MainRoom::updateInGame;
-	renderFunction = &MainRoom::renderInGame;
-	
-	fadeOutAlpha = 0;
-	fadeOutColour = draw::colour::kLightBlue ^ 0xFF000000;
-
-	flagShouldExit = false;
-	
+	CHECK( initialiseBalls() );
+	CHECK( initialisePlayTimer() );
 	CHECK( createExitButton() );
-
-	clickedBallCount = 0;
-	snprintf( clickedBallCountBuffer, 5, "%u\0", clickedBallCount );
-
-	ballToErase = balls.end();
+	CHECK( updateClickedBallCountBuffer() );
 
 	return true;
 }
@@ -129,6 +116,13 @@ bool MainRoom::updateBalls( float timeStepSeconds )
 		}
 	}
 	
+	return true;
+}
+
+bool MainRoom::updateClickedBallCountBuffer()
+{
+	// todo - check the return code of this
+	snprintf( clickedBallCountBuffer, kClickedBallCountBufferSize, "%u\0", clickedBallCount );
 	return true;
 }
 
@@ -227,7 +221,7 @@ bool MainRoom::onButtonConsumerClick( uint32_t id )
 			if ( ( *ballIter )->getId() == id )
 			{
 				ballToErase = ballIter;
-				snprintf( clickedBallCountBuffer, 5, "%u\0", ++clickedBallCount );
+				CHECK( updateClickedBallCountBuffer() );
 				break;
 			}
 		}
@@ -252,6 +246,30 @@ bool MainRoom::onEndOfGame()
 	{
 		balls[i]->setConsumer( 0 );
 	}
+
+	return true;
+}
+
+bool MainRoom::initialiseBalls()
+{
+	freeBalls = new Ball[kNumBalls];
+	for ( uint32_t i = 0; i < kNumBalls; ++i )
+	{
+		balls.push_back( &freeBalls[i] );
+
+		CHECK( balls[i]->init() );
+		balls[i]->setConsumer( this );
+	}
+	
+	ballToErase = balls.end();
+
+	return true;
+}
+
+bool MainRoom::initialisePlayTimer()
+{
+	CHECK( playTimer.init( 30.0f, false ) );
+	playTimer.setListener( this );
 
 	return true;
 }

@@ -8,6 +8,9 @@
 
 class MainRoom : public game::Room, public game::Button::Consumer, public PlayTimer::IExpiredListener
 {
+public:
+	MainRoom();
+
 public: // game::IRoom
 	virtual bool init();
 	virtual bool shutdown();
@@ -26,9 +29,13 @@ private:
 
 	bool onEndOfGame();
 
+	bool initialiseBalls();
+	bool initialisePlayTimer();
+
 	bool updateInGame();
 	bool updateEndGame();
 	bool updateBalls( float timeStepSeconds );
+	bool updateClickedBallCountBuffer();
 
 	bool renderInGame();
 	bool renderEndGame();
@@ -54,7 +61,12 @@ private:
 	game::Button exitButton;
 
 	uint32_t clickedBallCount;
-	char clickedBallCountBuffer[5];
+
+	enum
+	{
+		kClickedBallCountBufferSize = 5
+	};
+	char clickedBallCountBuffer[ kClickedBallCountBufferSize ];
 };
 
 #endif
