@@ -2,8 +2,7 @@
 #include "core/Assert.h"
 #include "draw/Draw.h"
 #include "draw/Colour.h"
-
-#include <limits>
+#include "draw/ScopedColour.h"
 
 namespace
 {
@@ -84,22 +83,21 @@ bool PlayTimer::render()
 	float factor = ( timeUntilTimeoutSeconds / timeoutSeconds );
 	float width = screenWidth * factor;
 	float leftPosition = halfScreenWidth - ( halfScreenWidth * factor );
-	
+	uint32_t colour = 0;
+
 	if ( factor > 0.5f )
 	{
 		uint8_t red = uint8_t( ( 2 * ( 1.0f - factor ) ) * 0xFF );
-
-		draw.setColour( draw::colour::colourFromRGBA( red, 0xFF, 0 ) );
+		colour = draw::colour::colourFromRGBA( red, 0xFF, 0 );
 	}
 	else
 	{
 		uint8_t green = uint8_t( ( 2 * factor ) * 0xFF );
-
-		draw.setColour( draw::colour::colourFromRGBA( 0xFF, green, 0 ) );
+		colour = draw::colour::colourFromRGBA( 0xFF, green, 0 );
 	}
 
+	draw::ScopedColour scopedColour( colour );
 	draw.filledRect( leftPosition, 0, width, 10 );
-	draw.setColour( draw::colour::kDefault );
 
 	return true;
 }
