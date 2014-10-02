@@ -8,7 +8,7 @@
 #define USE_COMPONENT( componentEntity, ComponentType, function ) \
 	{ \
 		ComponentType* component; \
-		CHECK( componentEntity.getComponent< ComponentType >( &component ) ); \
+		CHECK( ( componentEntity ).getComponent< ComponentType >( &component ) ); \
 		component->function; \
 	}
 
