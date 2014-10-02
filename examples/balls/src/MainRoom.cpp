@@ -221,6 +221,7 @@ bool MainRoom::onButtonConsumerClick( uint32_t id )
 			if ( ( *ballIter )->getId() == id )
 			{
 				ballToErase = ballIter;
+				++clickedBallCount;
 				CHECK( updateClickedBallCountBuffer() );
 				break;
 			}
