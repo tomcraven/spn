@@ -48,6 +48,8 @@ namespace component
 			CHECK( entity->onClickableConsumerClick() );
 		}
 
+		hasClickPosition = false;
+
 		return true;
 	}
 
