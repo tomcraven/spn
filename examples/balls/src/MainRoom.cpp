@@ -268,8 +268,9 @@ bool MainRoom::initialiseBalls()
 
 bool MainRoom::initialisePlayTimer()
 {
-	CHECK( playTimer.init( 30.0f, false ) );
-	playTimer.setListener( this );
+	playTimer.setTimeout( 30.0f );
+	playTimer.setRepeat( false );
+	playTimer.setTimerExpiredListener( this );
 
 	return true;
 }

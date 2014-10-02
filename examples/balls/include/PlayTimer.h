@@ -3,37 +3,20 @@
 
 #include "component/ComponentEntity.h"
 #include "component/Position.h"
+#include "async/Timer.h"
 
-class PlayTimer : public component::ComponentEntity
+class PlayTimer : public component::ComponentEntity, public async::Timer
 {
 public:
-	class IExpiredListener
-	{
-	public:
-		virtual bool onTimerExpired( uint32_t id ) = 0;
-	};
-
 	PlayTimer();
-	bool init( float timeoutSeconds, bool repeat = false );
 	bool update( float timeStep );
 	bool render();
 
-	uint32_t getId();
-
-	void setListener( IExpiredListener* listener );
+private: // async::Timer
+	bool onTimerProgress( float progress );
 
 private:
-	bool nullUpdate( float timeStep );
-	bool updateTimer( float timeStep );
-
-	bool ( PlayTimer::*updateFunction )( float );
-
-	IExpiredListener* listener;
-
-	float timeUntilTimeoutSeconds;
-	float timeoutSeconds;
-	bool shouldRepeat;
-	uint32_t id;
+	float timeoutProgress;
 };
 
 #endif
