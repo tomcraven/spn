@@ -3,8 +3,11 @@
 
 #include "game/Room.h"
 #include "game/Button.h"
+#include "core/AssetPool.h"
 #include "Ball.h"
 #include "PlayTimer.h"
+#include "core/AssetPool.h"
+#include "BallManager.h"
 
 class MainRoom : public game::Room, public game::Button::Consumer, public PlayTimer::IExpiredListener
 {
@@ -25,22 +28,21 @@ public: // PlayTimer::IExpiredListener
 	virtual bool onTimerExpired( uint32_t id );
 
 private:
-	bool createExitButton();
+	friend class BallManager;
 
+	bool createExitButton();
+	
 	bool onEndOfGame();
 
-	bool initialiseBalls();
 	bool initialisePlayTimer();
 
 	bool updateInGame();
 	bool updateEndGame();
-	bool updateBalls( float timeStepSeconds );
 	bool updateClickedBallCountBuffer();
 
 	bool renderInGame();
 	bool renderEndGame();
 	bool renderFadeOut();
-	bool renderBalls();
 	bool renderScore();
 	uint32_t fadeOutColour;
 	uint32_t fadeOutAlpha;
@@ -48,25 +50,13 @@ private:
 	bool ( MainRoom::*renderFunction )();
 	bool ( MainRoom::*updateFunction )();
 
-	Ball* freeBalls;
-
-	typedef std::vector< Ball* > BallContainer;
-	BallContainer balls;
-	BallContainer::iterator ballToErase;
+	BallManager ballManager;
 
 	PlayTimer playTimer;
 
 	bool flagShouldExit;
 
 	game::Button exitButton;
-
-	uint32_t clickedBallCount;
-
-	enum
-	{
-		kClickedBallCountBufferSize = 5
-	};
-	char clickedBallCountBuffer[ kClickedBallCountBufferSize ];
 };
 
 #endif
