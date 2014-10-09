@@ -3,10 +3,8 @@
 
 #include "game/Room.h"
 #include "game/Button.h"
-#include "core/AssetPool.h"
 #include "Ball.h"
 #include "PlayTimer.h"
-#include "core/AssetPool.h"
 #include "BallManager.h"
 
 class MainRoom : public game::Room, public game::Button::Consumer, public PlayTimer::IExpiredListener

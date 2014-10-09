@@ -8,8 +8,6 @@
 
 #include "component/Position.h"
 
-#include "Iw2D.h"
-
 namespace
 {
 	const uint32_t kNumBalls = 10;
