@@ -13,21 +13,21 @@ MenuRoom::MenuRoom() :
 
 bool MenuRoom::init()
 {
-	CHECK( draw::Draw::get().rescale( 1.0f ) );
+	VALIDATE( draw::Draw::get().rescale( 1.0f ) );
 
-	CHECK( initialiseAndPlaceButton( playButton, "assets/play_button.png", 20.0f, 20.0f ) );
-	CHECK( initialiseAndPlaceButton( exitButton, "assets/exit_button.png", 20.0f, 100.0f ) );
+	VALIDATE( initialiseAndPlaceButton( playButton, "assets/play_button.png", 20.0f, 20.0f ) );
+	VALIDATE( initialiseAndPlaceButton( exitButton, "assets/exit_button.png", 20.0f, 100.0f ) );
 
-	CHECK( fadeIn.start() );
-	CHECK( fadeOut.setConsumer( this ) );
+	VALIDATE( fadeIn.start() );
+	VALIDATE( fadeOut.setConsumer( this ) );
 
 	return true;
 }
 
 bool MenuRoom::shutdown()
 {
-	CHECK( playButton.shutdown() );
-	CHECK( exitButton.shutdown() );
+	VALIDATE( playButton.shutdown() );
+	VALIDATE( exitButton.shutdown() );
 
 	return true;
 }
@@ -47,7 +47,7 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 		menuSelection = kUnknown;
 	}
 
-	CHECK( fadeOut.start() );
+	VALIDATE( fadeOut.start() );
 
 	return true;
 }
@@ -60,27 +60,27 @@ bool MenuRoom::onTransitionComplete( uint32_t transitionId )
 
 bool MenuRoom::render()
 {
-	CHECK( draw::Draw::get().clear( draw::colour::kLightBlue ) );
+	VALIDATE( draw::Draw::get().clear( draw::colour::kLightBlue ) );
 	
-	CHECK( playButton.render() );
-	CHECK( exitButton.render() );
-	CHECK( fadeIn.render() );
-	CHECK( fadeOut.render() );
+	VALIDATE( playButton.render() );
+	VALIDATE( exitButton.render() );
+	VALIDATE( fadeIn.render() );
+	VALIDATE( fadeOut.render() );
 
-	CHECK( draw::Draw::get().flip() );
+	VALIDATE( draw::Draw::get().flip() );
 	return true;
 }
 
 bool MenuRoom::update()
 {
-	CHECK( Room::update() );
+	VALIDATE( Room::update() );
 
 	float timeStepSeconds = getTimeStepSeconds();
 	
-	CHECK( playButton.update( timeStepSeconds ) );
-	CHECK( exitButton.update( timeStepSeconds ) );
-	CHECK( fadeIn.update( timeStepSeconds ) );
-	CHECK( fadeOut.update( timeStepSeconds ) );
+	VALIDATE( playButton.update( timeStepSeconds ) );
+	VALIDATE( exitButton.update( timeStepSeconds ) );
+	VALIDATE( fadeIn.update( timeStepSeconds ) );
+	VALIDATE( fadeOut.update( timeStepSeconds ) );
 
 	return true;
 }
@@ -102,7 +102,7 @@ bool MenuRoom::hasMadeMenuSelection()
 
 bool MenuRoom::initialiseAndPlaceButton( game::Button& button, const char* filename, float x, float y )
 {
-	CHECK( button.init() );
+	VALIDATE( button.init() );
 	button.setConsumer( this );
 	USE_COMPONENT( button, component::Position, set( x, y ) );
 	USE_COMPONENT( button, component::Texture, setTexturePath( filename ) );

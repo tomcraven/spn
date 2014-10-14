@@ -16,13 +16,13 @@ bool BallManager::init( uint32_t numBalls )
 	{
 		balls.push_back( &freeBalls[i] );
 
-		CHECK( balls[i]->init() );
+		VALIDATE( balls[i]->init() );
 		balls[i]->setConsumer( this );
 	}
 
 	ballToErase = balls.end();
 
-	CHECK( updateClickedBallCountBuffer() );
+	VALIDATE( updateClickedBallCountBuffer() );
 
 	return true;
 }
@@ -32,7 +32,7 @@ bool BallManager::shutdown()
 	BallContainer::iterator ballIter = balls.begin();
 	for ( ; ballIter != balls.end(); ++ballIter )
 	{
-		CHECK( ( *ballIter )->shutdown() );
+		VALIDATE( ( *ballIter )->shutdown() );
 	}
 	balls.clear();
 	delete[] freeBalls;
@@ -45,12 +45,12 @@ bool BallManager::update( float timeStepSeconds )
 	BallContainer::iterator ballIter = balls.begin();
 	for ( ; ballIter != balls.end(); ++ballIter )
 	{
-		CHECK( ( *ballIter )->update( timeStepSeconds ) );
+		VALIDATE( ( *ballIter )->update( timeStepSeconds ) );
 	}
 
 	if ( ballToErase != balls.end() )
 	{
-		CHECK( ( *ballToErase )->shutdown() );
+		VALIDATE( ( *ballToErase )->shutdown() );
 		balls.erase( ballToErase );
 		ballToErase = balls.end();
 		
@@ -68,7 +68,7 @@ bool BallManager::render()
 	BallContainer::iterator ballIter = balls.begin();
 	for ( ; ballIter != balls.end(); ++ballIter )
 	{
-		CHECK( ( *ballIter )->render() );
+		VALIDATE( ( *ballIter )->render() );
 	}
 
 	return true;
@@ -88,7 +88,7 @@ bool BallManager::onButtonConsumerClick( uint32_t id )
 		{
 			ballToErase = ballIter;
 			++clickedBallCount;
-			CHECK( updateClickedBallCountBuffer() );
+			VALIDATE( updateClickedBallCountBuffer() );
 			break;
 		}
 	}

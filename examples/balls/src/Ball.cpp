@@ -13,7 +13,7 @@ Ball::Ball()
 
 bool Ball::init()
 {
-	CHECK( ComponentEntity::init() );
+	VALIDATE( ComponentEntity::init() );
 
 	t.setTexturePath( "assets/circle_white.png" );
 
@@ -36,7 +36,7 @@ bool Ball::init()
 bool Ball::render()
 {
 	draw::ScopedColour scopedColour( colour );
-	CHECK( r.render( p ) );
+	VALIDATE( r.render( p ) );
 
 	return true;
 }

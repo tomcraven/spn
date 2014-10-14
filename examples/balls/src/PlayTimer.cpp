@@ -10,8 +10,8 @@ PlayTimer::PlayTimer() : timeoutProgress( 0.0f )
 
 bool PlayTimer::update( float timeStep )
 {
-	CHECK( component::ComponentEntity::update( timeStep ) );
-	CHECK( async::Timer::update( timeStep ) );
+	VALIDATE( component::ComponentEntity::update( timeStep ) );
+	VALIDATE( async::Timer::update( timeStep ) );
 	return true;
 }
 
