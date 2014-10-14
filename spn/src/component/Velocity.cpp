@@ -13,7 +13,7 @@ namespace component
 {
 	bool Velocity::init( ComponentEntity* entity )
 	{
-		CHECK( entity->getComponent< Position >( &p ) );
+		VALIDATE( entity->getComponent< Position >( &p ) );
 		return true;
 	}
 

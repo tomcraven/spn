@@ -44,7 +44,7 @@ namespace component
 
 	bool Texture::init( ComponentEntity* entity )
 	{
-		CHECK( entity->getComponent<Dimensions>( &dimensions ) );
+		VALIDATE( entity->getComponent<Dimensions>( &dimensions ) );
 		return true;
 	}
 }

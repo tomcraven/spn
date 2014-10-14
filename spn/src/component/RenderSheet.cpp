@@ -45,7 +45,7 @@ namespace component
 	bool RenderSheet::render( const Position& p )
 	{
 		CIw2DImage* image = texture->getTexture();
-		CHECK( image );
+		VALIDATE( image );
 		Iw2DDrawImageRegion( image,
 			CIwFVec2( p.x, p.y ),
 			CIwFVec2( static_cast<float>( currentFrame[0] * frameWidth ), 
@@ -57,14 +57,14 @@ namespace component
 
 	bool RenderSheet::init( ComponentEntity* entity )
 	{
-		CHECK( entity->getComponent< Texture >( &texture ) );
-		CHECK( entity->getComponent< Dimensions >( &dimensions ) );
+		VALIDATE( entity->getComponent< Texture >( &texture ) );
+		VALIDATE( entity->getComponent< Dimensions >( &dimensions ) );
 		return true;
 	}
 
 	bool RenderSheet::update( ComponentEntity* entity, float timeStep )
 	{
-		CHECK( updateCurrentFrame( timeStep, entity ) );
+		VALIDATE( updateCurrentFrame( timeStep, entity ) );
 		return true;
 	}
 

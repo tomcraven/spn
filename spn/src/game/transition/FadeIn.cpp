@@ -28,7 +28,7 @@ namespace game { namespace transition
 
 	bool FadeIn::update( float timeStepSeconds )
 	{
-		CHECK( ( this->*updateFunction )( timeStepSeconds ) );
+		VALIDATE( ( this->*updateFunction )( timeStepSeconds ) );
 		return true;
 	}
 

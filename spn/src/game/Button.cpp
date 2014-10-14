@@ -46,7 +46,7 @@ namespace game
 
 	bool Button::onClickableConsumerClick()
 	{
-		CHECK( consumer->onButtonConsumerClick( id ) );
+		VALIDATE( consumer->onButtonConsumerClick( id ) );
 		return true;
 	}
 
@@ -57,7 +57,7 @@ namespace game
 
 	bool Button::render()
 	{
-		CHECK( r.render( p ) );
+		VALIDATE( r.render( p ) );
 		return true;
 	}
 }

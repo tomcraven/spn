@@ -70,7 +70,7 @@ namespace input
 		std::vector<Consumer*>::iterator consumerIter;
 		consumerIter = std::find( inputConsumers.begin(), inputConsumers.end(), consumer );
 
-		CHECK( consumerIter != inputConsumers.end() );
+		VALIDATE( consumerIter != inputConsumers.end() );
 		inputConsumers.erase( consumerIter );
 
 		return true;

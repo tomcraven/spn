@@ -20,7 +20,7 @@ namespace component
 
 	bool RenderTexture::init( ComponentEntity* entity )
 	{
-		CHECK( entity->getComponent< Texture >( &texture ) );
+		VALIDATE( entity->getComponent< Texture >( &texture ) );
 		return true;
 	}
 

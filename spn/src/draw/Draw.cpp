@@ -19,7 +19,7 @@ namespace draw
 
 	bool Draw::shutdown()
 	{
-		CHECK( shutdownSurface() );
+		VALIDATE( shutdownSurface() );
 		delete font;
 		Iw2DTerminate();
 		return true;
@@ -37,9 +37,9 @@ namespace draw
 		Iw2DInit();
 		
 		font = Iw2DCreateFont( "assets/arial8.gxfont" );
-		CHECK( font );
+		VALIDATE( font );
 
-		CHECK( initialiseSurface() );
+		VALIDATE( initialiseSurface() );
 
 		return true;
 	}
@@ -49,10 +49,10 @@ namespace draw
 		uint32_t width = uint32_t( float( IwGxGetScreenWidth() ) / scale );
 		uint32_t height = uint32_t( float( IwGxGetScreenHeight() ) / scale );
 		surface = Iw2DCreateSurface( width, height );
-		CHECK( surface );
+		VALIDATE( surface );
 
 		surfaceImage = Iw2DCreateImage( surface );
-		CHECK( surfaceImage );
+		VALIDATE( surfaceImage );
 		
 		surfaceImage->GetMaterial()->SetFiltering( false );
 		Iw2DSetUseMipMapping( false );
@@ -122,12 +122,12 @@ namespace draw
 
 	bool Draw::flip()
 	{
-		CHECK( Iw2DSetSurface( 0 ) );
+		VALIDATE( Iw2DSetSurface( 0 ) );
 		Iw2DDrawImage( surfaceImage, 
 			CIwFVec2( 0, 0 ), 
 			CIwFVec2( scaleValue( surfaceImage->GetWidth() ), scaleValue( surfaceImage->GetHeight() ) ) );
 		Iw2DSurfaceShow();
-		CHECK( Iw2DSetSurface( surface ) );
+		VALIDATE( Iw2DSetSurface( surface ) );
 
 		return true;
 	}
@@ -158,11 +158,11 @@ namespace draw
 	{
 		setScale( inScale );
 
-		CHECK( shutdownSurface() );
-		CHECK( initialiseSurface() );
+		VALIDATE( shutdownSurface() );
+		VALIDATE( initialiseSurface() );
 		
-		CHECK( clear( colour::kDefault ) );
-		CHECK( Iw2DSetSurface( surface ) );
+		VALIDATE( clear( colour::kDefault ) );
+		VALIDATE( Iw2DSetSurface( surface ) );
 
 		return true;
 	}

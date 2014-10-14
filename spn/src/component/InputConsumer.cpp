@@ -11,7 +11,7 @@ namespace component
 {
 	bool InputConsumer::init( ComponentEntity* entity )
 	{
-		CHECK( input::Input::get().addConsumer( entity ) );
+		VALIDATE( input::Input::get().addConsumer( entity ) );
 		return true;
 	}
 

@@ -17,8 +17,8 @@ namespace component
 {
 	bool WindowTouchCollision::init( ComponentEntity* entity )
 	{
-		CHECK( entity->getComponent< Position >( &p ) );
-		CHECK( entity->getComponent< Dimensions >( &d ) );
+		VALIDATE( entity->getComponent< Position >( &p ) );
+		VALIDATE( entity->getComponent< Dimensions >( &d ) );
 		
 		return true;
 	}
@@ -38,7 +38,7 @@ namespace component
 
 		if ( left || right || top || bottom )
 		{
-			CHECK( entity->onWindowTouch( left, right, top, bottom ) );
+			VALIDATE( entity->onWindowTouch( left, right, top, bottom ) );
 		}
 
 		return true;

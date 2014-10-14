@@ -15,10 +15,10 @@ namespace component
 {
 	bool Clickable::init( ComponentEntity* entity )
 	{
-		CHECK( entity->getComponent<Position>( &position ) );
-		CHECK( entity->getComponent<Dimensions>( &dimensions ) );
+		VALIDATE( entity->getComponent<Position>( &position ) );
+		VALIDATE( entity->getComponent<Dimensions>( &dimensions ) );
 		
-		CHECK( input::Input::get().addConsumer( this ) );
+		VALIDATE( input::Input::get().addConsumer( this ) );
 
 		hasClickPosition = false;
 
@@ -27,7 +27,7 @@ namespace component
 
 	bool Clickable::shutdown( ComponentEntity* entity )
 	{
-		CHECK( input::Input::get().removeConsumer( this ) );
+		VALIDATE( input::Input::get().removeConsumer( this ) );
 		return true;
 	}
 
@@ -45,7 +45,7 @@ namespace component
 			dimensions->width, 
 			dimensions->height ) )
 		{
-			CHECK( entity->onClickableConsumerClick() );
+			VALIDATE( entity->onClickableConsumerClick() );
 		}
 
 		hasClickPosition = false;

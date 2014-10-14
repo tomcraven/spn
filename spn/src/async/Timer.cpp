@@ -49,7 +49,7 @@ namespace async
 
 	bool Timer::update( float timeStep )
 	{
-		CHECK( (this->*updateFunction)( timeStep ) );
+		VALIDATE( (this->*updateFunction)( timeStep ) );
 		return true;
 	}
 
@@ -75,7 +75,7 @@ namespace async
 			}
 		}
 
-		CHECK( onTimerProgress( timeUntilTimeoutSeconds / timeoutSeconds ) );
+		VALIDATE( onTimerProgress( timeUntilTimeoutSeconds / timeoutSeconds ) );
 
 		return true;
 	}

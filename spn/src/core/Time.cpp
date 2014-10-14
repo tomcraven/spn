@@ -14,7 +14,7 @@ namespace core
 	bool Time::getSeconds( float &outSeconds )
 	{
 		uint64_t milliseconds;
-		CHECK( Time::getMilliseconds( milliseconds ) );
+		VALIDATE( Time::getMilliseconds( milliseconds ) );
 		outSeconds = float( milliseconds ) / 1000.0f;
 		return true;
 	}

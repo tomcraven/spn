@@ -14,8 +14,8 @@ namespace component
 {
 	bool WindowExitCollision::init( ComponentEntity* entity )
 	{
-		CHECK( entity->getComponent< Position >( &p ) );
-		CHECK( entity->getComponent< Dimensions >( &d ) );
+		VALIDATE( entity->getComponent< Position >( &p ) );
+		VALIDATE( entity->getComponent< Dimensions >( &d ) );
 
 		return true;
 	}
@@ -35,7 +35,7 @@ namespace component
 
 		if ( left || right || top || bottom )
 		{
-			CHECK( entity->onWindowExit( left, right, top, bottom ) );
+			VALIDATE( entity->onWindowExit( left, right, top, bottom ) );
 		}
 
 		return true;

@@ -16,7 +16,7 @@ namespace component
 		std::vector< component::IComponent* >::iterator compIter = components.begin();
 		for ( ; compIter != components.end(); ++compIter )
 		{
-			CHECK( (*compIter)->init( this ) );
+			VALIDATE( (*compIter)->init( this ) );
 		}
 		return true;
 	}
@@ -26,7 +26,7 @@ namespace component
 		std::vector< component::IComponent* >::iterator compIter = components.begin();
 		for ( ; compIter != components.end(); ++compIter )
 		{
-			CHECK( (*compIter)->shutdown( this ) );
+			VALIDATE( (*compIter)->shutdown( this ) );
 		}
 		return true;
 	}
@@ -36,7 +36,7 @@ namespace component
 		std::vector< component::IComponent* >::iterator compIter = components.begin();
 		for ( ; compIter != components.end(); ++compIter )
 		{
-			CHECK( (*compIter)->update( this, timeStep ) );
+			VALIDATE( (*compIter)->update( this, timeStep ) );
 		}
 		return true;
 	}

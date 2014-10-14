@@ -19,12 +19,12 @@ namespace game
 	{
 		while ( !shouldExit() )
 		{
-			CHECK( onUpdateStart() );
+			VALIDATE( onUpdateStart() );
 
-			CHECK( update() );
-			CHECK( render() );
+			VALIDATE( update() );
+			VALIDATE( render() );
 
-			CHECK( onUpdateEnd( kTimeStepMilliseconds ) );
+			VALIDATE( onUpdateEnd( kTimeStepMilliseconds ) );
 		}
 
 		return true;
@@ -55,14 +55,14 @@ namespace game
 
 	bool Room::onUpdateStart()
 	{
-		CHECK( core::Time::getMilliseconds( updateStartMilliseconds ) );
+		VALIDATE( core::Time::getMilliseconds( updateStartMilliseconds ) );
 		return true;
 	}
 
 	bool Room::onUpdateEnd( uint32_t timeStepMilliseconds )
 	{
 		uint64_t endMilliseconds;
-		CHECK( core::Time::getMilliseconds( endMilliseconds ) );
+		VALIDATE( core::Time::getMilliseconds( endMilliseconds ) );
 		uint32_t totalUpdateMilliseconds = uint32_t( endMilliseconds - updateStartMilliseconds );
 		int32_t remainingUpdateTimeMilliseconds = timeStepMilliseconds - totalUpdateMilliseconds;
 		uint32_t yieldTimeMilliseconds = core::algorithm::max( 0, remainingUpdateTimeMilliseconds );

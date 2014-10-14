@@ -27,7 +27,7 @@ namespace draw
 
 	CIw2DImage* TexturePool::loadTexture( const char* path )
 	{
-		CHECK_AND_RETURN( numTextures != kMaxTextures, 0 );
+		VALIDATE_AND_RETURN( numTextures != kMaxTextures, 0 );
 
 		for ( uint32_t i = 0; i < numTextures; ++i )
 		{
