@@ -3,7 +3,11 @@
 #include "draw/Colour.h"
 #include "draw/Draw.h"
 
-MenuRoom::MenuRoom() : menuSelection( kUnknown )
+MenuRoom::MenuRoom() : 
+	menuSelection( kUnknown ),
+	fadeIn( 0, 0.3f ),
+	fadeOut( 0, 0.3f ),
+	flagFadeOutHasFinished( false )
 {
 }
 
@@ -13,6 +17,9 @@ bool MenuRoom::init()
 
 	CHECK( initialiseAndPlaceButton( playButton, "assets/play_button.png", 20.0f, 20.0f ) );
 	CHECK( initialiseAndPlaceButton( exitButton, "assets/exit_button.png", 20.0f, 100.0f ) );
+
+	CHECK( fadeIn.start() );
+	CHECK( fadeOut.setConsumer( this ) );
 
 	return true;
 }
@@ -40,6 +47,14 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 		menuSelection = kUnknown;
 	}
 
+	CHECK( fadeOut.start() );
+
+	return true;
+}
+
+bool MenuRoom::onTransitionComplete( uint32_t transitionId )
+{
+	flagFadeOutHasFinished = true;
 	return true;
 }
 
@@ -49,6 +64,8 @@ bool MenuRoom::render()
 	
 	CHECK( playButton.render() );
 	CHECK( exitButton.render() );
+	CHECK( fadeIn.render() );
+	CHECK( fadeOut.render() );
 
 	CHECK( draw::Draw::get().flip() );
 	return true;
@@ -57,16 +74,20 @@ bool MenuRoom::render()
 bool MenuRoom::update()
 {
 	CHECK( Room::update() );
+
+	float timeStepSeconds = getTimeStepSeconds();
 	
-	CHECK( playButton.update( getTimeStepSeconds() ) );
-	CHECK( exitButton.update( getTimeStepSeconds() ) );
+	CHECK( playButton.update( timeStepSeconds ) );
+	CHECK( exitButton.update( timeStepSeconds ) );
+	CHECK( fadeIn.update( timeStepSeconds ) );
+	CHECK( fadeOut.update( timeStepSeconds ) );
 
 	return true;
 }
 
 bool MenuRoom::shouldExit()
 {
-	return Room::shouldExit() || hasMadeMenuSelection();
+	return Room::shouldExit() || ( hasMadeMenuSelection() && flagFadeOutHasFinished );
 }
 
 MenuRoom::MenuSelection MenuRoom::getMenuSelection()
