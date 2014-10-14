@@ -10,16 +10,14 @@
 
 namespace
 {
-	const uint32_t kNumBalls = 10;
+	const uint32_t kNumBalls = 1;
 }
 
 MainRoom::MainRoom() :
-	updateFunction( &MainRoom::updateInGame ),
-	renderFunction( &MainRoom::renderInGame ),
-	fadeOutAlpha( 0 ),
-	fadeOutColour( draw::colour::kLightBlue ^ 0xFF000000 ),
 	flagShouldExit( false ),
-	ballManager( this )
+	ballManager( this ),
+	fadeOut( 0, 0.3f ),
+	fadeIn( 0, 0.3f )
 {
 }
 
@@ -30,6 +28,8 @@ bool MainRoom::init()
 	CHECK( ballManager.init( kNumBalls ) );
 	CHECK( initialisePlayTimer() );
 	CHECK( createExitButton() );
+	CHECK( fadeOut.setConsumer( this ) );
+	CHECK( fadeIn.start() );
 
 	return true;
 }
@@ -43,13 +43,6 @@ bool MainRoom::shutdown()
 
 bool MainRoom::update()
 {
-	CHECK( ( this->*updateFunction )() );
-
-	return true;
-}
-
-bool MainRoom::updateInGame()
-{
 	CHECK( Room::update() );
 	
 	float timeStepSeconds = getTimeStepSeconds();
@@ -57,42 +50,14 @@ bool MainRoom::updateInGame()
 	CHECK( ballManager.update( timeStepSeconds ) );	
 	CHECK( playTimer.update( timeStepSeconds ) );
 	CHECK( exitButton.update( timeStepSeconds ) );
-
-	return true;
-}
-
-bool MainRoom::updateEndGame()
-{
-	CHECK( Room::update() );
-	
-	float timeStepSeconds = getTimeStepSeconds();
-	CHECK( ballManager.update( timeStepSeconds ) );	
-	
-	const uint32_t kMaxFadeOutValue = 0xFF;
-	if ( fadeOutAlpha >= kMaxFadeOutValue )
-	{
-		flagShouldExit = true;
-	}
-	else
-	{
-		const float kFadeOutTimeSeconds = 0.5f;
-		float alphaIncrement = kMaxFadeOutValue * ( getTimeStepSeconds() / kFadeOutTimeSeconds );
-		fadeOutAlpha += static_cast< uint32_t >( alphaIncrement );
-
-		fadeOutAlpha = core::algorithm::clamp( fadeOutAlpha, 0u, kMaxFadeOutValue );
-	}
+	CHECK( fadeOut.update( timeStepSeconds ) );
+	CHECK( fadeIn.update( timeStepSeconds ) );
 
 	return true;
 }
 
 bool MainRoom::render()
 {
-	CHECK( ( this->*renderFunction )() );
-	return true;
-}
-
-bool MainRoom::renderInGame()
-{
 	draw::Draw& draw = draw::Draw::get();
 
 	CHECK( draw.clear( draw::colour::kLightBlue ) );
@@ -100,35 +65,10 @@ bool MainRoom::renderInGame()
 	CHECK( playTimer.render() );
 	CHECK( ballManager.render() );
 	CHECK( exitButton.render() );
+	CHECK( fadeOut.render() );
+	CHECK( fadeIn.render() );
 
 	CHECK( draw.flip() );
-	return true;
-}
-
-bool MainRoom::renderEndGame()
-{
-	draw::Draw& draw = draw::Draw::get();
-
-	CHECK( draw.clear( draw::colour::kLightBlue ) );
-	CHECK( renderScore() );
-	CHECK( playTimer.render() );
-	CHECK( ballManager.render() );
-	CHECK( exitButton.render() );
-	CHECK( renderFadeOut() );
-
-	CHECK( draw.flip() );
-	return true;
-}
-
-bool MainRoom::renderFadeOut()
-{
-	draw::ScopedColour scopedColour( fadeOutColour | ( fadeOutAlpha << 24 ) );
-
-	draw::Draw& draw = draw::Draw::get();
-	static float screenWidth = static_cast< float >( draw.getScreenWidth() );
-	static float screenHeight = static_cast< float >( draw.getScreenHeight() );
-
-	draw.filledRect( 0.0f, 0.0f, screenWidth, screenHeight );
 
 	return true;
 }
@@ -174,11 +114,15 @@ bool MainRoom::onTimerExpired( uint32_t id )
 	return true;
 }
 
+bool MainRoom::onTransitionComplete( uint32_t transitionId )
+{
+	flagShouldExit = true;
+	return true;
+}
+
 bool MainRoom::onEndOfGame()
 {
-	renderFunction = &MainRoom::renderEndGame;
-	updateFunction = &MainRoom::updateEndGame;
-
+	CHECK( fadeOut.start() );
 	return true;
 }
 

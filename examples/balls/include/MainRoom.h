@@ -3,11 +3,17 @@
 
 #include "game/Room.h"
 #include "game/Button.h"
+#include "game/transition/FadeOut.h"
+#include "game/transition/FadeIn.h"
 #include "Ball.h"
 #include "PlayTimer.h"
 #include "BallManager.h"
 
-class MainRoom : public game::Room, public game::Button::Consumer, public PlayTimer::IExpiredListener
+class MainRoom : 
+	public game::Room, 
+	public game::Button::Consumer, 
+	public PlayTimer::IExpiredListener,
+	public game::transition::ITransition::IConsumer
 {
 public:
 	MainRoom();
@@ -25,6 +31,9 @@ public: // game::Button::Consumer
 public: // PlayTimer::IExpiredListener
 	virtual bool onTimerExpired( uint32_t id );
 
+public: // game::ITransition::IConsumer
+	virtual bool onTransitionComplete( uint32_t transitionId );
+
 private:
 	friend class BallManager;
 
@@ -40,13 +49,7 @@ private:
 
 	bool renderInGame();
 	bool renderEndGame();
-	bool renderFadeOut();
 	bool renderScore();
-	uint32_t fadeOutColour;
-	uint32_t fadeOutAlpha;
-
-	bool ( MainRoom::*renderFunction )();
-	bool ( MainRoom::*updateFunction )();
 
 	BallManager ballManager;
 
@@ -55,6 +58,9 @@ private:
 	bool flagShouldExit;
 
 	game::Button exitButton;
+
+	game::transition::FadeOut fadeOut;
+	game::transition::FadeIn fadeIn;
 };
 
 #endif
