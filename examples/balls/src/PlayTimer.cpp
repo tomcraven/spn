@@ -6,6 +6,7 @@
 
 PlayTimer::PlayTimer() : timeoutProgress( 0.0f )
 {
+	attach( &p );
 }
 
 bool PlayTimer::update( float timeStep )
@@ -37,7 +38,7 @@ bool PlayTimer::render()
 	}
 
 	draw::ScopedColour scopedColour( colour );
-	draw.filledRect( leftPosition, 0, width, 10 );
+	draw.filledRect( leftPosition, p.y, width, 10 );
 
 	return true;
 }

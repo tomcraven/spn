@@ -17,6 +17,7 @@ private: // async::Timer
 
 private:
 	float timeoutProgress;
+	component::Position p;
 };
 
 #endif
