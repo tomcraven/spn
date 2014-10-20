@@ -99,6 +99,6 @@ bool BallManager::onButtonConsumerClick( uint32_t id )
 bool BallManager::updateClickedBallCountBuffer()
 {
 	// todo - check the return code of this
-	snprintf( clickedBallCountBuffer, kClickedBallCountBufferSize, "%u\0", clickedBallCount );
+	snprintf( clickedBallCountBuffer, kClickedBallCountBufferSize, "%u", clickedBallCount );
 	return true;
 }
