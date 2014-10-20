@@ -45,23 +45,14 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 				mkb_file.write( "\n" )
 
 	populate_from_directory( spn_path )
-	populate_from_directory( project_path, "assets" )
+	populate_from_directory( project_path, [ "fonts", "textures" ] )
 
 	mkb_file.write(
 		"}\n" +
 		"\n" +
 		"subprojects\n" +
 		"{\n"
-			"\tiwutil\n" +
-			"\tiw2dscenegraphcore\n" +
 			"\tiw2dscenegraph\n" +
-			"\tiwgx\n" +
-			"\tiwresmanager\n" +
-			"\tiwtween\n" +
-		"}\n" +
-		"\n" +
-		"deployment\n" +
-		"{\n" +
 		"}\n" +
 		"\n"
 	)
@@ -71,14 +62,37 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 		"{\n" +
 			"\t" + spn_path + "/include\n" +
 			"\t" + project_path + "/include\n" +
-		"}\n"
+		"}\n\n"
+	)
+
+	mkb_file.write(
+		"assets\n" +
+		"{\n" +
+		"\t(data)\n"
+	)
+
+	assets_folder = project_path + "/assets"
+	for dirname, dirnames, filenames in os.walk( assets_folder ):
+
+		if len( filenames  ) > 0:
+			relative_file_path = os.path.join( dirname, filenames[0] )[len( assets_folder ) + 1:]
+
+			for filename in filenames:
+				mkb_file.write(
+					"\t" + relative_file_path + "\n"
+				)
+
+		mkb_file.write( "\n" )
+
+	mkb_file.write( 
+		"}"
 	)
 
 # Create data folder and copy assets over
 if not os.path.isdir( "data" ):
 	os.mkdir( "data" )
 
-if os.path.isdir( "data/assets" ):
-	shutil.rmtree( "data/assets" )
+if os.path.isdir( "data" ):
+	shutil.rmtree( "data" )
 
-shutil.copytree( project_path + "/assets", "data/assets" )
+shutil.copytree( project_path + "/assets", "data" )
