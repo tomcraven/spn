@@ -15,7 +15,7 @@ bool Ball::init()
 {
 	VALIDATE( ComponentEntity::init() );
 
-	t.setTexturePath( "assets/circle_white.png" );
+	t.setTexturePath( "textures/circle_white.png" );
 
 	v.x = 100.0f - ( float( rand() % 1000 ) / 1000.0f * 200.0f );
 	v.y = 100.0f - ( float( rand() % 1000 ) / 1000.0f * 200.0f );
