@@ -2,6 +2,7 @@
 #include "draw/Draw.h"
 #include "draw/TexturePool.h"
 #include "input/Input.h"
+#include "interpolate/InterpolateManager.h"
 
 #include "MainRoom.h"
 #include "MenuRoom.h"
@@ -25,6 +26,7 @@ bool shutdownSingletons()
 {
 	VALIDATE( input::Input::get().shutdown() );
 	VALIDATE( draw::TexturePool::get().shutdown() );
+	VALIDATE( interpolate::InterpolateManager::get().shutdown() );
 	VALIDATE( draw::Draw::get().shutdown() );
 	return true;
 }
