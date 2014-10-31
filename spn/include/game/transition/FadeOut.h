@@ -11,6 +11,8 @@ namespace game
 		{
 		public:
 			explicit FadeOut( uint32_t colour, float timeoutSeconds );
+			
+			bool startIn( float seconds );
 
 		public: // ITransition
 			bool render();
@@ -19,11 +21,13 @@ namespace game
 
 		private:
 			bool updateTransition( float timeStepSeconds );
+			bool updateDelay( float timeStepSeconds );
 			bool updateNull( float timeStepSeconds );
 
 			uint32_t colour;
 			uint32_t fadeOutAlpha;
 			float timeoutSeconds;
+			float delaySeconds;
 		
 			bool ( FadeOut::*updateFunction )( float timeStepSeconds );
 		};

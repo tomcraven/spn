@@ -14,6 +14,13 @@ namespace game { namespace transition
 	{
 	}
 
+	bool FadeOut::startIn( float seconds )
+	{
+		delaySeconds = seconds;
+		updateFunction = &FadeOut::updateDelay;
+		return true;
+	}
+
 	bool FadeOut::render()
 	{
 		draw::ScopedColour scopedColour( colour | ( fadeOutAlpha << 24 ) );
@@ -51,6 +58,17 @@ namespace game { namespace transition
 			
 			updateFunction = &FadeOut::updateNull;
 		}
+		return true;
+	}
+
+	bool FadeOut::updateDelay( float timeStepSeconds )
+	{
+		delaySeconds -= timeStepSeconds;
+		if ( delaySeconds <= 0.0f )
+		{
+			updateFunction = &FadeOut::updateTransition;
+		}
+
 		return true;
 	}
 
