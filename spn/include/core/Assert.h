@@ -1,6 +1,12 @@
 #ifndef CORE_ASSERT_H
 #define CORE_ASSERT_H
 
+#define ASSERT( x )		\
+	if ( !( x ) )		\
+	{					\
+		CORE_TRAP;		\
+	}
+
 #define CORE_TRAP				\
 	int* core_trap = 0;			\
 	*core_trap = 0;				\
