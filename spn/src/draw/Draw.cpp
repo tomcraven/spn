@@ -36,7 +36,7 @@ namespace draw
 	{
 		Iw2DInit();
 		
-		font = Iw2DCreateFont( "assets/arial8.gxfont" );
+		font = Iw2DCreateFont( "fonts/arial8.gxfont" );
 		VALIDATE( font );
 
 		VALIDATE( initialiseSurface() );
