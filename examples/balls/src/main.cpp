@@ -2,7 +2,7 @@
 #include "draw/Draw.h"
 #include "draw/TexturePool.h"
 #include "input/Input.h"
-#include "interpolate/InterpolateManager.h"
+#include "tween/TweenFactory.h"
 
 #include "MainRoom.h"
 #include "MenuRoom.h"
@@ -19,6 +19,7 @@ bool initialiseSingletons()
 {
 	VALIDATE( draw::Draw::get().init() );
 	VALIDATE( input::Input::get().init() );
+	VALIDATE( tween::TweenFactory::get().init() );
 	return true;
 }
 
@@ -26,7 +27,7 @@ bool shutdownSingletons()
 {
 	VALIDATE( input::Input::get().shutdown() );
 	VALIDATE( draw::TexturePool::get().shutdown() );
-	VALIDATE( interpolate::InterpolateManager::get().shutdown() );
+	VALIDATE( tween::TweenFactory::get().shutdown() );
 	VALIDATE( draw::Draw::get().shutdown() );
 	return true;
 }

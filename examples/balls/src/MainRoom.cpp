@@ -5,12 +5,12 @@
 #include "draw/Draw.h"
 #include "draw/Colour.h"
 #include "draw/ScopedColour.h"
-
 #include "component/Position.h"
+#include "tween/TweenFactory.h"
 
 namespace
 {
-	const uint32_t kNumBalls = 1;
+	const uint32_t kNumBalls = 10;
 }
 
 MainRoom::MainRoom() :
@@ -31,11 +31,22 @@ bool MainRoom::init()
 	VALIDATE( fadeOut.setConsumer( this ) );
 	VALIDATE( fadeIn.start() );
 
+	using namespace tween;
+	TweenFactory::get().create( 
+		&playTimer.getComponent< component::Position >()->y,
+		FROM, -10.0f,
+		TO, 0.0f,
+		LINEAR,
+		OVER, 0.2f, SECONDS,
+		DELAYED_BY, 0.2f, SECONDS,
+		END );
+
 	return true;
 }
 
 bool MainRoom::shutdown()
 {
+	VALIDATE( Room::shutdown() );
 	VALIDATE( ballManager.shutdown() );
 	VALIDATE( playTimer.shutdown() );
 	return true;
@@ -140,13 +151,24 @@ bool MainRoom::createExitButton()
 	VALIDATE( exitButton.init() );
 	exitButton.setConsumer( this );
 
-	USE_COMPONENT( exitButton, component::Texture, setTexturePath( "assets/exit_main_game.png" ) );
+	USE_COMPONENT( exitButton, component::Texture, setTexturePath( "textures/exit_main_game.png" ) );
 	
 	component::Dimensions* dimensions;
+	float screenWidthFloat = static_cast< float >( draw::Draw::get().getScreenWidth() );
 	VALIDATE( exitButton.getComponent< component::Dimensions >( &dimensions ) );
 	float yPosition = static_cast< float >( draw::Draw::get().getScreenHeight() - dimensions->height );
-	float xPosition = static_cast< float >( draw::Draw::get().getScreenWidth() - dimensions->width );
+	float xPosition = screenWidthFloat;
 	USE_COMPONENT( exitButton, component::Position, set( xPosition, yPosition ) );
+
+	using namespace tween;
+	TweenFactory::get().create(
+		&exitButton.getComponent< component::Position >()->x,
+		FROM, screenWidthFloat,
+		TO, screenWidthFloat - dimensions->width,
+		LINEAR,
+		OVER, 0.2f, SECONDS,
+		DELAYED_BY, 0.2f, SECONDS,
+		END );
 
 	return true;
 }

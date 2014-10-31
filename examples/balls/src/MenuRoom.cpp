@@ -2,6 +2,7 @@
 #include "core/Assert.h"
 #include "draw/Colour.h"
 #include "draw/Draw.h"
+#include "tween/TweenFactory.h"
 
 MenuRoom::MenuRoom() : 
 	menuSelection( kUnknown ),
@@ -13,10 +14,28 @@ MenuRoom::MenuRoom() :
 
 bool MenuRoom::init()
 {
-	VALIDATE( draw::Draw::get().rescale( 1.0f ) );
+	VALIDATE( draw::Draw::get().rescale( 2.0f ) );
 
-	VALIDATE( initialiseAndPlaceButton( playButton, "assets/play_button.png", 20.0f, 20.0f ) );
-	VALIDATE( initialiseAndPlaceButton( exitButton, "assets/exit_button.png", 20.0f, 100.0f ) );
+	VALIDATE( initialiseAndPlaceButton( playButton, "textures/play_button.png", 20.0f, 20.0f ) );
+	VALIDATE( initialiseAndPlaceButton( exitButton, "textures/exit_button.png", 20.0f, 100.0f ) );
+
+	using namespace tween;
+	TweenFactory::get().create( 
+		&playButton.getComponent< component::Position >()->x,
+		FROM, -128.0f,
+		TO, 20.0f,
+		LINEAR,
+		OVER, 0.5f, SECONDS,
+		END );
+
+	TweenFactory::get().create( 
+		&exitButton.getComponent< component::Position >()->x,
+		FROM, -128.0f,
+		TO, 20.0f,
+		LINEAR,
+		OVER, 0.5f, SECONDS,
+		DELAYED_BY, 0.2f, SECONDS,
+		END );
 
 	VALIDATE( fadeIn.start() );
 	VALIDATE( fadeOut.setConsumer( this ) );
@@ -26,6 +45,7 @@ bool MenuRoom::init()
 
 bool MenuRoom::shutdown()
 {
+	VALIDATE( Room::shutdown() );
 	VALIDATE( playButton.shutdown() );
 	VALIDATE( exitButton.shutdown() );
 
@@ -46,8 +66,30 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 	{
 		menuSelection = kUnknown;
 	}
+	
+	VALIDATE( tween::TweenFactory::get().removeAllTweens() );
 
-	VALIDATE( fadeOut.start() );
+	float screenWidthFloat = static_cast< float >( draw::Draw::get().getScreenWidth() );
+
+	using namespace tween;
+	TweenFactory::get().create( 
+		&playButton.getComponent< component::Position >()->x,
+		FROM_CURRENT,
+		TO, screenWidthFloat,
+		LINEAR,
+		OVER, 0.5f, SECONDS,
+		END );
+
+	TweenFactory::get().create( 
+		&exitButton.getComponent< component::Position >()->x,
+		FROM_CURRENT,
+		TO, screenWidthFloat,
+		LINEAR,
+		OVER, 0.5f, SECONDS,
+		DELAYED_BY, 0.2f, SECONDS,
+		END );
+
+	VALIDATE( fadeOut.startIn( 0.7f ) );
 
 	return true;
 }
