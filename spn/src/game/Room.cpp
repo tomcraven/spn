@@ -3,6 +3,7 @@
 #include "core/Assert.h"
 #include "core/Time.h"
 #include "input/Input.h"
+#include "tween/TweenFactory.h"
 
 // Todo - can we remove this include?
 #include "s3e.h"
@@ -32,6 +33,7 @@ namespace game
 
 	bool Room::shutdown()
 	{
+		VALIDATE( tween::TweenFactory::get().removeAllTweens() );
 		return true;
 	}
 
@@ -49,6 +51,8 @@ namespace game
 	{
 		CHECK_S3E_RESULT( s3eKeyboardUpdate() );
 		CHECK_S3E_RESULT( s3ePointerUpdate() );
+
+		VALIDATE( tween::TweenFactory::get().update( getTimeStepSeconds() ) );
 
 		return true;
 	}
