@@ -6,21 +6,36 @@ namespace core
 	namespace algorithm
 	{
 		template< class T >
-		T max( const T& a, const T& b )
+		static T max( const T& a, const T& b )
 		{
 			return ( a > b ) ? a : b;
 		}
 
 		template< class T >
-		T min( const T& a, const T& b )
+		static T min( const T& a, const T& b )
 		{
 			return ( a < b ) ? a : b;
 		}
 
 		template< class T >
-		T clamp( const T& val, const T& low, const T& high )
+		static T clamp( const T& val, const T& low, const T& high )
 		{
 			return min( high, max( low, val ) );
+		}
+
+		template< class T >
+		static T abs( const T& value )
+		{
+			if ( value < 0 )
+			{
+				return value * -1;
+			}
+			return value;
+		}
+
+		static bool floatEquals( float a, float b, float error = 0.001f )
+		{
+			return ( abs( a - b ) < error );
 		}
 	};
 }
