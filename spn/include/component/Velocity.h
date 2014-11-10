@@ -10,9 +10,13 @@ namespace component
 
 	class Velocity : public IComponent
 	{
+	public:
+		Velocity();
+
 	public: // IComponent
 		virtual bool init( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
+		virtual void set( float x, float y );
 		virtual uint32_t getType();
 
 		float x, y;
