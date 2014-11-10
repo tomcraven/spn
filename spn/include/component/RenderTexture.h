@@ -10,6 +10,7 @@ class CIw2DImage;
 namespace component
 {
 	class Position;
+	class Rotation;
 
 	class RenderTexture : public IComponent, public IRender
 	{
@@ -18,6 +19,7 @@ namespace component
 
 	public: // IRender
 		bool render( const Position& p );
+		bool render( const Position& p, const Rotation& r );
 
 	public: // IComponent
 		virtual bool init( ComponentEntity* entity );
