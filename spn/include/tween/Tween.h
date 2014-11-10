@@ -3,6 +3,7 @@
 
 #include "tween/ITween.h"
 #include "core/Assert.h"
+#include "tween/TweenParseTypes.h"
 
 namespace tween
 {
@@ -27,6 +28,9 @@ namespace tween
 		float durationSeconds;
 		float timeTaken;
 		float delaySeconds;
+		
+		bool shouldRepeat;
+		tween::RepeatType repeatType;
 
 	private:
 		void reset();
@@ -35,10 +39,10 @@ namespace tween
 		bool updateDelay( float timeStepSeconds );
 		bool updateTween( float timeStepSeconds );
 
-		void ( *clampFunction )( float from, float to, float& value );
 		void ( *setterFunction )( void* valueToSet, float value );
 
 		void updateValueRange();
+		bool hasFinishedTime();
 	
 		void* tweenValue;
 	};

@@ -3,16 +3,6 @@
 
 namespace
 {
-	void clampFunction_fromLessThanTo( float from, float to, float& value )
-	{
-		value = core::algorithm::clamp( from, to, value );
-	}
-
-	void clampFunction_toLessThanFrom( float from, float to, float& value )
-	{
-		value = core::algorithm::clamp( to, from, value );
-	}
-
 	void setterFunction_null( void* valueToSet, float value )
 	{
 		*reinterpret_cast< int* >( valueToSet ) = 0;
@@ -60,15 +50,6 @@ namespace tween
 		
 		( *setterFunction )( tweenValue, from );
 
-		if ( from < to )
-		{
-			clampFunction = &clampFunction_fromLessThanTo;
-		}
-		else
-		{
-			clampFunction = &clampFunction_toLessThanFrom;
-		}
-		
 		if ( delaySeconds > 0.0f )
 		{
 			updateFunction = &Tween::updateDelay;
@@ -83,7 +64,12 @@ namespace tween
 
 	bool Tween::hasFinished()
 	{
-		return timeTaken >= durationSeconds;
+		return ( !shouldRepeat ) && hasFinishedTime();
+	}
+
+	bool Tween::hasFinishedTime()
+	{
+		return ( timeTaken >= durationSeconds );
 	}
 
 	void Tween::reset()
@@ -92,10 +78,10 @@ namespace tween
 		from = 0.0f;
 		to = 0.0f;
 		timeTaken = 0.0f;
-		clampFunction = &clampFunction_fromLessThanTo;
 		setterFunction = &setterFunction_null;
 		delaySeconds = 0.0f;
 		updateFunction = &Tween::updateTween;
+		shouldRepeat = false;
 	}
 	
 	void Tween::updateValueRange()
@@ -118,8 +104,23 @@ namespace tween
 	{
 		timeTaken += timeStepSeconds;
 		float value = ( *tweenFunction )( valueRange, timeTaken, durationSeconds, from );
-		( *clampFunction )( from, to, value );
 		( *setterFunction )( tweenValue, value );
+
+		if ( shouldRepeat && hasFinishedTime() )
+		{
+			switch( repeatType )
+			{
+			case MIRROR:
+				core::algorithm::swap( from, to );
+				// fall through
+			case RESTART:
+				timeTaken = 0.0f;
+				finalise();
+				break;
+			default:
+				break;
+			}
+		}
 
 		return !hasFinished();
 	}

@@ -4,30 +4,13 @@
 #include "core/AssetPool.h"
 #include "core/Assert.h"
 #include "tween/Tween.h"
+#include "tween/TweenParseTypes.h"
 
 #include <vector>
 #include <stdarg.h>
 
 namespace tween
 {
-	enum CreateParseState
-	{
-		UNKNOWN = -1,
-		FROM,
-		FROM_CURRENT,
-		TO,
-		LINEAR,
-		OVER,
-		DELAYED_BY,
-		END
-	};
-
-	enum DurationUnits
-	{
-		SECONDS,
-		MILLISECONDS,
-	};
-
 	class TweenFactory
 	{
 	public:
@@ -81,8 +64,11 @@ namespace tween
 						}
 					}
 					break;
-				case LINEAR:
-					newTween->tweenFunction = getTweenFunction( parseState );
+				case TWEEN_TYPE:
+					{
+						TweenType tweenType = static_cast< TweenType >( va_arg( tweenVaList, TweenType ) );
+						newTween->tweenFunction = getTweenFunction( tweenType );
+					}
 					break;
 				case DELAYED_BY:
 					{
@@ -101,6 +87,10 @@ namespace tween
 						}
 					}
 					break;
+				case REPEAT:
+					newTween->shouldRepeat = true;
+					newTween->repeatType = static_cast< RepeatType >( va_arg( tweenVaList, RepeatType ) );
+					break;
 				case UNKNOWN:
 				default:
 					break;
@@ -116,9 +106,9 @@ namespace tween
 		}
 
 	private:
-		Tween::TweenFunction getTweenFunction( CreateParseState func );
+		Tween::TweenFunction getTweenFunction( TweenType tweenType );
 
-		AssetPool< Tween > tweenPool;
+		core::AssetPool< Tween > tweenPool;
 
 		typedef std::vector< Tween* >TweenContainer;
 		TweenContainer tweens;
