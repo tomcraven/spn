@@ -12,6 +12,13 @@
 		component->function; \
 	}
 
+#define USE_COMPONENT_PTR( componentEntity, ComponentType, function ) \
+	{ \
+		ComponentType* component; \
+		VALIDATE( ( componentEntity )->getComponent< ComponentType >( &component ) ); \
+		component->function; \
+	}
+
 namespace component
 {
 	class ComponentEntity : public game::Entity
