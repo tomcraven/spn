@@ -15,6 +15,8 @@ namespace input
 		bool init();
 		bool shutdown();
 
+		bool update();
+
 		class Consumer
 		{
 		public:

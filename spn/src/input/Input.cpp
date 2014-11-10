@@ -59,6 +59,14 @@ namespace input
 		return true;
 	}
 
+	bool Input::update()
+	{
+		CHECK_S3E_RESULT( s3eKeyboardUpdate() );
+		CHECK_S3E_RESULT( s3ePointerUpdate() );
+
+		return true;
+	}
+
 	bool Input::addConsumer( Consumer* consumer )
 	{
 		inputConsumers.push_back( consumer );
