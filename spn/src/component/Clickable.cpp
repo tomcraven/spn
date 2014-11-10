@@ -38,8 +38,9 @@ namespace component
 			return true;
 		}
 
-		if ( math::Intersect::pointRect( 
-			clickPositionX, clickPositionY,
+		uint32_t clickRadius = 8;
+		if ( math::intersect::circleRect( 
+			clickPositionX, clickPositionY, clickRadius,
 			static_cast<uint32_t>( position->x ), 
 			static_cast<uint32_t>( position->y ), 
 			dimensions->width, 
