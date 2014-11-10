@@ -17,20 +17,22 @@ namespace draw
 		static Draw& get();
 		bool shutdown();
 		bool init();
+		bool initFont();
 
 		void setColour( uint32_t colour );
 		uint32_t getColour();
 
 		uint32_t getTextWidth( const char* text );
 		uint32_t getTextHeight();
-
+		
 		void blit( CIw2DImage* texture, float x, float y );
+		void blit( CIw2DImage* texture, float x, float y, float r );
 		void text( const char* text, float x, float y );
 		void filledRect( float x, float y, float width, float height );
 		void filledCircle( float x, float y, float radius );
 
-		uint32_t getScreenWidth();
-		uint32_t getScreenHeight();
+		static uint32_t getScreenWidth();
+		static uint32_t getScreenHeight();
 
 		bool flip();
 		bool clear( uint32_t colour );

@@ -4,10 +4,11 @@
 
 #include <Iw2D.h>
 #include <IwGx.h>
+#include <IwGeomFMat2D.h>
 
 namespace draw
 {
-	Draw::Draw() : scale( 1.0f ), inverseScale( 1.0f / scale )
+	Draw::Draw() : scale( 1.0f ), inverseScale( 1.0f / scale ), font( 0 )
 	{
 	}
 
@@ -20,7 +21,13 @@ namespace draw
 	bool Draw::shutdown()
 	{
 		VALIDATE( shutdownSurface() );
-		delete font;
+
+		if ( font )
+		{
+			delete font;
+			font = 0;
+		}
+
 		Iw2DTerminate();
 		return true;
 	}
@@ -35,11 +42,15 @@ namespace draw
 	bool Draw::init()
 	{
 		Iw2DInit();
-		
+		VALIDATE( initialiseSurface() );
+
+		return true;
+	}
+
+	bool Draw::initFont()
+	{
 		font = Iw2DCreateFont( "fonts/arial8.gxfont" );
 		VALIDATE( font );
-
-		VALIDATE( initialiseSurface() );
 
 		return true;
 	}
@@ -85,6 +96,17 @@ namespace draw
 		Iw2DDrawImage( texture, 
 			CIwFVec2( x, y ), 
 			CIwFVec2( texture->GetWidth(), texture->GetHeight() ) );
+	}
+
+	void Draw::blit( CIw2DImage* texture, float x, float y, float r )
+	{
+		CIwFMat2D rotationMat = CIwFMat2D::g_Identity;
+		rotationMat.SetRot( r, CIwFVec2( x + ( texture->GetWidth() / 2 ), y + ( texture->GetHeight() / 2 ) ) );
+		Iw2DSetTransformMatrix( rotationMat );
+
+		blit( texture, x, y );
+		
+		Iw2DSetTransformMatrix( CIwFMat2D::g_Identity );
 	}
 
 	void Draw::text( const char* text, float x, float y )
