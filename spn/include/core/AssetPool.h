@@ -4,53 +4,56 @@
 #include <vector>
 #include "core/Assert.h"
 
-template< class T >
-class AssetPool
+namespace core
 {
-public:
-	bool shutdown()
+	template< class T >
+	class AssetPool
 	{
-		// Cannot use vector.clear as it leaves allocations that cause an assertion during Iw2DTerminate
-		FreeAssetsContainer().swap( freeAssets );
-
-		delete[] data;
-		return true;
-	}
-
-	bool init( uint32_t numAssets )
-	{
-		data = new T[ numAssets ];
-		VALIDATE( data );
-		for ( uint32_t i = 0; i < numAssets; ++i )
+	public:
+		bool shutdown()
 		{
-			freeAssets.push_back( &( data[i] ) );
+			// Cannot use vector.clear as it leaves allocations that cause an assertion during Iw2DTerminate
+			FreeAssetsContainer().swap( freeAssets );
+
+			delete[] data;
+			return true;
 		}
 
-		return true;
-	}
+		bool init( uint32_t numAssets )
+		{
+			data = new T[ numAssets ];
+			VALIDATE( data );
+			for ( uint32_t i = 0; i < numAssets; ++i )
+			{
+				freeAssets.push_back( &( data[i] ) );
+			}
 
-	T* alloc()
-	{
-		VALIDATE_AND_RETURN( !freeAssets.empty(), 0 );
+			return true;
+		}
 
-		FreeAssetsContainer::iterator freeAssetsIter = freeAssets.begin();
-		VALIDATE_AND_RETURN( freeAssetsIter != freeAssets.end(), 0 );
+		T* alloc()
+		{
+			VALIDATE_AND_RETURN( !freeAssets.empty(), 0 );
 
-		T* ret = *freeAssetsIter;
-		freeAssets.erase( freeAssetsIter );
-		return ret;
-	}
+			FreeAssetsContainer::iterator freeAssetsIter = freeAssets.begin();
+			VALIDATE_AND_RETURN( freeAssetsIter != freeAssets.end(), 0 );
 
-	void free( T* asset )
-	{
-		freeAssets.push_back( asset );
-	}
+			T* ret = *freeAssetsIter;
+			freeAssets.erase( freeAssetsIter );
+			return ret;
+		}
 
-private:
-	T* data;
+		void free( T* asset )
+		{
+			freeAssets.push_back( asset );
+		}
 
-	typedef std::vector< T* > FreeAssetsContainer;
-	FreeAssetsContainer freeAssets;
-};
+	private:
+		T* data;
+
+		typedef std::vector< T* > FreeAssetsContainer;
+		FreeAssetsContainer freeAssets;
+	};
+}
 
 #endif
