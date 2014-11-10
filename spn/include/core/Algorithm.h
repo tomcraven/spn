@@ -37,6 +37,14 @@ namespace core
 		{
 			return ( abs( a - b ) < error );
 		}
+
+		template< class T >
+		static void swap( T& a, T& b )
+		{
+			T temp = a;
+			a = b;
+			b = temp;
+		}
 	};
 }
 
