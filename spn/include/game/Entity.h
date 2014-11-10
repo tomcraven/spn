@@ -15,7 +15,6 @@ namespace game
 		virtual bool update( float timeStep );
 		virtual bool render();
 		
-		virtual bool onWindowExit( bool left, bool right, bool top, bool bottom );
 		virtual bool onWindowTouch( bool left, bool right, bool top, bool bottom );
 
 		virtual bool shouldIncrementFrame();

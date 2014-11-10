@@ -10,6 +10,14 @@ namespace component
 
 	class WindowExitCollision : public IComponent
 	{
+	public:
+		class IWindowExitCollisionListener
+		{
+		public:
+			virtual bool onWindowExit( ComponentEntity* entity, bool left, bool right, bool top, bool bottom ) = 0;
+		};
+		bool setConsumer( IWindowExitCollisionListener* consumer );
+
 	public: // Component
 		virtual bool init( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
@@ -18,6 +26,8 @@ namespace component
 	private:
 		Position* p;
 		Dimensions* d;
+		IWindowExitCollisionListener* consumer;
+		ComponentEntity* entity;
 	};
 }
 

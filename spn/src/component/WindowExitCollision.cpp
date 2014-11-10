@@ -8,14 +8,38 @@
 namespace
 {
 	uint32_t typeId = component::IComponent::generateTypeId();
+
+	class NullWindowExitCollisionListener : public component::WindowExitCollision::IWindowExitCollisionListener
+	{
+		virtual bool onWindowExit( component::ComponentEntity* entity, bool left, bool right, bool top, bool bottom )
+		{
+			return true;
+		}
+	};
 }
 
 namespace component
 {
-	bool WindowExitCollision::init( ComponentEntity* entity )
+	bool WindowExitCollision::setConsumer( IWindowExitCollisionListener* inConsumer )
 	{
+		if ( inConsumer )
+		{
+			consumer = inConsumer;
+		}
+		else
+		{
+			static NullWindowExitCollisionListener nullWindowExitCollisionListener;
+			consumer = &nullWindowExitCollisionListener;
+		}
+		return true;
+	}
+
+	bool WindowExitCollision::init( ComponentEntity* inEntity )
+	{
+		entity = inEntity;
 		VALIDATE( entity->getComponent< Position >( &p ) );
 		VALIDATE( entity->getComponent< Dimensions >( &d ) );
+		VALIDATE( setConsumer( dynamic_cast< IWindowExitCollisionListener* >( entity ) ) );
 
 		return true;
 	}
@@ -35,7 +59,7 @@ namespace component
 
 		if ( left || right || top || bottom )
 		{
-			VALIDATE( entity->onWindowExit( left, right, top, bottom ) );
+			VALIDATE( consumer->onWindowExit( entity, left, right, top, bottom ) );
 		}
 
 		return true;

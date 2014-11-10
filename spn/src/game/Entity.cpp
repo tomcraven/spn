@@ -22,11 +22,6 @@ namespace game
 		return true;
 	}
 
-	bool Entity::onWindowExit( bool left, bool right, bool top, bool bottom )
-	{
-		return true;
-	}
-	
 	bool Entity::onWindowTouch( bool left, bool right, bool top, bool bottom )
 	{
 		return true;
