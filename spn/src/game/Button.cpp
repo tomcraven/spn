@@ -30,6 +30,7 @@ namespace game
 		attach( &t );
 		attach( &d );
 		attach( &r );
+		attach( &rot );
 	}
 
 	void Button::setConsumer( Consumer* inConsumer )
@@ -57,7 +58,7 @@ namespace game
 
 	bool Button::render()
 	{
-		VALIDATE( r.render( p ) );
+		VALIDATE( r.render( p, rot ) );
 		return true;
 	}
 }

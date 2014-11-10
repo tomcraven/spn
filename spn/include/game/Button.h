@@ -5,6 +5,7 @@
 #include "component/Clickable.h"
 #include "component/Dimensions.h"
 #include "component/Texture.h"
+#include "component/Rotation.h"
 #include "component/Position.h"
 #include "component/RenderTexture.h"
 
@@ -36,6 +37,7 @@ namespace game
 		component::Clickable c;
 		component::Dimensions d;
 		component::RenderTexture r;
+		component::Rotation rot;
 	};
 }
 
