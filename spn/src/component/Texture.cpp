@@ -11,15 +11,19 @@ namespace
 
 namespace component
 {
-	Texture::Texture() : texture( 0 )
+	Texture::Texture() : texture( 0 ), dimensions( 0 )
 	{
 	}
 
 	void Texture::setTexturePath( const char* path )
 	{
 		texture = draw::TexturePool::get().loadTexture( path );
-		dimensions->width = getWidth();
-		dimensions->height = getHeight();
+
+		if ( dimensions )
+		{
+			dimensions->width = getWidth();
+			dimensions->height = getHeight();
+		}
 	}
 
 	CIw2DImage* Texture::getTexture()
@@ -44,7 +48,7 @@ namespace component
 
 	bool Texture::init( ComponentEntity* entity )
 	{
-		VALIDATE( entity->getComponent<Dimensions>( &dimensions ) );
+		entity->getComponent< Dimensions >( &dimensions );
 		return true;
 	}
 }
