@@ -4,13 +4,11 @@
 #include "core/Time.h"
 #include "input/Input.h"
 #include "tween/TweenFactory.h"
-
-// Todo - can we remove this include?
-#include "s3e.h"
+#include "async/Thread.h"
 
 namespace
 {
-	const float kTimeStepSeconds = 1.0f / 30.0f;
+	const float kTimeStepSeconds = 1.0f / 60.0f;
 	const uint32_t kTimeStepMilliseconds = uint32_t( kTimeStepSeconds * 1000.0f );
 }
 
@@ -49,9 +47,7 @@ namespace game
 
 	bool Room::update()
 	{
-		CHECK_S3E_RESULT( s3eKeyboardUpdate() );
-		CHECK_S3E_RESULT( s3ePointerUpdate() );
-
+		VALIDATE( input::Input::get().update() );
 		VALIDATE( tween::TweenFactory::get().update( getTimeStepSeconds() ) );
 
 		return true;
@@ -69,8 +65,8 @@ namespace game
 		VALIDATE( core::Time::getMilliseconds( endMilliseconds ) );
 		uint32_t totalUpdateMilliseconds = uint32_t( endMilliseconds - updateStartMilliseconds );
 		int32_t remainingUpdateTimeMilliseconds = timeStepMilliseconds - totalUpdateMilliseconds;
-		uint32_t yieldTimeMilliseconds = core::algorithm::max( 0, remainingUpdateTimeMilliseconds );
-        s3eDeviceYield( yieldTimeMilliseconds );
+		float yieldTimeMilliseconds = static_cast< float >( core::algorithm::max( 0, remainingUpdateTimeMilliseconds ) );
+		async::Thread::sleep( yieldTimeMilliseconds / 1000.0f );
 
 		return true;
 	}
