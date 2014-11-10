@@ -9,6 +9,7 @@ namespace component
 	{
 	public:
 		Position();
+		Position( float x, float y );
 		void set( float x, float y );
 
 		float x, y;

@@ -11,6 +11,10 @@ namespace component
 	{
 	}
 
+	Position::Position( float inX, float inY ) : x( inX ), y( inY )
+	{
+	}
+
 	void Position::set( float inX, float inY )
 	{
 		x = inX;
