@@ -24,17 +24,36 @@ bool MenuRoom::init()
 		&playButton.getComponent< component::Position >()->x,
 		FROM, -128.0f,
 		TO, 20.0f,
-		LINEAR,
+		TWEEN_TYPE, QUADRATIC,
 		OVER, 0.5f, SECONDS,
 		END );
-
+	
 	TweenFactory::get().create( 
 		&exitButton.getComponent< component::Position >()->x,
 		FROM, -128.0f,
 		TO, 20.0f,
-		LINEAR,
+		TWEEN_TYPE, QUADRATIC,
 		OVER, 0.5f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
+		END );
+	
+	TweenFactory::get().create( 
+		&playButton.getComponent< component::Rotation >()->r,
+		FROM, -0.05f,
+		TO, 0.05f,
+		TWEEN_TYPE, QUADRATIC,
+		OVER, 0.5f, SECONDS,
+		REPEAT, MIRROR,
+		END );
+
+	TweenFactory::get().create( 
+		&exitButton.getComponent< component::Rotation >()->r,
+		FROM, -0.05f,
+		TO, 0.05f,
+		TWEEN_TYPE, QUADRATIC,
+		OVER, 0.5f, SECONDS,
+		DELAYED_BY, 0.33f, SECONDS,
+		REPEAT, MIRROR,
 		END );
 
 	VALIDATE( fadeIn.start() );
@@ -67,29 +86,27 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 		menuSelection = kUnknown;
 	}
 	
-	VALIDATE( tween::TweenFactory::get().removeAllTweens() );
-
 	float screenWidthFloat = static_cast< float >( draw::Draw::get().getScreenWidth() );
 
 	using namespace tween;
 	TweenFactory::get().create( 
 		&playButton.getComponent< component::Position >()->x,
 		FROM_CURRENT,
-		TO, screenWidthFloat,
-		LINEAR,
-		OVER, 0.5f, SECONDS,
+		TO, screenWidthFloat + 10.0f,
+		TWEEN_TYPE, QUADRATIC_IN,
+		OVER, 0.3f, SECONDS,
 		END );
 
 	TweenFactory::get().create( 
 		&exitButton.getComponent< component::Position >()->x,
 		FROM_CURRENT,
-		TO, screenWidthFloat,
-		LINEAR,
-		OVER, 0.5f, SECONDS,
+		TO, screenWidthFloat + 10.0f,
+		TWEEN_TYPE, QUADRATIC_IN,
+		OVER, 0.3f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
 		END );
 
-	VALIDATE( fadeOut.startIn( 0.7f ) );
+	VALIDATE( fadeOut.startIn( 0.5f ) );
 
 	return true;
 }

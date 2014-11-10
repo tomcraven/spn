@@ -19,7 +19,7 @@ bool Ball::init()
 
 	v.x = 100.0f - ( float( rand() % 1000 ) / 1000.0f * 200.0f );
 	v.y = 100.0f - ( float( rand() % 1000 ) / 1000.0f * 200.0f );
-
+	
 	const uint32_t kFrameWidth = t.getWidth();
 	const uint32_t kFrameHeight = t.getHeight();
 	p.x = float( rand() % 1000 ) / 1000.0f * ( draw::Draw::get().getScreenWidth() - kFrameWidth );
@@ -36,7 +36,7 @@ bool Ball::init()
 bool Ball::render()
 {
 	draw::ScopedColour scopedColour( colour );
-	VALIDATE( r.render( p ) );
+	VALIDATE( r.render( p, rot ) );
 
 	return true;
 }

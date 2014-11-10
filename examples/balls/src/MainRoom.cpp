@@ -36,7 +36,7 @@ bool MainRoom::init()
 		&playTimer.getComponent< component::Position >()->y,
 		FROM, -10.0f,
 		TO, 0.0f,
-		LINEAR,
+		TWEEN_TYPE, LINEAR,
 		OVER, 0.2f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
 		END );
@@ -165,7 +165,7 @@ bool MainRoom::createExitButton()
 		&exitButton.getComponent< component::Position >()->x,
 		FROM, screenWidthFloat,
 		TO, screenWidthFloat - dimensions->width,
-		LINEAR,
+		TWEEN_TYPE, LINEAR,
 		OVER, 0.2f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
 		END );
