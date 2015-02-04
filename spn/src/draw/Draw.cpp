@@ -91,20 +91,16 @@ namespace draw
 		return font->GetHeight();
 	}
 
-	void Draw::blit( CIw2DImage* texture, float x, float y )
+	void Draw::blit( CIw2DImage* texture, float x, float y, float scale, float r )
 	{
+		CIwFMat2D mat = Iw2DGetTransformMatrix();
+		mat.SetRot( r, CIwFVec2( x + ( texture->GetWidth() / 2 ), y + ( texture->GetHeight() / 2 ) ) );
+		mat.ScaleRot( scale );
+		mat.SetTrans( CIwFVec2( x, y ) );
+		Iw2DSetTransformMatrix( mat );
+
 		Iw2DDrawImage( texture, 
-			CIwFVec2( x, y ), 
-			CIwFVec2( texture->GetWidth(), texture->GetHeight() ) );
-	}
-
-	void Draw::blit( CIw2DImage* texture, float x, float y, float r )
-	{
-		CIwFMat2D rotationMat = CIwFMat2D::g_Identity;
-		rotationMat.SetRot( r, CIwFVec2( x + ( texture->GetWidth() / 2 ), y + ( texture->GetHeight() / 2 ) ) );
-		Iw2DSetTransformMatrix( rotationMat );
-
-		blit( texture, x, y );
+			CIwFVec2( -texture->GetWidth() / 2, -texture->GetHeight() / 2  ) );
 		
 		Iw2DSetTransformMatrix( CIwFMat2D::g_Identity );
 	}

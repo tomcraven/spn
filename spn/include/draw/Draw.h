@@ -25,8 +25,7 @@ namespace draw
 		uint32_t getTextWidth( const char* text );
 		uint32_t getTextHeight();
 		
-		void blit( CIw2DImage* texture, float x, float y );
-		void blit( CIw2DImage* texture, float x, float y, float r );
+		void blit( CIw2DImage* texture, float x, float y, float scale, float r );
 		void text( const char* text, float x, float y );
 		void filledRect( float x, float y, float width, float height );
 		void filledCircle( float x, float y, float radius );
