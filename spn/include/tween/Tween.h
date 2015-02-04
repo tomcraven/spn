@@ -4,6 +4,7 @@
 #include "tween/ITween.h"
 #include "core/Assert.h"
 #include "tween/TweenParseTypes.h"
+#include "core/Types.h"
 
 namespace tween
 {
@@ -13,6 +14,7 @@ namespace tween
 		Tween();
 	
 		bool init( int* inTweenValue );
+		bool init( uint32_t* inTweenValue );
 		bool init( float* inTweenValue );
 		void finalise();
 
@@ -32,14 +34,17 @@ namespace tween
 		bool shouldRepeat;
 		tween::RepeatType repeatType;
 
+		bool shouldClamp;
+
 	private:
 		void reset();
 
 		bool ( Tween::*updateFunction )( float timeStepSeconds );
 		bool updateDelay( float timeStepSeconds );
 		bool updateTween( float timeStepSeconds );
-
+		
 		void ( *setterFunction )( void* valueToSet, float value );
+		void ( *clampFunction )( float low, float high, float& value );
 
 		void updateValueRange();
 		bool hasFinishedTime();

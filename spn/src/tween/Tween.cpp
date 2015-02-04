@@ -17,6 +17,20 @@ namespace
 	{
 		*reinterpret_cast< float* >( valueToSet ) = static_cast< float >( value );
 	}
+	
+	void clampFunction_low_high( float low, float high, float& value )
+	{
+		value = core::algorithm::min( high, core::algorithm::max( low, value ) );
+	}
+
+	void clampFunction_high_low( float high, float low, float& value )
+	{
+		value = core::algorithm::min( high, core::algorithm::max( low, value ) );
+	}
+
+	void clampFunction_null( float low, float high, float& value )
+	{
+	}
 }
 
 namespace tween
@@ -27,6 +41,15 @@ namespace tween
 	}
 	
 	bool Tween::init( int* inTweenValue )
+	{
+		reset();
+		VALIDATE( inTweenValue );
+		tweenValue = inTweenValue;
+		setterFunction = &setterFunction_int;
+		return true;
+	}
+
+	bool Tween::init( uint32_t* inTweenValue )
 	{
 		reset();
 		VALIDATE( inTweenValue );
@@ -48,11 +71,25 @@ namespace tween
 	{
 		updateValueRange();
 		
-		( *setterFunction )( tweenValue, from );
-
 		if ( delaySeconds > 0.0f )
 		{
 			updateFunction = &Tween::updateDelay;
+		}
+		else
+		{
+			( *setterFunction )( tweenValue, from );
+		}
+
+		if ( shouldClamp )
+		{
+			if ( from < to )
+			{
+				clampFunction = &clampFunction_low_high;
+			}
+			else
+			{
+				clampFunction = &clampFunction_high_low;
+			}
 		}
 	}
 
@@ -82,6 +119,8 @@ namespace tween
 		delaySeconds = 0.0f;
 		updateFunction = &Tween::updateTween;
 		shouldRepeat = false;
+		clampFunction = &clampFunction_null;
+		shouldClamp = false;
 	}
 	
 	void Tween::updateValueRange()
@@ -104,6 +143,7 @@ namespace tween
 	{
 		timeTaken += timeStepSeconds;
 		float value = ( *tweenFunction )( valueRange, timeTaken, durationSeconds, from );
+		( *clampFunction )( from, to, value );
 		( *setterFunction )( tweenValue, value );
 
 		if ( shouldRepeat && hasFinishedTime() )
