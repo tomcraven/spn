@@ -17,9 +17,9 @@ namespace component
 	{
 	public:
 		void setTexture( Texture* texture );
-
-	public: // IRender
+		
 		bool render( const Position& p, const Rotation& r, const Scale& s );
+		bool render( const Position& p, const Rotation& r );
 
 	public: // IComponent
 		virtual bool init( ComponentEntity* entity );

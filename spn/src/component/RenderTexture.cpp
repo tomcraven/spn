@@ -20,6 +20,13 @@ namespace component
 		return true;
 	}
 
+	bool RenderTexture::render( const Position& p, const Rotation& rot )
+	{
+		static Scale scale( 1.0f );
+		draw::Draw::get().blit( texture->getTexture(), p.x, p.y, scale.scale, rot.r );
+		return true;
+	}
+
 	bool RenderTexture::init( ComponentEntity* entity )
 	{
 		VALIDATE( entity->getComponent< Texture >( &texture ) );
