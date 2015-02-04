@@ -1,6 +1,7 @@
 #include "component/RenderTexture.h"
 #include "component/Position.h"
 #include "component/Rotation.h"
+#include "component/Scale.h"
 #include "component/ComponentEntity.h"
 #include "core/Assert.h"
 #include "draw/TexturePool.h"
@@ -13,15 +14,9 @@ namespace
 
 namespace component
 {
-	bool RenderTexture::render( const Position& p )
+	bool RenderTexture::render( const Position& p, const Rotation& rot, const Scale& s )
 	{
-		draw::Draw::get().blit( texture->getTexture(), p.x, p.y );
-		return true;
-	}
-
-	bool RenderTexture::render( const Position& p, const Rotation& rot )
-	{
-		draw::Draw::get().blit( texture->getTexture(), p.x, p.y, rot.r );
+		draw::Draw::get().blit( texture->getTexture(), p.x, p.y, s.scale, rot.r );
 		return true;
 	}
 

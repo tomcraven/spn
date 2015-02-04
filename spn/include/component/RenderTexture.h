@@ -11,15 +11,15 @@ namespace component
 {
 	class Position;
 	class Rotation;
+	class Scale;
 
-	class RenderTexture : public IComponent, public IRender
+	class RenderTexture : public IComponent
 	{
 	public:
 		void setTexture( Texture* texture );
 
 	public: // IRender
-		bool render( const Position& p );
-		bool render( const Position& p, const Rotation& r );
+		bool render( const Position& p, const Rotation& r, const Scale& s );
 
 	public: // IComponent
 		virtual bool init( ComponentEntity* entity );
