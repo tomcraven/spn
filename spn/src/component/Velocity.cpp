@@ -15,6 +15,10 @@ namespace component
 	{
 	}
 
+	Velocity::Velocity( float inX, float inY ) : x( inX ), y( inY ), p( 0 )
+	{
+	}
+
 	bool Velocity::init( ComponentEntity* entity )
 	{
 		VALIDATE( entity->getComponent< Position >( &p ) );
@@ -33,6 +37,12 @@ namespace component
 	{
 		x = inX;
 		y = inY;
+	}
+
+	void Velocity::set( const Velocity& other )
+	{
+		x = other.x;
+		y = other.y;
 	}
 
 	uint32_t Velocity::getType()

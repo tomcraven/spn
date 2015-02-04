@@ -12,11 +12,14 @@ namespace component
 	{
 	public:
 		Velocity();
+		Velocity( float x, float y );
+		
+		void set( float x, float y );
+		void set( const Velocity& other );
 
 	public: // IComponent
 		virtual bool init( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
-		virtual void set( float x, float y );
 		virtual uint32_t getType();
 
 		float x, y;
