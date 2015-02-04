@@ -21,6 +21,12 @@ namespace component
 		y = inY;
 	}
 
+	void Position::set( const Position& other )
+	{
+		x = other.x;
+		y = other.y;
+	}
+
 	uint32_t Position::getType()
 	{
 		return typeId;

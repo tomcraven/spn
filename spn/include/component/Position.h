@@ -11,6 +11,7 @@ namespace component
 		Position();
 		Position( float x, float y );
 		void set( float x, float y );
+		void set( const Position& other );
 
 		float x, y;
 
