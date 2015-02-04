@@ -6,7 +6,6 @@
 #include "tween/Tween.h"
 #include "tween/TweenParseTypes.h"
 
-#include <vector>
 #include <stdarg.h>
 
 namespace tween
@@ -15,7 +14,7 @@ namespace tween
 	{
 	public:
 		static TweenFactory& get();
-		bool init();
+		bool init( uint32_t tweenPoolSize );
 		bool shutdown();
 
 		bool update( float timeStepSeconds );
@@ -26,16 +25,16 @@ namespace tween
 		ITween* create( T* a, ... )
 		{
 			Tween* newTween = tweenPool.alloc();
-			VALIDATE( newTween );
-			VALIDATE( newTween->init( a ) );
+			VALIDATE_AND_RETURN( newTween, 0 );
+			VALIDATE_AND_RETURN( newTween->init( a ), 0 );
 
 			va_list tweenVaList;
 			va_start( tweenVaList, a );
 
 			CreateParseState parseState = UNKNOWN;
-			while( parseState != END )
+			while( parseState != TWEEN_END )
 			{
-				parseState = static_cast< CreateParseState >( va_arg( tweenVaList, CreateParseState ) );
+				parseState = static_cast< CreateParseState >( va_arg( tweenVaList, int ) );
 				switch( parseState )
 				{
 				case FROM:
@@ -50,7 +49,7 @@ namespace tween
 				case OVER:
 					{
 						float duration = static_cast< float >( va_arg( tweenVaList, double ) );
-						DurationUnits durationUnits = static_cast< DurationUnits >( va_arg( tweenVaList, DurationUnits ) );
+						DurationUnits durationUnits = static_cast< DurationUnits >( va_arg( tweenVaList, int ) );
 						switch( durationUnits )
 						{
 						case SECONDS:
@@ -66,14 +65,14 @@ namespace tween
 					break;
 				case TWEEN_TYPE:
 					{
-						TweenType tweenType = static_cast< TweenType >( va_arg( tweenVaList, TweenType ) );
+						TweenType tweenType = static_cast< TweenType >( va_arg( tweenVaList, int ) );
 						newTween->tweenFunction = getTweenFunction( tweenType );
 					}
 					break;
 				case DELAYED_BY:
 					{
 						float duration = static_cast< float >( va_arg( tweenVaList, double ) );
-						DurationUnits durationUnits = static_cast< DurationUnits >( va_arg( tweenVaList, DurationUnits ) );
+						DurationUnits durationUnits = static_cast< DurationUnits >( va_arg( tweenVaList, int ) );
 						switch( durationUnits )
 						{
 						case SECONDS:
@@ -89,7 +88,10 @@ namespace tween
 					break;
 				case REPEAT:
 					newTween->shouldRepeat = true;
-					newTween->repeatType = static_cast< RepeatType >( va_arg( tweenVaList, RepeatType ) );
+					newTween->repeatType = static_cast< RepeatType >( va_arg( tweenVaList, int ) );
+					break;
+				case CLAMP:
+					newTween->shouldClamp = true;
 					break;
 				case UNKNOWN:
 				default:
@@ -110,7 +112,7 @@ namespace tween
 
 		core::AssetPool< Tween > tweenPool;
 
-		typedef std::vector< Tween* >TweenContainer;
+		typedef core::List< Tween* >TweenContainer;
 		TweenContainer tweens;
 	};
 }

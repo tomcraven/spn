@@ -53,8 +53,8 @@ namespace input
 		CHECK_S3E_RESULT( s3ePointerUnRegister( S3E_POINTER_BUTTON_EVENT, 
 			( s3eCallback )singleTouchCallback ) );
 
-		std::vector<Consumer*> temp;
-		inputConsumers.swap( temp );
+		//std::vector<Consumer*> temp;
+		//inputConsumers.swap( temp );
 
 		return true;
 	}
@@ -75,18 +75,18 @@ namespace input
 
 	bool Input::removeConsumer( Consumer* consumer )
 	{
-		std::vector<Consumer*>::iterator consumerIter;
-		consumerIter = std::find( inputConsumers.begin(), inputConsumers.end(), consumer );
+		core::List< Consumer* >::Iterator consumerIter;
+		consumerIter = inputConsumers.find( consumer );
 
-		VALIDATE( consumerIter != inputConsumers.end() );
-		inputConsumers.erase( consumerIter );
+		//VALIDATE( consumerIter != inputConsumers.end() );
+		//inputConsumers.erase( consumerIter );
 
 		return true;
 	}
 
 	void Input::onButtonPress( uint32_t x, uint32_t y )
 	{
-		std::vector<Consumer*>::iterator iter;
+		core::List< Consumer* >::Iterator iter;
 		for ( iter = inputConsumers.begin(); iter != inputConsumers.end(); ++iter )
 		{
 			(*iter)->onInputConsumerButtonDown( x, y );

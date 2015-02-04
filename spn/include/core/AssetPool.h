@@ -1,7 +1,7 @@
 #ifndef CORE_ASSETPOOL_H
 #define CORE_ASSETPOOL_H
 
-#include <vector>
+#include "core/List.h"
 #include "core/Assert.h"
 
 namespace core
@@ -12,21 +12,21 @@ namespace core
 	public:
 		bool shutdown()
 		{
-			// Cannot use vector.clear as it leaves allocations that cause an assertion during Iw2DTerminate
-			FreeAssetsContainer().swap( freeAssets );
-
 			delete[] data;
 			return true;
 		}
 
 		bool init( uint32_t numAssets )
 		{
-			data = new T[ numAssets ];
+			data = new Asset[ numAssets ];
 			VALIDATE( data );
 			for ( uint32_t i = 0; i < numAssets; ++i )
 			{
 				freeAssets.push_back( &( data[i] ) );
 			}
+
+			offset = reinterpret_cast< uint8_t* >( &data[0].value ) - 
+				reinterpret_cast< uint8_t* >( &data[0] );
 
 			return true;
 		}
@@ -35,23 +35,49 @@ namespace core
 		{
 			VALIDATE_AND_RETURN( !freeAssets.empty(), 0 );
 
-			FreeAssetsContainer::iterator freeAssetsIter = freeAssets.begin();
+			typename FreeAssetsContainer::Iterator freeAssetsIter = freeAssets.begin();
 			VALIDATE_AND_RETURN( freeAssetsIter != freeAssets.end(), 0 );
 
-			T* ret = *freeAssetsIter;
+			Asset* ret = *freeAssetsIter;
 			freeAssets.erase( freeAssetsIter );
-			return ret;
+			return &ret->value;
 		}
 
-		void free( T* asset )
+		void free( T* ptr )
 		{
+			Asset* asset = typeToAsset( ptr );
+			typeToAsset( ptr );
 			freeAssets.push_back( asset );
 		}
 
-	private:
-		T* data;
+		uint32_t getNumFreeAssets()
+		{
+			return freeAssets.size();
+		}
 
-		typedef std::vector< T* > FreeAssetsContainer;
+	private:
+		struct Asset : public core::ListNode
+		{
+			T value;
+		};
+
+		enum
+		{
+			kAssetSize = sizeof( Asset )
+		};
+		
+		Asset* typeToAsset( T* ptr )
+		{
+			uint8_t* bytePtr = reinterpret_cast< uint8_t* >( ptr );
+			bytePtr -= offset;
+			return reinterpret_cast< Asset* >( bytePtr );
+		}
+
+		uint32_t offset;
+
+		Asset* data;
+
+		typedef core::List< Asset* > FreeAssetsContainer;
 		FreeAssetsContainer freeAssets;
 	};
 }

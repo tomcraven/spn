@@ -13,7 +13,7 @@ namespace component
 
 	bool ComponentEntity::init()
 	{
-		std::vector< component::IComponent* >::iterator compIter = components.begin();
+		ComponentContainer::Iterator compIter = components.begin();
 		for ( ; compIter != components.end(); ++compIter )
 		{
 			VALIDATE( (*compIter)->init( this ) );
@@ -23,7 +23,7 @@ namespace component
 
 	bool ComponentEntity::shutdown()
 	{
-		std::vector< component::IComponent* >::iterator compIter = components.begin();
+		ComponentContainer::Iterator compIter = components.begin();
 		for ( ; compIter != components.end(); ++compIter )
 		{
 			VALIDATE( (*compIter)->shutdown( this ) );
@@ -33,7 +33,7 @@ namespace component
 
 	bool ComponentEntity::update( float timeStep )
 	{
-		std::vector< component::IComponent* >::iterator compIter = components.begin();
+		ComponentContainer::Iterator compIter = components.begin();
 		for ( ; compIter != components.end(); ++compIter )
 		{
 			VALIDATE( (*compIter)->update( this, timeStep ) );

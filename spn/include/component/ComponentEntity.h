@@ -4,6 +4,7 @@
 #include "core/Types.h"
 #include "game/Entity.h"
 #include "component/IComponent.h"
+#include "core/List.h"
 
 #define USE_COMPONENT( componentEntity, ComponentType, function ) \
 	{ \
@@ -30,7 +31,7 @@ namespace component
 		T* getComponent( T** outComponent = 0 )
 		{
 			uint32_t type = T().getType();
-			std::vector< component::IComponent* >::iterator compIter = components.begin();
+			ComponentContainer::Iterator compIter = components.begin();
 			for ( ; compIter != components.end(); ++compIter )
 			{
 				IComponent* component = *compIter;
@@ -57,7 +58,8 @@ namespace component
 		virtual bool update( float timeStep );
 
 	private:
-		std::vector< component::IComponent* > components;
+		typedef core::List< component::IComponent* > ComponentContainer;
+		ComponentContainer components;
 	};
 }
 

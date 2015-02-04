@@ -2,12 +2,13 @@
 #define COMPONENT_ICOMPONENT_H
 
 #include "core/Types.h"
+#include "core/List.h"
 
 namespace component
 {
 	class ComponentEntity;
 
-	class IComponent
+	class IComponent : public core::ListNode
 	{
 	public:
 		virtual ~IComponent() {}

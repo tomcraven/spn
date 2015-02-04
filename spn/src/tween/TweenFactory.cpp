@@ -54,9 +54,9 @@ namespace tween
 		return tweenFactory;
 	}
 
-	bool TweenFactory::init()
+	bool TweenFactory::init( uint32_t tweenPoolSize )
 	{
-		VALIDATE( tweenPool.init( 10 ) );
+		VALIDATE( tweenPool.init( tweenPoolSize ) );
 		return true;
 	}
 
@@ -69,13 +69,13 @@ namespace tween
 
 	bool TweenFactory::update( float timeStepSeconds )
 	{
-		TweenContainer::iterator tweenIter = tweens.begin();
+		TweenContainer::Iterator tweenIter = tweens.begin();
 		for( ; tweenIter != tweens.end() ; )
 		{
 			if ( !( *tweenIter )->update( timeStepSeconds ) )
-			{
+			{ 
 				tweenPool.free( *tweenIter );
-				tweens.erase( tweenIter );
+				tweenIter = tweens.erase( tweenIter );
 			}
 			else
 			{
@@ -88,16 +88,13 @@ namespace tween
 
 	bool TweenFactory::removeAllTweens()
 	{
-		TweenContainer::iterator tweenIter = tweens.begin();
+		TweenContainer::Iterator tweenIter = tweens.begin();
 		for( ; tweenIter != tweens.end() ; )
 		{
 			tweenPool.free( *tweenIter );
-			tweens.erase( tweenIter );
+			tweenIter = tweens.erase( tweenIter );
 		}
 		
-		// Cannot use vector.clear as it leaves allocations that cause an assertion during Iw2DTerminate
-		TweenContainer().swap( tweens );
-
 		return true;
 	}
 

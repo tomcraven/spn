@@ -1,7 +1,7 @@
 #ifndef INPUT_INPUT_H
 #define INPUT_INPUT_H
 
-#include <vector>
+#include "core/List.h"
 
 namespace input
 {
@@ -17,7 +17,7 @@ namespace input
 
 		bool update();
 
-		class Consumer
+		class Consumer : public core::ListNode
 		{
 		public:
 			virtual bool onInputConsumerButtonDown( uint32_t x, uint32_t y ) = 0;
@@ -28,7 +28,7 @@ namespace input
 		void onButtonPress( uint32_t x, uint32_t y );
 
 	private:
-		std::vector<Consumer*> inputConsumers;
+		core::List< Consumer* > inputConsumers;
 	};
 }
 
