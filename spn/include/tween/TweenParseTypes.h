@@ -14,7 +14,8 @@ namespace tween
 		DELAYED_BY,
 		REPEAT,
 		REPEAT_ONCE,
-		END
+		CLAMP,
+		TWEEN_END
 	};
 
 	enum DurationUnits
