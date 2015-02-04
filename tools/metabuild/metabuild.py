@@ -1,6 +1,7 @@
 from optparse import OptionParser
 import os
 import shutil
+import sys
 
 parser = OptionParser()
 parser.add_option( "-p", "--project_path", dest = "project_path" )
@@ -21,7 +22,7 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 		"{\n"
 	)
 
-	def populate_from_directory( directory_path, ignored_paths = [] ):
+	def populate_from_directory( directory_path, ignored_paths = [], ignored_extensions = [] ):
 		directory_base_name = os.path.basename( directory_path )
 		for dirname, dirnames, filenames in os.walk( directory_path ):
 
@@ -38,14 +39,15 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 				)
 
 				for filename in filenames:
-					mkb_file.write(
-						"\t" + os.path.basename( filename ) + "\n"
-					)
+					if filename.split(".")[1] not in ignored_extensions:
+						mkb_file.write(
+							"\t" + os.path.basename( filename ) + "\n"
+						)
 
 				mkb_file.write( "\n" )
 
-	populate_from_directory( spn_path )
-	populate_from_directory( project_path, [ "fonts", "textures" ] )
+	populate_from_directory( spn_path, ignored_extensions = [ "py", "pyc" ] )
+	populate_from_directory( project_path, [ "fonts", "textures" ], [ "py", "pyc" ] )
 
 	mkb_file.write(
 		"}\n" +
@@ -62,37 +64,59 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 		"{\n" +
 			"\t" + spn_path + "/include\n" +
 			"\t" + project_path + "/include\n" +
+			"\t" + project_path + "\n" +
 		"}\n\n"
 	)
 
-	mkb_file.write(
-		"assets\n" +
-		"{\n" +
-		"\t(data)\n"
-	)
+	if os.path.exists( project_path + "defines.py" ):
+		sys.path.append( project_path )		
+		custom_define_module = __import__( "defines" )	
+		sys.path.remove( project_path )
+	
+		if custom_define_module:
+			custom_defines = custom_define_module.get_defines()
 
-	assets_folder = project_path + "/assets"
-	for dirname, dirnames, filenames in os.walk( assets_folder ):
+			mkb_file.write(
+				"defines\n" + 
+				"{\n"
+			)
 
-		if len( filenames  ) > 0:
-			relative_file_path = os.path.join( dirname, filenames[0] )[len( assets_folder ) + 1:]
-
-			for filename in filenames:
+			for key, value in custom_defines.iteritems():
 				mkb_file.write(
-					"\t" + relative_file_path + "\n"
+					"\t" + key + " = " + str( value ) + "\n"
 				)
 
-		mkb_file.write( "\n" )
+			mkb_file.write( "}\n" )
 
-	mkb_file.write( 
-		"}"
-	)
+	assets_folder = project_path + "/assets"
+	if os.path.isdir( assets_folder ):
+		mkb_file.write(
+			"assets\n" +
+			"{\n" +
+			"\t(data)\n"
+		)
 
-# Create data folder and copy assets over
-if not os.path.isdir( "data" ):
-	os.mkdir( "data" )
+		for dirname, dirnames, filenames in os.walk( assets_folder ):
 
-if os.path.isdir( "data" ):
-	shutil.rmtree( "data" )
+			if len( filenames  ) > 0:
+				for filename in filenames:
+					relative_file_path = os.path.join( dirname, filename )[len( assets_folder ) + 1:]
+					mkb_file.write(
+						"\t" + relative_file_path + "\n"
+					)
+					print relative_file_path
 
-shutil.copytree( project_path + "/assets", "data" )
+			mkb_file.write( "\n" )
+
+		mkb_file.write( 
+			"}"
+		)
+
+		# Create data folder and copy assets over
+		if not os.path.isdir( "data" ):
+			os.mkdir( "data" )
+
+		if os.path.isdir( "data" ):
+			shutil.rmtree( "data" )
+
+		shutil.copytree( assets_folder, "data" )
