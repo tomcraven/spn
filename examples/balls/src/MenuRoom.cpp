@@ -18,20 +18,27 @@ bool MenuRoom::init()
 
 	VALIDATE( initialiseAndPlaceButton( playButton, "textures/play_button.png", -128.0f, 20.0f ) );
 	VALIDATE( initialiseAndPlaceButton( exitButton, "textures/exit_button.png", -128.0f, 100.0f ) );
+	
+	uint32_t halfPlayButtonWidth = playButton.getComponent< component::Dimensions >()->halfWidth;
+	uint32_t halfExitButtonWidth = exitButton.getComponent< component::Dimensions >()->halfWidth;
+	uint32_t halfScreenWidth = draw::Draw::get().getScreenWidth() / 2;
+
+	float playButtonXPosition = halfScreenWidth - halfPlayButtonWidth;
 
 	using namespace tween;
 	TweenFactory::get().create( 
 		&playButton.getComponent< component::Position >()->x,
 		FROM, -128.0f,
-		TO, 20.0f,
+		TO, playButtonXPosition,
 		TWEEN_TYPE, QUADRATIC,
 		OVER, 0.5f, SECONDS,
 		TWEEN_END );
 	
+	float exitButtonXPosition = halfScreenWidth - halfExitButtonWidth;
 	TweenFactory::get().create( 
 		&exitButton.getComponent< component::Position >()->x,
 		FROM, -128.0f,
-		TO, 20.0f,
+		TO, exitButtonXPosition,
 		TWEEN_TYPE, QUADRATIC,
 		OVER, 0.5f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
@@ -163,6 +170,7 @@ bool MenuRoom::initialiseAndPlaceButton( game::Button& button, const char* filen
 {
 	VALIDATE( button.init() );
 	button.setConsumer( this );
+
 	USE_COMPONENT( button, component::Position, set( x, y ) );
 	USE_COMPONENT( button, component::Texture, setTexturePath( filename ) );
 
