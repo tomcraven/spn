@@ -31,6 +31,9 @@ namespace tween
 			va_list tweenVaList;
 			va_start( tweenVaList, a );
 
+			float startingValue = 0.0f;
+			bool hasStartingValue = false;
+
 			CreateParseState parseState = UNKNOWN;
 			while( parseState != TWEEN_END )
 			{
