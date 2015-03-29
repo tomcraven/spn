@@ -1,6 +1,7 @@
 #include "draw/Draw.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 #include "core/Assert.h"
+#include "component/Texture.h"
 
 #include <Iw2D.h>
 #include <IwGx.h>
@@ -43,6 +44,7 @@ namespace draw
 	{
 		Iw2DInit();
 		VALIDATE( initialiseSurface() );
+		VALIDATE( initFont() );
 
 		return true;
 	}
@@ -91,14 +93,20 @@ namespace draw
 		return font->GetHeight();
 	}
 
-	void Draw::blit( CIw2DImage* texture, float x, float y, float scale, float r )
+	void Draw::blit( component::Texture* textureComponent, float x, float y, float scale, float r )
 	{
-		CIwFMat2D mat = Iw2DGetTransformMatrix();
-		mat.SetRot( r, CIwFVec2( x + ( texture->GetWidth() / 2 ), y + ( texture->GetHeight() / 2 ) ) );
+		CIw2DImage* texture = textureComponent->getTexture();
+		
+		CIwFMat2D mat = CIwFMat2D::g_Identity;
+		mat.SetRot( r );
 		mat.ScaleRot( scale );
-		mat.SetTrans( CIwFVec2( x, y ) );
+
+		// Why add half the width/height?
+		mat.SetTrans( CIwFVec2( x + texture->GetWidth() / 2, y + texture->GetHeight() / 2 ) );
+
 		Iw2DSetTransformMatrix( mat );
 
+		// Because we have to draw image this way...
 		Iw2DDrawImage( texture, 
 			CIwFVec2( -texture->GetWidth() / 2, -texture->GetHeight() / 2  ) );
 		
@@ -140,6 +148,7 @@ namespace draw
 
 	bool Draw::flip()
 	{
+		Iw2DSetTransformMatrix( CIwFMat2D::g_Identity );
 		VALIDATE( Iw2DSetSurface( 0 ) );
 		Iw2DDrawImage( surfaceImage, 
 			CIwFVec2( 0, 0 ), 

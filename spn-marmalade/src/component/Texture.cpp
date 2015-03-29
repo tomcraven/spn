@@ -23,6 +23,8 @@ namespace component
 		{
 			dimensions->width = getWidth();
 			dimensions->height = getHeight();
+			dimensions->halfWidth = dimensions->width / 2.0f;
+			dimensions->halfHeight = dimensions->height / 2.0f;
 		}
 	}
 
