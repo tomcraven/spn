@@ -10,7 +10,6 @@ namespace component
 	public:
 		Scale( float scale = 1.0f );
 		void set( float scale );
-
 		float scale;
 
 	public: // Component
