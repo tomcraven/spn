@@ -1,6 +1,8 @@
 #ifndef DRAW_COLOUR_H
 #define DRAW_COLOUR_H
 
+#include "core/Types.h"
+
 namespace draw
 {
 	namespace colour
