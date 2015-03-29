@@ -1,19 +1,18 @@
 #include "input/Input.h"
 #include "core/Assert.h"
+#include "draw/Draw.h"
 
 #include <sdl.h>
+#include <stdio.h>
 
 namespace
 {
 	input::Input instance;
+	bool userWantsToExit = false;
 }
 
 namespace input
 {
-	Input::Input() : userWantsToExit( false )
-	{
-	}
-
 	Input& Input::get()
 	{
 		return instance;
@@ -21,7 +20,7 @@ namespace input
 
 	bool Input::userHasRequestedToExit()
 	{
-		return instance.userWantsToExit;
+		return userWantsToExit;
 	}
 
 	void Input::simulateUserRequestToExit()
@@ -47,9 +46,16 @@ namespace input
 		SDL_Event event;
 		while( SDL_PollEvent( &event ) )
 		{
-			if ( event.type == SDL_QUIT )
+			switch( event.type )
 			{
+			case SDL_MOUSEBUTTONUP:
+				onButtonPress( event.button.x, event.button.y );
+				break;
+			case SDL_QUIT:
 				userWantsToExit = true;
+				break;
+			default:
+				break;
 			}
 		}
 
