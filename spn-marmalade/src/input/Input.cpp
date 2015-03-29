@@ -25,10 +25,6 @@ namespace
 
 namespace input
 {
-	Input::Input()
-	{
-	}
-
 	Input& Input::get()
 	{
 		return instance;
