@@ -26,6 +26,12 @@ namespace component
 		return true;
 	}
 
+	bool RenderTexture::render( const Position& p )
+	{
+		draw::Draw::get().blit( texture, p.x, p.y, 1.0f, 0.0f );
+		return true;
+	}
+
 	bool RenderTexture::init( ComponentEntity* entity )
 	{
 		VALIDATE( entity->getComponent< Texture >( &texture ) );

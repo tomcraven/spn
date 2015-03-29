@@ -20,6 +20,7 @@ namespace component
 		
 		bool render( const Position& p, const Rotation& r, const Scale& s );
 		bool render( const Position& p, const Rotation& r );
+		bool render( const Position& p );
 
 	public: // IComponent
 		virtual bool init( ComponentEntity* entity );
