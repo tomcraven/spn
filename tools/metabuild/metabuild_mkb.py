@@ -48,6 +48,7 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 
 	populate_from_directory( spn_path, ignored_extensions = [ "py", "pyc" ] )
 	populate_from_directory( project_path, [ "fonts", "textures" ], [ "py", "pyc" ] )
+	populate_from_directory( spn_path + "/../spn-marmalade" )
 
 	mkb_file.write(
 		"}\n" +
@@ -63,6 +64,7 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 		"includepaths\n" +
 		"{\n" +
 			"\t" + spn_path + "/include\n" +
+			"\t" + spn_path + "/../spn-marmalade" + "/include\n" +
 			"\t" + project_path + "/include\n" +
 			"\t" + project_path + "\n" +
 		"}\n\n"
@@ -104,7 +106,6 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 					mkb_file.write(
 						"\t" + relative_file_path + "\n"
 					)
-					print relative_file_path
 
 			mkb_file.write( "\n" )
 
