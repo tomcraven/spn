@@ -79,8 +79,8 @@ namespace draw
 			colour = 0;
 		}
 		
-		float width = textureComponent->getWidth();
-		float height = textureComponent->getHeight();
+		uint32_t width = textureComponent->getWidth();
+		uint32_t height = textureComponent->getHeight();
 		
 		float oneMinusScaleWidth = width * ( 1.0f - scale );
 		float oneMinusScaleHeight = width * ( 1.0f - scale );
@@ -89,8 +89,8 @@ namespace draw
 		float uhhhhhYeaHeight = ( oneMinusScaleHeight / 2 );
 		
 		SDL_Rect destRect;
-		destRect.x = ( x + uhhhhhYeaWidth ) / scale;
-		destRect.y = ( y + uhhhhhYeaHeight ) / scale;
+		destRect.x = static_cast< int >( ( x + uhhhhhYeaWidth ) / scale );
+		destRect.y = static_cast< int >( ( y + uhhhhhYeaHeight ) / scale );
 		destRect.w = width;
 		destRect.h = height;
 
@@ -116,10 +116,10 @@ namespace draw
 		}
 
 		SDL_Rect r;
-		r.x = x;
-		r.y = y;
-		r.w = width;
-		r.h = height;
+		r.x = static_cast< int >( x );
+		r.y = static_cast< int >( y );
+		r.w = static_cast< int >( width );
+		r.h = static_cast< int >( height );
 		
 		SDL_RenderFillRect( windowRenderer, &r );
 	}
@@ -130,12 +130,12 @@ namespace draw
 
 	uint32_t Draw::getScreenWidth()
 	{
-		return get().inverseScaleValue( 640 );
+		return static_cast< uint32_t >( get().inverseScaleValue( 640 ) );
 	}
 
 	uint32_t Draw::getScreenHeight()
 	{
-		return get().inverseScaleValue( 480 );
+		return static_cast< uint32_t >( get().inverseScaleValue( 480 ) );
 	}
 
 	bool Draw::flip()
