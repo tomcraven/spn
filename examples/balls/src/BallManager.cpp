@@ -1,7 +1,7 @@
 #include "BallManager.h"
 #include "MainRoom.h"
 #include "core/Assert.h"
-#include <stdio.h>
+#include "core/Platform.h"
 
 BallManager::BallManager( MainRoom* inMainRoom ) : 
 	clickedBallCount( 0 ),
@@ -98,7 +98,6 @@ bool BallManager::onButtonConsumerClick( uint32_t id )
 
 bool BallManager::updateClickedBallCountBuffer()
 {
-	// todo - check the return code of this
-	snprintf( clickedBallCountBuffer, kClickedBallCountBufferSize, "%u", clickedBallCount );
+	VALIDATE( SPRINTF( clickedBallCountBuffer, kClickedBallCountBufferSize, "%u", clickedBallCount ) > 0 );
 	return true;
 }

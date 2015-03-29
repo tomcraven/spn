@@ -1,9 +1,10 @@
 #include "Ball.h"
 
 #include "core/Assert.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 #include "draw/Draw.h"
 #include "draw/ScopedColour.h"
+#include <stdlib.h>
 
 Ball::Ball()
 {
@@ -25,10 +26,7 @@ bool Ball::init()
 	p.x = float( rand() % 1000 ) / 1000.0f * ( draw::Draw::get().getScreenWidth() - kFrameWidth );
 	p.y = float( rand() % 1000 ) / 1000.0f * ( draw::Draw::get().getScreenHeight() - kFrameHeight );
 
-	colour = draw::colour::colourFromRGBA(
-		rand() % 255,
-		rand() % 255,
-		rand() % 255);
+	colour = draw::colour::colourFromRGBA( ( rand() % 255 ), ( rand() % 255 ), ( rand() % 255 ) );
 
 	return true;
 }

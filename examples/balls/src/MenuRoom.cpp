@@ -1,6 +1,6 @@
 #include "MenuRoom.h"
 #include "core/Assert.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 #include "draw/Draw.h"
 #include "tween/TweenFactory.h"
 
@@ -16,8 +16,8 @@ bool MenuRoom::init()
 {
 	VALIDATE( draw::Draw::get().rescale( 2.0f ) );
 
-	VALIDATE( initialiseAndPlaceButton( playButton, "textures/play_button.png", 20.0f, 20.0f ) );
-	VALIDATE( initialiseAndPlaceButton( exitButton, "textures/exit_button.png", 20.0f, 100.0f ) );
+	VALIDATE( initialiseAndPlaceButton( playButton, "textures/play_button.png", -128.0f, 20.0f ) );
+	VALIDATE( initialiseAndPlaceButton( exitButton, "textures/exit_button.png", -128.0f, 100.0f ) );
 
 	using namespace tween;
 	TweenFactory::get().create( 
@@ -26,7 +26,7 @@ bool MenuRoom::init()
 		TO, 20.0f,
 		TWEEN_TYPE, QUADRATIC,
 		OVER, 0.5f, SECONDS,
-		END );
+		TWEEN_END );
 	
 	TweenFactory::get().create( 
 		&exitButton.getComponent< component::Position >()->x,
@@ -35,7 +35,7 @@ bool MenuRoom::init()
 		TWEEN_TYPE, QUADRATIC,
 		OVER, 0.5f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
-		END );
+		TWEEN_END );
 	
 	TweenFactory::get().create( 
 		&playButton.getComponent< component::Rotation >()->r,
@@ -44,7 +44,7 @@ bool MenuRoom::init()
 		TWEEN_TYPE, QUADRATIC,
 		OVER, 0.5f, SECONDS,
 		REPEAT, MIRROR,
-		END );
+		TWEEN_END );
 
 	TweenFactory::get().create( 
 		&exitButton.getComponent< component::Rotation >()->r,
@@ -54,7 +54,7 @@ bool MenuRoom::init()
 		OVER, 0.5f, SECONDS,
 		DELAYED_BY, 0.33f, SECONDS,
 		REPEAT, MIRROR,
-		END );
+		TWEEN_END );
 
 	VALIDATE( fadeIn.start() );
 	VALIDATE( fadeOut.setConsumer( this ) );
@@ -95,7 +95,7 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 		TO, screenWidthFloat + 10.0f,
 		TWEEN_TYPE, QUADRATIC_IN,
 		OVER, 0.3f, SECONDS,
-		END );
+		TWEEN_END );
 
 	TweenFactory::get().create( 
 		&exitButton.getComponent< component::Position >()->x,
@@ -104,7 +104,7 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 		TWEEN_TYPE, QUADRATIC_IN,
 		OVER, 0.3f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
-		END );
+		TWEEN_END );
 
 	VALIDATE( fadeOut.startIn( 0.5f ) );
 

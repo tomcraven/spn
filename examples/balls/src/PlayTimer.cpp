@@ -1,8 +1,10 @@
 #include "PlayTimer.h"
 #include "core/Assert.h"
 #include "draw/Draw.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 #include "draw/ScopedColour.h"
+
+#include <stdio.h>
 
 PlayTimer::PlayTimer() : timeoutProgress( 0.0f )
 {
@@ -13,6 +15,7 @@ bool PlayTimer::update( float timeStep )
 {
 	VALIDATE( component::ComponentEntity::update( timeStep ) );
 	VALIDATE( async::Timer::update( timeStep ) );
+
 	return true;
 }
 

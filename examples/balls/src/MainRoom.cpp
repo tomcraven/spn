@@ -3,7 +3,7 @@
 #include "core/Assert.h"
 #include "core/Time.h"
 #include "draw/Draw.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 #include "draw/ScopedColour.h"
 #include "component/Position.h"
 #include "tween/TweenFactory.h"
@@ -31,6 +31,8 @@ bool MainRoom::init()
 	VALIDATE( fadeOut.setConsumer( this ) );
 	VALIDATE( fadeIn.start() );
 
+	USE_COMPONENT( playTimer, component::Position, set( 0, -10.0f ) );
+
 	using namespace tween;
 	TweenFactory::get().create( 
 		&playTimer.getComponent< component::Position >()->y,
@@ -39,7 +41,7 @@ bool MainRoom::init()
 		TWEEN_TYPE, LINEAR,
 		OVER, 0.2f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
-		END );
+		TWEEN_END );
 
 	return true;
 }
@@ -139,7 +141,7 @@ bool MainRoom::onEndOfGame()
 
 bool MainRoom::initialisePlayTimer()
 {
-	playTimer.setTimeout( 30.0f );
+	playTimer.setTimeout( 10.0f );
 	playTimer.setRepeat( false );
 	playTimer.setTimerExpiredListener( this );
 
@@ -168,7 +170,7 @@ bool MainRoom::createExitButton()
 		TWEEN_TYPE, LINEAR,
 		OVER, 0.2f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
-		END );
+		TWEEN_END );
 
 	return true;
 }

@@ -2,6 +2,7 @@
 #define BALLMANAGER_H
 
 #include "Ball.h"
+#include <vector>
 
 class MainRoom;
 
