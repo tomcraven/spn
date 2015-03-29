@@ -18,7 +18,7 @@ bool initialiseSingletons()
 {
 	VALIDATE( draw::Draw::get().init() );
 	VALIDATE( input::Input::get().init() );
-	VALIDATE( tween::TweenFactory::get().init() );
+	VALIDATE( tween::TweenFactory::get().init( 1000 ) );
 	return true;
 }
 

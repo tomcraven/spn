@@ -1,7 +1,7 @@
 #include "MainRoom.h"
 #include "core/Assert.h"
 #include "draw/Draw.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 
 bool MainRoom::init()
 {

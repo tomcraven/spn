@@ -6,6 +6,7 @@
 #include "Building.h"
 #include "async/Timer.h"
 #include "component/WindowExitCollision.h"
+#include <vector>
 
 class City : 
 	public async::Timer::IExpiredListener,

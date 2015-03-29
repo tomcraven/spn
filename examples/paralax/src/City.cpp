@@ -1,6 +1,7 @@
 #include "City.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 #include "draw/Draw.h"
+#include <algorithm>
 
 namespace
 {

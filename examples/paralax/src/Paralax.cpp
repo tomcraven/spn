@@ -1,7 +1,7 @@
 #include "Paralax.h"
 #include "core/Assert.h"
 #include "draw/Draw.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 #include "tween/TweenFactory.h"
 
 using namespace tween;
