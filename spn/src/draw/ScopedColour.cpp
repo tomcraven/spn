@@ -1,5 +1,5 @@
 #include "draw/ScopedColour.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 #include "draw/Draw.h"
 
 namespace draw
