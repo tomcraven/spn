@@ -13,6 +13,7 @@ namespace component
 
 	public:
 		uint32_t width, height;
+		float halfWidth, halfHeight;
 	};
 }
 
