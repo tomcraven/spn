@@ -16,14 +16,13 @@ namespace component
 {
 	bool RenderTexture::render( const Position& p, const Rotation& rot, const Scale& s )
 	{
-		draw::Draw::get().blit( texture->getTexture(), p.x, p.y, s.scale, rot.r );
+		draw::Draw::get().blit( texture, p.x, p.y, s.scale, rot.r );
 		return true;
 	}
 
 	bool RenderTexture::render( const Position& p, const Rotation& rot )
 	{
-		static Scale scale( 1.0f );
-		draw::Draw::get().blit( texture->getTexture(), p.x, p.y, scale.scale, rot.r );
+		draw::Draw::get().blit( texture, p.x, p.y, 1.0f, rot.r );
 		return true;
 	}
 
