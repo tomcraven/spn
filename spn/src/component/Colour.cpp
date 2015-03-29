@@ -1,5 +1,5 @@
 #include "component/Colour.h"
-#include "draw/Colour.h"
+#include "draw/ColourConstants.h"
 
 namespace
 {
