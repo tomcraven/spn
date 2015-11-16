@@ -16,7 +16,7 @@ namespace core
 		template< class T >
 		uint32_t read( core::Slice< T >& slice )
 		{
-			SDL_RWread( fileHandle, slice.ptr(), sizeof( T ), slice.size() );
+			SDL_RWread( fileHandle, slice.ptr(), sizeof( uint8_t ), slice.size() );
 
 			return 0;
 		}
