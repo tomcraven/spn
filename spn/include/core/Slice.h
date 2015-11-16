@@ -9,7 +9,7 @@ namespace core
 	class Slice
 	{
 	public:
-		Slice( T ptr, uint32_t size ) : data( ptr ), dataSize( size )
+		Slice( T ptr, uint32_t size ) : data( reinterpret_cast< uint8_t* >( ptr ) ), dataSize( size )
 		{
 		}
 
@@ -20,11 +20,11 @@ namespace core
 
 		T ptr()
 		{
-			return data;
+			return reinterpret_cast< T >( data );
 		}
 
 	private:
-		T data;
+		uint8_t* data;
 		uint32_t dataSize;
 	};
 }
