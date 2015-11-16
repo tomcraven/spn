@@ -38,7 +38,7 @@ namespace core
 
 		bool free()
 		{
-			delete data;
+			delete[] data;
 			data = 0;
 		}
 
