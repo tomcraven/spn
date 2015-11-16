@@ -27,11 +27,17 @@ namespace component
 	public:
 		bool attach( component::IComponent* component );
 
-		template<class T>
-		T* getComponent( T** outComponent = 0 )
+		template< class T >
+		const T* getComponentConst( const T** outComponent ) const
+		{
+			return getComponent( outComponent );
+		}
+
+		template< class T >
+		T* getComponent( T** outComponent = 0 ) const
 		{
 			uint32_t type = T().getType();
-			ComponentContainer::Iterator compIter = components.begin();
+			const ComponentContainer::Iterator compIter = components.begin();
 			for ( ; compIter != components.end(); ++compIter )
 			{
 				IComponent* component = *compIter;

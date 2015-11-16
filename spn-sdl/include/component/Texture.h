@@ -23,11 +23,13 @@ namespace component
 
 	public: // Component
 		virtual uint32_t getType();
-		virtual bool init( ComponentEntity* entity );
+		virtual bool initComponent( ComponentEntity* entity );
 
 	private:
 		Dimensions *dimensions;
 		SDL_Texture* texture;
+
+		int width, height;
 	};
 }
 

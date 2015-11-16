@@ -55,7 +55,7 @@ namespace component
 		return true;
 	}
 
-	bool RenderSheet::init( ComponentEntity* entity )
+	bool RenderSheet::initComponent( ComponentEntity* entity )
 	{
 		VALIDATE( entity->getComponent< Texture >( &texture ) );
 		VALIDATE( entity->getComponent< Dimensions >( &dimensions ) );

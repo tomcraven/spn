@@ -26,13 +26,18 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 		directory_base_name = os.path.basename( directory_path )
 		for dirname, dirnames, filenames in os.walk( directory_path ):
 
-			if os.path.basename( dirname ) in ignored_paths:
+			should_continue = False
+			for ignored_path in ignored_paths:
+				if ignored_path in dirname:
+					should_continue = True
+					break
+			if should_continue:
 				continue
 
 			if len( filenames ) > 0:
-				relative_file_path = os.path.join( dirname, filenames[0] )[len( directory_path ) + 1:]
+				relative_file_path = os.path.join( dirname, filenames[0] )[len( directory_path ):]
 				project_filters = [ directory_base_name ] + relative_file_path.split( "\\" )[:-1]
-				
+
 				mkb_file.write(
 					"\t(" + dirname + ")\n" +
 					"\t[" + " ".join( project_filters ) + "]\n"
@@ -47,7 +52,7 @@ with open( project_name + ".mkb", "w+" ) as mkb_file:
 				mkb_file.write( "\n" )
 
 	populate_from_directory( spn_path, ignored_extensions = [ "py", "pyc" ] )
-	populate_from_directory( project_path, [ "fonts", "textures" ], [ "py", "pyc" ] )
+	populate_from_directory( project_path, [ "assets" ], [ "py", "pyc" ] )
 	populate_from_directory( spn_path + "/../spn-marmalade" )
 
 	mkb_file.write(

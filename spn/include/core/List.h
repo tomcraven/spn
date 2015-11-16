@@ -29,13 +29,13 @@ namespace core
 			Iterator( ListNode* inNode ) : node( inNode )
 			{
 			}
-
-			T operator*()
+			
+			T operator*() const
 			{
 				return static_cast< T >( node );
 			}
 			
-			void operator++()
+			void operator++() const
 			{
 				node = node->next;
 			}
@@ -45,12 +45,12 @@ namespace core
 				node = node->previous;
 			}
 
-			bool operator!=( const Iterator& other )
+			bool operator!=( const Iterator& other ) const
 			{
 				return node != other.node;
 			}
 
-			ListNode* node;
+			mutable ListNode* node;
 		};
 
 	public:
@@ -84,6 +84,8 @@ namespace core
 			bool itemIsHead = ( item.node == head );
 			bool itemIsTail = ( item.node == tail );
 
+			Iterator ret = item.node->next;
+
 			if ( itemIsHead || itemIsTail )
 			{
 				if ( itemIsHead )
@@ -114,15 +116,15 @@ namespace core
 			
 			--numNodes;
 
-			return item.node->next;
+			return ret;
 		}
 
-		Iterator begin()
+		Iterator begin() const
 		{
 			return Iterator( head );
 		}
 
-		Iterator end()
+		Iterator end() const
 		{
 			return Iterator( 0 );
 		}
@@ -141,6 +143,13 @@ namespace core
 		{
 			/// @todo
 			return end();
+		}
+
+		void clear()
+		{
+			head = 0;
+			tail = 0;
+			numNodes = 0;
 		}
 		
 	public:

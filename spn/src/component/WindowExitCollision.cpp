@@ -34,7 +34,7 @@ namespace component
 		return true;
 	}
 
-	bool WindowExitCollision::init( ComponentEntity* inEntity )
+	bool WindowExitCollision::initComponent( ComponentEntity* inEntity )
 	{
 		entity = inEntity;
 		VALIDATE( entity->getComponent< Position >( &p ) );

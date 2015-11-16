@@ -46,6 +46,8 @@ namespace draw
 		VALIDATE_AND_RETURN( texturePath.texture, 0 );
 		++numTextures;
 
+		SDL_FreeSurface( imageSurface );
+
 		return texturePath.texture;
 	}
 

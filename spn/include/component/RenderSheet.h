@@ -3,7 +3,6 @@
 
 #include "component/IComponent.h"
 #include "component/RenderTexture.h"
-#include "component/IRender.h"
 
 namespace component
 {
@@ -11,7 +10,7 @@ namespace component
 	class Texture;
 	class Dimensions;
 
-	class RenderSheet : public IComponent, public IRender
+	class RenderSheet : public IComponent
 	{
 	public:
 		RenderSheet();
@@ -22,7 +21,7 @@ namespace component
 		bool render( const Position& p );
 
 	public: // IComponent
-		virtual bool init( ComponentEntity* entity );
+		virtual bool initComponent( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
 		virtual uint32_t getType();
 

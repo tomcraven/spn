@@ -11,8 +11,13 @@ namespace core
 		{
 			return ( ::rand() % 1000 ) / 1000.0f;
 		}
-
+		
 		static float range( float low, float high )
+		{
+			return low + ( __rand() * ( high - low ) );
+		}
+
+		static float range( uint32_t low, uint32_t high )
 		{
 			return low + ( __rand() * ( high - low ) );
 		}

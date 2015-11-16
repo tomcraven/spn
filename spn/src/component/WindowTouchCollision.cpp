@@ -1,7 +1,6 @@
 #include "component/WindowTouchCollision.h"
 #include "component/ComponentEntity.h"
 #include "component/Position.h"
-#include "component/IRender.h"
 #include "component/RenderSheet.h"
 #include "component/RenderTexture.h"
 #include "component/Dimensions.h"
@@ -15,7 +14,7 @@ namespace
 
 namespace component
 {
-	bool WindowTouchCollision::init( ComponentEntity* entity )
+	bool WindowTouchCollision::initComponent( ComponentEntity* entity )
 	{
 		VALIDATE( entity->getComponent< Position >( &p ) );
 		VALIDATE( entity->getComponent< Dimensions >( &d ) );

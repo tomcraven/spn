@@ -6,14 +6,30 @@
 #include "draw/Draw.h"
 #include "math/Intersect.h"
 
+#include <stdio.h>
+
 namespace
 {
 	uint32_t typeId = component::IComponent::generateTypeId();
+
+	class NullConsumer : public component::Clickable::Consumer
+	{
+	public:
+		bool onClickableConsumerClick()
+		{
+			return true;
+		}
+	};
 }
 
 namespace component
 {
-	bool Clickable::init( ComponentEntity* entity )
+	Clickable::Clickable()
+	{
+		setConsumer( 0 );
+	}
+
+	bool Clickable::initComponent( ComponentEntity* entity )
 	{
 		VALIDATE( entity->getComponent<Position>( &position ) );
 		VALIDATE( entity->getComponent<Dimensions>( &dimensions ) );
@@ -33,23 +49,25 @@ namespace component
 
 	bool Clickable::update( ComponentEntity* entity, float timeStep )
 	{
-		if ( !hasClickPosition )
-		{
-			return true;
-		}
+		//if ( !hasClickPosition )
+		//{
+		//	return true;
+		//}
 
-		uint32_t clickRadius = 8;
-		if ( math::intersect::circleRect( 
-			clickPositionX, clickPositionY, clickRadius,
-			static_cast<uint32_t>( position->x ), 
-			static_cast<uint32_t>( position->y ), 
-			dimensions->width, 
-			dimensions->height ) )
-		{
-			VALIDATE( entity->onClickableConsumerClick() );
-		}
+		//float clickRadius = 8.0f;
+		//if ( math::intersect::circleRect( 
+		//	static_cast< float >( clickPositionX ),
+		//	static_cast< float >( clickPositionY ),
+		//	clickRadius,
+		//	position->x, 
+		//	position->y, 
+		//	static_cast< float >( dimensions->width ),
+		//	static_cast< float >( dimensions->height ) ) )
+		//{
+		//	VALIDATE( consumer->onClickableConsumerClick() );
+		//}
 
-		hasClickPosition = false;
+		//hasClickPosition = false;
 
 		return true;
 	}
@@ -58,14 +76,38 @@ namespace component
 	{
 		return typeId;
 	}
+
+	void Clickable::setConsumer( Consumer* inConsumer )
+	{
+		if ( inConsumer )
+		{
+			consumer = inConsumer;
+		}
+		else
+		{
+			static NullConsumer nullConsumer;
+			consumer = &nullConsumer;
+		}
+	}
 	
 	bool Clickable::onInputConsumerButtonDown( uint32_t x, uint32_t y )
 	{
 		hasClickPosition = true;
-		clickPositionX = static_cast< uint32_t >(
-			draw::Draw::get().inverseScaleValue( static_cast< float >( x ) ) );
-		clickPositionY = static_cast< uint32_t >(
-			draw::Draw::get().inverseScaleValue( static_cast< float >( y ) ) );
+		draw::Draw::get().convertScreenToWorldCoorinatesA( x, y, clickPositionX, clickPositionY );
+
+		float clickRadius = 4.0f;
+		if ( math::intersect::circleRect( 
+			clickPositionX,
+			clickPositionY,
+			clickRadius,
+			position->x, 
+			position->y, 
+			static_cast< float >( dimensions->width ),
+			static_cast< float >( dimensions->height ) ) )
+		{
+			VALIDATE( consumer->onClickableConsumerClick() );
+		}
+
 		return true;
 	}
 }

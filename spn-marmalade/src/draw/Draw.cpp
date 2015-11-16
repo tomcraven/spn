@@ -2,6 +2,7 @@
 #include "draw/ColourConstants.h"
 #include "core/Assert.h"
 #include "component/Texture.h"
+#include "component/Position.h"
 
 #include <Iw2D.h>
 #include <IwGx.h>
@@ -55,6 +56,11 @@ namespace draw
 		VALIDATE( font );
 
 		return true;
+	}
+
+	void Draw::setViewportCentre( const component::Position* position )
+	{
+		///@todo
 	}
 
 	bool Draw::initialiseSurface()
@@ -113,7 +119,14 @@ namespace draw
 		Iw2DSetTransformMatrix( CIwFMat2D::g_Identity );
 	}
 
-	void Draw::text( const char* text, float x, float y )
+	void Draw::blitRegion( component::Texture* textureComponent, 
+			math::Rect< uint32_t > sourceRect, 
+			float x, float y, float scale, float r )
+	{
+		///@todo
+	}
+
+	void Draw::text( const char* text, float x, float y, float width, float height )
 	{
 		Iw2DDrawString( text, 
 			CIwFVec2( x, y ),
@@ -138,12 +151,14 @@ namespace draw
 
 	uint32_t Draw::getScreenWidth()
 	{
-		return Iw2DGetSurfaceWidth();
+		static uint32_t width = Iw2DGetSurfaceWidth();
+		return width;
 	}
 
 	uint32_t Draw::getScreenHeight()
 	{
-		return Iw2DGetSurfaceHeight();
+		static uint32_t height = Iw2DGetSurfaceHeight();
+		return height;
 	}
 
 	bool Draw::flip()
@@ -192,5 +207,29 @@ namespace draw
 		VALIDATE( Iw2DSetSurface( surface ) );
 
 		return true;
+	}
+	
+	void Draw::convertScreenToWorldCoorinatesA( uint32_t x, uint32_t y, float& outX, float& outY )
+	{
+		int32_t screenDiff[2] = 
+		{
+			( getScreenWidth() / 2 ) - x,
+			( getScreenHeight() / 2 ) - y
+		};
+
+		outX = viewport[0] - inverseScaleValue( screenDiff[0] );
+		outY = viewport[1] - inverseScaleValue( screenDiff[1] );
+	}
+
+	void Draw::convertScreenToWorldCoorinatesB( uint32_t x, uint32_t y, float& outX, float& outY )
+	{
+		int32_t screenDiff[2] = 
+		{
+			static_cast< int32_t >( ( inverseScaleValue( getScreenWidth() ) / 2 ) - x ),
+			static_cast< int32_t >( ( inverseScaleValue( getScreenHeight() ) / 2 ) - y )
+		};
+
+		outX = viewport[0] - screenDiff[0];
+		outY = viewport[1] - screenDiff[1];
 	}
 }

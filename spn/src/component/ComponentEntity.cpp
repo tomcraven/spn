@@ -16,7 +16,7 @@ namespace component
 		ComponentContainer::Iterator compIter = components.begin();
 		for ( ; compIter != components.end(); ++compIter )
 		{
-			VALIDATE( (*compIter)->init( this ) );
+			VALIDATE( (*compIter)->initComponent( this ) );
 		}
 		return true;
 	}

@@ -7,7 +7,7 @@
 
 namespace game
 {
-	class Entity : public input::Input::Consumer, public component::Clickable::Consumer
+	class Entity : public input::Input::Consumer
 	{
 	public:
 		virtual bool init();
@@ -21,9 +21,6 @@ namespace game
 
 	public: // input::Input::Consumer
 		virtual bool onInputConsumerButtonDown( uint32_t x, uint32_t y );
-
-	public: // component::Clickable::Consumer
-		virtual bool onClickableConsumerClick();
 	};
 }
 

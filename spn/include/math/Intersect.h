@@ -8,8 +8,8 @@ namespace math
 {
 	namespace intersect
 	{
-		static bool pointRect( int32_t pointX, int32_t pointY,
-			int32_t rectX, int32_t rectY, uint32_t rectWidth, uint32_t rectHeight )
+		static bool pointRect( float pointX, float pointY,
+			float rectX, float rectY, float rectWidth, float rectHeight )
 		{
 			if ( pointX > ( rectX + static_cast< int32_t >( rectWidth ) ) ||
 					pointX < rectX ||
@@ -21,8 +21,8 @@ namespace math
 			return true;
 		}
 		
-		static bool circleRect( int32_t circleX, int32_t circleY, uint32_t circleRadius,
-				int32_t rectX, int32_t rectY, uint32_t rectWidth, uint32_t rectHeight )
+		static bool circleRect( float circleX, float circleY, float circleRadius,
+				float rectX, float rectY, float rectWidth, float rectHeight )
 		{
 			if ( pointRect( circleX, circleY, rectX, rectY, rectWidth, rectHeight ) )
 			{
@@ -31,15 +31,15 @@ namespace math
 			else
 			{
 				// http://stackoverflow.com/a/1879223/475974
-				uint32_t closestX = core::algorithm::clamp(circleX, rectX, rectX + static_cast< int32_t >( rectWidth ) );
-				uint32_t closestY = core::algorithm::clamp(circleY, rectY, rectY + static_cast< int32_t >( rectHeight ) );
+				float closestX = core::algorithm::clamp(circleX, rectX, rectX + rectWidth );
+				float closestY = core::algorithm::clamp(circleY, rectY, rectY + rectHeight );
 
 				// Calculate the distance between the circle's center and this closest point
-				uint32_t distanceX = circleX - closestX;
-				uint32_t distanceY = circleY - closestY;
+				float distanceX = circleX - closestX;
+				float distanceY = circleY - closestY;
 
 				// If the distance is less than the circle's radius, an intersection occurs
-				float distanceSquared = static_cast< float >( (distanceX * distanceX) + (distanceY * distanceY) );
+				float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
 				return distanceSquared < (circleRadius * circleRadius);
 			}
 		}

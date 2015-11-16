@@ -52,6 +52,7 @@ namespace input
 				onButtonPress( event.button.x, event.button.y );
 				break;
 			case SDL_QUIT:
+			case SDL_APP_TERMINATING:
 				userWantsToExit = true;
 				break;
 			default:

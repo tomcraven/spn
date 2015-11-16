@@ -20,7 +20,7 @@ namespace component
 		float v;
 
 	public: // IComponent
-		virtual bool init( ComponentEntity* entity );
+		virtual bool initComponent( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
 		virtual uint32_t getType();
 

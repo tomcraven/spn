@@ -34,6 +34,7 @@ namespace async
 		float timeUntilTimeoutSeconds;
 		float timeoutSeconds;
 		bool flagShouldRepeat;
+		bool hasSetTimeout;
 		
 		IExpiredListener* listener;
 

@@ -2,7 +2,6 @@
 #define COMPONENT_RENDERSHEETCUSTOM_H
 
 #include "component/IComponent.h"
-#include "component/IRender.h"
 #include "component/RenderSheet.h"
 
 namespace component

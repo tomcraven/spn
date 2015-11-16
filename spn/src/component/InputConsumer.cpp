@@ -9,7 +9,7 @@ namespace
 
 namespace component
 {
-	bool InputConsumer::init( ComponentEntity* entity )
+	bool InputConsumer::initComponent( ComponentEntity* entity )
 	{
 		VALIDATE( input::Input::get().addConsumer( entity ) );
 		return true;

@@ -2,6 +2,7 @@
 #define DRAW_DRAW_H
 
 #include "core/Types.h"
+#include "math/Rect.h"
 
 class CIw2DImage;
 class CIw2DSurface;
@@ -10,6 +11,7 @@ class CIw2DFont;
 namespace component
 {
 	class Texture;
+	class Position;
 }
 
 namespace draw
@@ -24,6 +26,8 @@ namespace draw
 		bool init();
 		bool initFont();
 
+		void setViewportCentre( const component::Position* position );
+
 		void setColour( uint32_t colour );
 		uint32_t getColour();
 
@@ -31,7 +35,10 @@ namespace draw
 		uint32_t getTextHeight();
 		
 		void blit( component::Texture* texture, float x, float y, float scale, float r );
-		void text( const char* text, float x, float y );
+		void blitRegion( component::Texture* texture, 
+			math::Rect< uint32_t > sourceRect, 
+			float x, float y, float scale = 1.0f, float r = 0.0f );
+		void text( const char* text, float x, float y, float width = 0.0f, float height = 0.0f );
 		void filledRect( float x, float y, float width, float height );
 		void filledCircle( float x, float y, float radius );
 
@@ -45,6 +52,10 @@ namespace draw
 		float scaleValue( float val );
 		void setScale( float scale );
 		bool rescale( float scale );
+		
+		///@todo wtf is the difference between these two functions?
+		void convertScreenToWorldCoorinatesA( uint32_t x, uint32_t y, float& outX, float& outY );
+		void convertScreenToWorldCoorinatesB( uint32_t x, uint32_t y, float& outX, float& outY );
 
 	private:
 		bool initialiseSurface();
@@ -56,6 +67,8 @@ namespace draw
 
 		float scale;
 		float inverseScale;
+		
+		float viewport[2];
 	};
 }
 

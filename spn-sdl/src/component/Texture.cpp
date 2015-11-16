@@ -21,13 +21,15 @@ namespace component
 	{
 		texture = draw::TexturePool::get().loadTexture( path );
 
-		int width, height;
 		SDL_QueryTexture( texture, 0, 0, &width, &height );
 		
-		dimensions->width = static_cast< uint32_t >( width );
-		dimensions->height = static_cast< uint32_t >( height );
-		dimensions->halfWidth = static_cast< uint32_t >( width / 2 );
-		dimensions->halfHeight = static_cast< uint32_t >( height / 2 );
+		if( dimensions )
+		{
+			dimensions->width = static_cast< uint32_t >( width );
+			dimensions->height = static_cast< uint32_t >( height );
+			dimensions->halfWidth = static_cast< uint32_t >( width / 2 );
+			dimensions->halfHeight = static_cast< uint32_t >( height / 2 );
+		}
 	}
 
 	SDL_Texture* Texture::getTexture()
@@ -37,12 +39,12 @@ namespace component
 
 	uint32_t Texture::getWidth()
 	{
-		return dimensions->width;
+		return width;
 	}
 
 	uint32_t Texture::getHeight()
 	{
-		return dimensions->height;
+		return height;
 	}
 
 	uint32_t Texture::getType()
@@ -50,9 +52,13 @@ namespace component
 		return typeId;
 	}
 
-	bool Texture::init( ComponentEntity* entity )
+	bool Texture::initComponent( ComponentEntity* entity )
 	{
-		entity->getComponent< Dimensions >( &dimensions );
+		if ( entity )
+		{
+			entity->getComponent< Dimensions >( &dimensions );
+		}
+
 		return true;
 	}
 }

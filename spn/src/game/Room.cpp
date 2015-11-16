@@ -64,7 +64,7 @@ namespace game
 		uint64_t endMilliseconds;
 		VALIDATE( core::Time::getMilliseconds( endMilliseconds ) );
 		uint32_t totalUpdateMilliseconds = uint32_t( endMilliseconds - updateStartMilliseconds );
-		int32_t remainingUpdateTimeMilliseconds = timeStepMilliseconds - totalUpdateMilliseconds;
+		int32_t remainingUpdateTimeMilliseconds = int32_t( timeStepMilliseconds ) - totalUpdateMilliseconds;
 		float yieldTimeMilliseconds = static_cast< float >( core::algorithm::max( 0, remainingUpdateTimeMilliseconds ) );
 		async::Thread::sleep( yieldTimeMilliseconds / 1000.0f );
 

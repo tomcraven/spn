@@ -26,7 +26,8 @@ namespace async
 		timeoutSeconds( -1.0f ),
 		flagShouldRepeat( false ),
 		updateFunction( &Timer::updateNull ),
-		id( generateTimerId() )
+		id( generateTimerId() ),
+		hasSetTimeout( false )
 	{
 		setTimerExpiredListener( 0 );
 	}
@@ -35,8 +36,9 @@ namespace async
 	{
 		timeoutSeconds = inTimeoutSeconds;
 		timeUntilTimeoutSeconds = inTimeoutSeconds;
+		hasSetTimeout = true;
 
-		if ( inTimeoutSeconds > 0.0f )
+		if ( inTimeoutSeconds >= 0.0f )
 		{
 			updateFunction = &Timer::updateTimer;
 		}
@@ -64,11 +66,12 @@ namespace async
 
 		if ( timeUntilTimeoutSeconds <= 0 )
 		{
+			hasSetTimeout = false;
 			listener->onTimerExpired( id );
 		
 			timeUntilTimeoutSeconds = timeoutSeconds;
 
-			if ( !flagShouldRepeat )
+			if ( !flagShouldRepeat && !hasSetTimeout )
 			{
 				timeUntilTimeoutSeconds = 0;
 				updateFunction = &Timer::updateNull;

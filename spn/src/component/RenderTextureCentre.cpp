@@ -35,7 +35,15 @@ namespace component
 		return true;
 	}
 
-	bool RenderTextureCentre::init( ComponentEntity* entity )
+	bool RenderTextureCentre::render( const Position& p )
+	{
+		draw::Draw::get().blit( texture, 
+			p.x - dimensions->halfWidth, p.y - dimensions->halfHeight, 
+			1.0f, 0.0f );
+		return true;
+	}
+
+	bool RenderTextureCentre::initComponent( ComponentEntity* entity )
 	{
 		VALIDATE( entity->getComponent< Texture >( &texture ) );
 		VALIDATE( entity->getComponent< Dimensions >( &dimensions ) );

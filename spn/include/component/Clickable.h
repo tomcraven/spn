@@ -11,8 +11,11 @@ namespace component
 
 	class Clickable : public IComponent, public input::Input::Consumer
 	{
+	public:
+		Clickable();
+
 	public: // IComponent
-		virtual bool init( ComponentEntity* entity );
+		virtual bool initComponent( ComponentEntity* entity );
 		virtual bool shutdown( ComponentEntity* entity );
 		virtual uint32_t getType();
 		virtual bool update( ComponentEntity* entity, float timeStep );
@@ -22,17 +25,20 @@ namespace component
 		public:
 			virtual bool onClickableConsumerClick() = 0;
 		};
+		void setConsumer( Consumer* consumer );
 
 	public: // input::Input::Consumer
 		virtual bool onInputConsumerButtonDown( uint32_t x, uint32_t y );
 
 	private:
 		bool hasClickPosition;
-		uint32_t clickPositionX;
-		uint32_t clickPositionY;
+		float clickPositionX;
+		float clickPositionY;
 
 		Position* position;
 		Dimensions* dimensions;
+
+		Consumer* consumer;
 	};
 }
 

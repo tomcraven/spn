@@ -7,6 +7,7 @@
 namespace component
 {
 	class Position;
+	class Speed;
 
 	class Velocity : public IComponent
 	{
@@ -17,8 +18,11 @@ namespace component
 		void set( float x, float y );
 		void set( const Velocity& other );
 
+		void unit();
+		void multiply( float val );
+
 	public: // IComponent
-		virtual bool init( ComponentEntity* entity );
+		virtual bool initComponent( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
 		virtual uint32_t getType();
 
@@ -26,6 +30,7 @@ namespace component
 
 	private:
 		Position* p;
+		Speed* s;
 	};
 } 
 

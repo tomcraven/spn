@@ -19,7 +19,7 @@ namespace component
 		bool setConsumer( IWindowExitCollisionListener* consumer );
 
 	public: // Component
-		virtual bool init( ComponentEntity* entity );
+		virtual bool initComponent( ComponentEntity* entity );
 		virtual bool update( ComponentEntity* entity, float timeStep );
 		virtual uint32_t getType();
 

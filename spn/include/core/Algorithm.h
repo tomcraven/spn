@@ -45,6 +45,16 @@ namespace core
 			a = b;
 			b = temp;
 		}
+
+		static int32_t round( float in )
+		{
+			return static_cast< int32_t >( in + 0.5 );
+		}
+
+		static int32_t roundDown( float in )
+		{
+			return static_cast< int32_t >( in );
+		}
 	};
 }
 

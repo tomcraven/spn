@@ -32,11 +32,6 @@ namespace game
 		return true;
 	}
 
-	bool Entity::onClickableConsumerClick()
-	{
-		return true;
-	}
-
 	bool Entity::shouldIncrementFrame()
 	{
 		return false;

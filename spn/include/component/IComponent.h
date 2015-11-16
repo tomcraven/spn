@@ -16,7 +16,7 @@ namespace component
 		virtual uint32_t getType() = 0;
 		static uint32_t generateTypeId();
 
-		virtual bool init( ComponentEntity* entity ) { return true; }
+		virtual bool initComponent( ComponentEntity* entity ) { return true; }
 		virtual bool shutdown( ComponentEntity* entity ) { return true; }
 		virtual bool update( ComponentEntity* entity, float timeStep ) { return true; }
 	};

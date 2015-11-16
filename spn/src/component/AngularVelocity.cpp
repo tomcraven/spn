@@ -18,7 +18,7 @@ namespace component
 	{
 	}
 
-	bool AngularVelocity::init( ComponentEntity* entity )
+	bool AngularVelocity::initComponent( ComponentEntity* entity )
 	{
 		VALIDATE( entity->getComponent< Rotation >( &r ) );
 		return true;

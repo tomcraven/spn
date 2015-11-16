@@ -55,6 +55,10 @@ with open( project_name + "/" + project_name + ".vcxproj", "w+" ) as project_fil
 	sdl_lib = "../" + sdl_lib_path + "/SDL2.lib"
 	sdl_main_lib = "../" + sdl_lib_path + "/SDL2main.lib"
 
+	sdl_ttf_include_path = "../" + spn_path + "/../external/libs/SDL2_ttf/include"
+	sdl_ttf_lib_path = spn_path + "/../external/libs/SDL2_ttf/lib/x86"
+	sdl_ttf_lib = "../" + sdl_ttf_lib_path + "/SDL2_ttf.lib"
+
 	sdl_image_include_path = "../" + spn_path + "/../external/libs/SDL_image/include"
 	sdl_image_lib_path = spn_path + "/../external/libs/SDL_image/lib/x86"
 	sdl_image_lib = "../" + sdl_image_lib_path + "/SDL2_image.lib"
@@ -69,7 +73,8 @@ with open( project_name + "/" + project_name + ".vcxproj", "w+" ) as project_fil
 			project_include_directory, 
 			spn_include_directory, 
 			spn_sdl_include_directory,
-			sdl_image_include_path
+			sdl_image_include_path,
+			sdl_ttf_include_path
 		]
 	)
 
@@ -194,11 +199,12 @@ with open( project_name + "/" + project_name + ".vcxproj", "w+" ) as project_fil
 	<Library Include="{0}" />
 	<Library Include="{1}" />
 	<Library Include="{2}" />
+	<Library Include="{3}" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project>""".format( sdl_lib, sdl_main_lib, sdl_image_lib ) )
+</Project>""".format( sdl_lib, sdl_main_lib, sdl_image_lib, sdl_ttf_lib ) )
 
 with open( project_name + "/" + project_name + ".vcxproj.user", "w+" ) as project_user_file:
 	project_user_file.write( \
@@ -294,6 +300,10 @@ shutil.copy( sdl_lib_path + "/SDL2.dll", project_name + "/Debug/" )
 shutil.copy( sdl_lib_path + "/SDL2.dll", project_name + "/Release/" )
 
 for filename in glob.glob(sdl_image_lib_path + "/*.dll"):
+	shutil.copy( filename, project_name + "/Debug/" )
+	shutil.copy( filename, project_name + "/Release/" )
+
+for filename in glob.glob(sdl_ttf_lib_path + "/*.dll"):
 	shutil.copy( filename, project_name + "/Debug/" )
 	shutil.copy( filename, project_name + "/Release/" )
 
