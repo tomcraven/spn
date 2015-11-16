@@ -10,7 +10,7 @@ namespace core
 	{
 	}
 
-	String::String( const char* str ) : String()
+	String::String( const char* str ) : data( 0 ), dataSize( 0 )
 	{
 		this->operator=( str );
 	}
