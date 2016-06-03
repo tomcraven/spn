@@ -22,7 +22,7 @@ namespace component
 
 		int width, height;
 		SDL_QueryTexture( texture, 0, 0, &width, &height );
-		
+
 		dimensions->width = static_cast< uint32_t >( width );
 		dimensions->height = static_cast< uint32_t >( height );
 		dimensions->halfWidth = static_cast< uint32_t >( width / 2 );

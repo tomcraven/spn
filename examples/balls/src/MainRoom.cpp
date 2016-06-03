@@ -24,7 +24,7 @@ MainRoom::MainRoom() :
 bool MainRoom::init()
 {
 	VALIDATE( draw::Draw::get().rescale( 2.0f ) );
-	
+
 	VALIDATE( ballManager.init( kNumBalls ) );
 	VALIDATE( initialisePlayTimer() );
 	VALIDATE( createExitButton() );
@@ -34,7 +34,7 @@ bool MainRoom::init()
 	USE_COMPONENT( playTimer, component::Position, set( 0, -10.0f ) );
 
 	using namespace tween;
-	TweenFactory::get().create( 
+	TweenFactory::get().create(
 		&playTimer.getComponent< component::Position >()->y,
 		FROM, -10.0f,
 		TO, 0.0f,
@@ -57,10 +57,10 @@ bool MainRoom::shutdown()
 bool MainRoom::update()
 {
 	VALIDATE( Room::update() );
-	
+
 	float timeStepSeconds = getTimeStepSeconds();
-	
-	VALIDATE( ballManager.update( timeStepSeconds ) );	
+
+	VALIDATE( ballManager.update( timeStepSeconds ) );
 	VALIDATE( playTimer.update( timeStepSeconds ) );
 	VALIDATE( exitButton.update( timeStepSeconds ) );
 	VALIDATE( fadeOut.update( timeStepSeconds ) );
@@ -89,7 +89,7 @@ bool MainRoom::render()
 bool MainRoom::renderScore()
 {
 	draw::ScopedColour scopedColour( 0xFF000000 );
-	
+
 	draw::Draw& draw = draw::Draw::get();
 
 	const char* clickedBallsString = ballManager.getNumClickedBallsString();
@@ -154,7 +154,7 @@ bool MainRoom::createExitButton()
 	exitButton.setConsumer( this );
 
 	USE_COMPONENT( exitButton, component::Texture, setTexturePath( "textures/exit_main_game.png" ) );
-	
+
 	component::Dimensions* dimensions;
 	float screenWidthFloat = static_cast< float >( draw::Draw::get().getScreenWidth() );
 	VALIDATE( exitButton.getComponent< component::Dimensions >( &dimensions ) );

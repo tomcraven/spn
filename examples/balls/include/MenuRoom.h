@@ -6,8 +6,8 @@
 #include "game/transition/FadeIn.h"
 #include "game/transition/FadeOut.h"
 
-class MenuRoom : 
-	public game::Room, 
+class MenuRoom :
+	public game::Room,
 	public game::Button::Consumer,
 	public game::transition::ITransition::IConsumer
 {
@@ -40,12 +40,12 @@ public: // game::transition::ITransition::IConsumer
 private:
 	bool hasMadeMenuSelection();
 	bool initialiseAndPlaceButton( game::Button& button, const char* filename, float x, float y );
-	
+
 	game::Button playButton;
 	game::Button exitButton;
 
 	MenuSelection menuSelection;
-	
+
 	game::transition::FadeIn fadeIn;
 	game::transition::FadeOut fadeOut;
 

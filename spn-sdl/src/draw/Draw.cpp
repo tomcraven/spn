@@ -67,7 +67,7 @@ namespace draw
 	void Draw::blit( component::Texture* textureComponent, float x, float y, float scale, float r )
 	{
 		SDL_Texture* texture = textureComponent->getTexture();
-		
+
 		if ( colour != 0 )
 		{
 			uint8_t r, g, b, a;
@@ -76,16 +76,16 @@ namespace draw
 			SDL_SetTextureAlphaMod( texture, a );
 			colour = 0;
 		}
-		
+
 		uint32_t width = textureComponent->getWidth();
 		uint32_t height = textureComponent->getHeight();
-		
+
 		float oneMinusScaleWidth = width * ( 1.0f - scale );
 		float oneMinusScaleHeight = width * ( 1.0f - scale );
 
 		float uhhhhhYeaWidth = ( oneMinusScaleWidth / 2 );
 		float uhhhhhYeaHeight = ( oneMinusScaleHeight / 2 );
-		
+
 		SDL_Rect destRect;
 		destRect.x = static_cast< int >( ( x + uhhhhhYeaWidth ) / scale );
 		destRect.y = static_cast< int >( ( y + uhhhhhYeaHeight ) / scale );
@@ -95,7 +95,7 @@ namespace draw
 		SDL_Point centrePoint;
 		centrePoint.x = ( width / 2 );
 		centrePoint.y = ( height / 2 );
-		
+
 		SDL_RenderSetScale( windowRenderer, scale * this->scale, scale * this->scale );
 		float rotationDegrees = r * ( 180.0f / math::pi );
 		SDL_RenderCopyEx( windowRenderer, texture, 0, &destRect, rotationDegrees, &centrePoint, SDL_FLIP_NONE );
@@ -118,7 +118,7 @@ namespace draw
 		r.y = static_cast< int >( y );
 		r.w = static_cast< int >( width );
 		r.h = static_cast< int >( height );
-		
+
 		SDL_RenderFillRect( windowRenderer, &r );
 	}
 
