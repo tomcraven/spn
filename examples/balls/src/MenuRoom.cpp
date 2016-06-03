@@ -4,7 +4,7 @@
 #include "draw/Draw.h"
 #include "tween/TweenFactory.h"
 
-MenuRoom::MenuRoom() : 
+MenuRoom::MenuRoom() :
 	menuSelection( kUnknown ),
 	fadeIn( 0, 0.3f ),
 	fadeOut( 0, 0.3f ),
@@ -18,7 +18,7 @@ bool MenuRoom::init()
 
 	VALIDATE( initialiseAndPlaceButton( playButton, "textures/play_button.png", -128.0f, 20.0f ) );
 	VALIDATE( initialiseAndPlaceButton( exitButton, "textures/exit_button.png", -128.0f, 100.0f ) );
-	
+
 	uint32_t halfPlayButtonWidth = playButton.getComponent< component::Dimensions >()->halfWidth;
 	uint32_t halfExitButtonWidth = exitButton.getComponent< component::Dimensions >()->halfWidth;
 	uint32_t halfScreenWidth = draw::Draw::get().getScreenWidth() / 2;
@@ -26,16 +26,16 @@ bool MenuRoom::init()
 	float playButtonXPosition = halfScreenWidth - halfPlayButtonWidth;
 
 	using namespace tween;
-	TweenFactory::get().create( 
+	TweenFactory::get().create(
 		&playButton.getComponent< component::Position >()->x,
 		FROM, -128.0f,
 		TO, playButtonXPosition,
 		TWEEN_TYPE, QUADRATIC,
 		OVER, 0.5f, SECONDS,
 		TWEEN_END );
-	
+
 	float exitButtonXPosition = halfScreenWidth - halfExitButtonWidth;
-	TweenFactory::get().create( 
+	TweenFactory::get().create(
 		&exitButton.getComponent< component::Position >()->x,
 		FROM, -128.0f,
 		TO, exitButtonXPosition,
@@ -43,8 +43,8 @@ bool MenuRoom::init()
 		OVER, 0.5f, SECONDS,
 		DELAYED_BY, 0.2f, SECONDS,
 		TWEEN_END );
-	
-	TweenFactory::get().create( 
+
+	TweenFactory::get().create(
 		&playButton.getComponent< component::Rotation >()->r,
 		FROM, -0.05f,
 		TO, 0.05f,
@@ -53,7 +53,7 @@ bool MenuRoom::init()
 		REPEAT, MIRROR,
 		TWEEN_END );
 
-	TweenFactory::get().create( 
+	TweenFactory::get().create(
 		&exitButton.getComponent< component::Rotation >()->r,
 		FROM, -0.05f,
 		TO, 0.05f,
@@ -92,11 +92,11 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 	{
 		menuSelection = kUnknown;
 	}
-	
+
 	float screenWidthFloat = static_cast< float >( draw::Draw::get().getScreenWidth() );
 
 	using namespace tween;
-	TweenFactory::get().create( 
+	TweenFactory::get().create(
 		&playButton.getComponent< component::Position >()->x,
 		FROM_CURRENT,
 		TO, screenWidthFloat + 10.0f,
@@ -104,7 +104,7 @@ bool MenuRoom::onButtonConsumerClick( uint32_t id )
 		OVER, 0.3f, SECONDS,
 		TWEEN_END );
 
-	TweenFactory::get().create( 
+	TweenFactory::get().create(
 		&exitButton.getComponent< component::Position >()->x,
 		FROM_CURRENT,
 		TO, screenWidthFloat + 10.0f,
@@ -127,7 +127,7 @@ bool MenuRoom::onTransitionComplete( uint32_t transitionId )
 bool MenuRoom::render()
 {
 	VALIDATE( draw::Draw::get().clear( draw::colour::kLightBlue ) );
-	
+
 	VALIDATE( playButton.render() );
 	VALIDATE( exitButton.render() );
 	VALIDATE( fadeIn.render() );
@@ -142,7 +142,7 @@ bool MenuRoom::update()
 	VALIDATE( Room::update() );
 
 	float timeStepSeconds = getTimeStepSeconds();
-	
+
 	VALIDATE( playButton.update( timeStepSeconds ) );
 	VALIDATE( exitButton.update( timeStepSeconds ) );
 	VALIDATE( fadeIn.update( timeStepSeconds ) );

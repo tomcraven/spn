@@ -35,7 +35,7 @@ bool shutdownSingletons()
 int main()
 {
 	VALIDATE_AND_RETURN( initialiseSingletons(), 1 );
-	
+
 	while ( !input::Input::userHasRequestedToExit() )
 	{
 		MenuRoom menuRoom;
@@ -60,5 +60,5 @@ int main()
 
 	VALIDATE_AND_RETURN( shutdownSingletons(), 1 );
 
-    return 0;
+	return 0;
 }
