@@ -2,7 +2,7 @@
 #define MAINROOM_H
 
 #include "game/Room.h"
-#include "Paralax.h"
+#include "Parallax.h"
 #include "City.h"
 
 class MainRoom : public game::Room
@@ -14,7 +14,7 @@ public: // game::Room
 	virtual bool render();
 
 private:
-	Paralax paralax;
+	Parallax parallax;
 	City city;
 };
 

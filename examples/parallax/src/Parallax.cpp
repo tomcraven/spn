@@ -1,4 +1,4 @@
-#include "Paralax.h"
+#include "Parallax.h"
 #include "core/Assert.h"
 #include "draw/Draw.h"
 #include "draw/ColourConstants.h"
@@ -8,7 +8,7 @@ using namespace tween;
 
 namespace
 {
-	uint32_t getNumConfigs( ParalaxPane::Config** configs )
+	uint32_t getNumConfigs( ParallaxPane::Config** configs )
 	{
 		uint32_t ret = 0;
 		while( *configs )
@@ -20,43 +20,43 @@ namespace
 	}
 }
 
-bool Paralax::init( ParalaxPane::Config** config )
+bool Parallax::init( ParallaxPane::Config** config )
 {
 
-	VALIDATE( paralaxPanes );
+	VALIDATE( parallaxPanes );
 
 	numPanes = getNumConfigs( config );
-	paralaxPanes = new ParalaxPane[ numPanes ];
+	parallaxPanes = new ParallaxPane[ numPanes ];
 
 	for ( uint32_t i = 0; i < numPanes; ++i )
 	{
-		VALIDATE( paralaxPanes[i].init( *( config[i] ) ) );
+		VALIDATE( parallaxPanes[i].init( *( config[i] ) ) );
 	}
 
 	return true;
 }
 
-bool Paralax::shutdown()
+bool Parallax::shutdown()
 {
-	delete[] paralaxPanes;
+	delete[] parallaxPanes;
 	return true;
 }
 
-bool Paralax::update( float timeStepSeconds )
+bool Parallax::update( float timeStepSeconds )
 {
 	for ( uint32_t i = 0; i < numPanes; ++i )
 	{
-		VALIDATE( paralaxPanes[i].update( timeStepSeconds ) );
+		VALIDATE( parallaxPanes[i].update( timeStepSeconds ) );
 	}
 
 	return true;
 }
 
-bool Paralax::render()
+bool Parallax::render()
 {
 	for ( uint32_t i = 0; i < numPanes; ++i )
 	{
-		VALIDATE( paralaxPanes[i].render() );
+		VALIDATE( parallaxPanes[i].render() );
 	}
 
 	return true;

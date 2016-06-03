@@ -1,5 +1,5 @@
-#ifndef PARALAXPANE_H
-#define PARALAXPANE_H
+#ifndef PARALLAXPANE_H
+#define PARALLAXPANE_H
 
 #include "component/ComponentEntity.h"
 #include "component/Position.h"
@@ -9,20 +9,20 @@
 #include "component/WindowExitCollision.h"
 #include "component/Dimensions.h"
 
-class ParalaxPane : public component::ComponentEntity
+class ParallaxPane : public component::ComponentEntity
 {
 public:
 	struct Config
 	{
 		const char* texturePath;
 		bool repeatX, repeatY;
-		
+
 		component::Position startingPosition;
 		component::Velocity velocity;
 	};
 
 public:
-	ParalaxPane();
+	ParallaxPane();
 	bool init( Config config );
 
 public: // component::ComponentEntity

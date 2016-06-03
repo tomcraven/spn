@@ -1,8 +1,8 @@
-#include "ParalaxPane.h"
+#include "ParallaxPane.h"
 #include "draw/Draw.h"
 #include "core/Assert.h"
 
-ParalaxPane::ParalaxPane()
+ParallaxPane::ParallaxPane()
 {
 	attach( &t );
 	attach( &p );
@@ -11,7 +11,7 @@ ParalaxPane::ParalaxPane()
 	attach( &d );
 }
 
-bool ParalaxPane::init( Config inConfig )
+bool ParallaxPane::init( Config inConfig )
 {
 	VALIDATE( ComponentEntity::init() );
 
@@ -24,22 +24,22 @@ bool ParalaxPane::init( Config inConfig )
 	return true;
 }
 
-bool ParalaxPane::render()
+bool ParallaxPane::render()
 {
 	if ( config.repeatX && config.repeatY )
 	{
 		const int32_t numVertical = ( draw::Draw::getScreenHeight() / d.height ) + 2;
 		const int32_t numHorizontal = ( draw::Draw::getScreenWidth() / d.width ) + 2;
-		
+
 		for ( int32_t i = -1; i < numVertical; ++i )
 		{
 			for ( int32_t j = -1; j < numHorizontal; ++j )
 			{
-				VALIDATE( r.render( 
-					component::Position( 
-						p.x + ( j * static_cast< int32_t >( d.width ) ), 
-						p.y + ( i * static_cast< int32_t >( d.height ) ) 
-					) 
+				VALIDATE( r.render(
+					component::Position(
+						p.x + ( j * static_cast< int32_t >( d.width ) ),
+						p.y + ( i * static_cast< int32_t >( d.height ) )
+					)
 				) );
 			}
 		}
@@ -49,11 +49,11 @@ bool ParalaxPane::render()
 		const int32_t numHorizontal = ( draw::Draw::getScreenWidth() / d.width ) + 2;
 		for ( int32_t i = -1; i < numHorizontal; ++i )
 		{
-			VALIDATE( r.render( 
-				component::Position( 
-					p.x + ( i * static_cast< int32_t >( d.width ) ), 
-					p.y 
-				) 
+			VALIDATE( r.render(
+				component::Position(
+					p.x + ( i * static_cast< int32_t >( d.width ) ),
+					p.y
+				)
 			) );
 		}
 	}
@@ -62,11 +62,11 @@ bool ParalaxPane::render()
 		const int32_t numVertical = ( draw::Draw::getScreenHeight() / d.height ) + 2;
 		for ( int32_t i = -1; i < numVertical; ++i )
 		{
-			VALIDATE( r.render( 
-				component::Position( 
-					p.x, 
-					p.y + ( i * static_cast< int32_t >( d.height ) ) 
-				) 
+			VALIDATE( r.render(
+				component::Position(
+					p.x,
+					p.y + ( i * static_cast< int32_t >( d.height ) )
+				)
 			) );
 		}
 	}
@@ -78,10 +78,10 @@ bool ParalaxPane::render()
 	return true;
 }
 
-bool ParalaxPane::update( float timeStepSeconds )
+bool ParallaxPane::update( float timeStepSeconds )
 {
 	VALIDATE( ComponentEntity::update( timeStepSeconds ) );
-	
+
 	if ( v.x > 0.0f )
 	{
 		if ( p.x > d.width )
