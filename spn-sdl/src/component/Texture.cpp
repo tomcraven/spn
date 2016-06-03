@@ -3,8 +3,7 @@
 #include "component/ComponentEntity.h"
 #include "core/Assert.h"
 #include "draw/TexturePool.h"
-
-#include <sdl.h>
+#include "core/Platform.h"
 
 namespace
 {

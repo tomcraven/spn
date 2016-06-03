@@ -3,8 +3,8 @@
 
 #include "game/Room.h"
 #include "game/Button.h"
-#include "game/Transition/FadeIn.h"
-#include "game/Transition/FadeOut.h"
+#include "game/transition/FadeIn.h"
+#include "game/transition/FadeOut.h"
 
 class MenuRoom : 
 	public game::Room, 

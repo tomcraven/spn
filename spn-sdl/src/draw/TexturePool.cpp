@@ -1,9 +1,9 @@
 #include "draw/TexturePool.h"
 #include "draw/Draw.h"
 #include "core/Assert.h"
+#include "core/Platform.h"
 
 #include <string.h>
-#include <sdl_image.h>
 
 namespace
 {

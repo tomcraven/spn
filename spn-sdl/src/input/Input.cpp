@@ -1,8 +1,8 @@
 #include "input/Input.h"
 #include "core/Assert.h"
 #include "draw/Draw.h"
+#include "core/Platform.h"
 
-#include <sdl.h>
 #include <stdio.h>
 
 namespace

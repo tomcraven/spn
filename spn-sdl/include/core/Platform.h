@@ -2,6 +2,8 @@
 #define CORE_PLATFORM_H
 
 #include <stdio.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #define SPRINTF( buffer, size, format, ... ) sprintf_s( buffer, size, format, ##__VA_ARGS__ )
 

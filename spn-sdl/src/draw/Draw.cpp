@@ -2,10 +2,8 @@
 #include "draw/ColourConstants.h"
 #include "core/Assert.h"
 #include "component/Texture.h"
-#include "math/math.h"
-
-#include <sdl.h>
-#include <sdl_image.h>
+#include "math/Math.h"
+#include "core/Platform.h"
 
 namespace draw
 {

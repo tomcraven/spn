@@ -1,5 +1,5 @@
 #include "async/Thread.h"
-#include <sdl.h>
+#include "core/Platform.h"
 
 namespace async
 {
