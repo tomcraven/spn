@@ -1,0 +1,6 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+PROJECT(spn)
+INCLUDE(${CMAKE_CURRENT_LIST_DIR}/spn.cmake)
+INCLUDE(${CMAKE_CURRENT_LIST_DIR}/../spn-sdl/spn-sdl.cmake)
+INCLUDE_DIRECTORIES(${spn_include} ${spn_sdl_include})
+ADD_LIBRARY(spn STATIC ${spn_src} ${spn_sdl_src})

@@ -1,0 +1,17 @@
+INCLUDE(FindPkgConfig)
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+
+SET(spn_sdl_include
+	${CMAKE_CURRENT_LIST_DIR}/include
+	${SDL2_INCLUDE_DIRS}
+	${SDL2IMAGE_INCLUDE_DIRS})
+SET(spn_sdl_src
+	${CMAKE_CURRENT_LIST_DIR}/src/async/Thread.cpp
+	${CMAKE_CURRENT_LIST_DIR}/src/draw/TexturePool.cpp
+	${CMAKE_CURRENT_LIST_DIR}/src/draw/Draw.cpp
+	${CMAKE_CURRENT_LIST_DIR}/src/component/Texture.cpp
+	${CMAKE_CURRENT_LIST_DIR}/src/input/Input.cpp
+	${CMAKE_CURRENT_LIST_DIR}/src/time/Time.cpp)
+SET(spn_sdl_lib ${SDL2_STATIC_LIBRARIES} ${SDL2IMAGE_STATIC_LIBRARIES})
+SET(spn_sdl_lib_dirs ${SDL2_LIBRARY_DIRS} ${SDL2IMAGE_LIBRARY_DIRS})
