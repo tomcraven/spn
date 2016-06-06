@@ -81,7 +81,7 @@ namespace draw
 		uint32_t height = textureComponent->getHeight();
 
 		float oneMinusScaleWidth = width * ( 1.0f - scale );
-		float oneMinusScaleHeight = width * ( 1.0f - scale );
+		float oneMinusScaleHeight = height * ( 1.0f - scale );
 
 		float uhhhhhYeaWidth = ( oneMinusScaleWidth / 2 );
 		float uhhhhhYeaHeight = ( oneMinusScaleHeight / 2 );
