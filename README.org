@@ -1,0 +1,38 @@
+* Spn
+Spn is a small amateur game development library written on top of SDL.
+
+I would be very surprised if anyone apart from me ends up using this, it's mainly just a bit of fun
+
+* Dependencies
+** make
+** CMake
+** SDL
+** SDL_image
+
+* Examples
+There are examples of how to use the library in spn/examples. They all do something a little different, and are usually a little over the top to demonstrate a feature thoroughly
+
+* Building
+Try to build out of source, your directory structure should look something like this:
+
+```
+- spn
+- spn-sdl
+- my-awesome-game
+- build
+  - my-awesome-game-build
+```
+
+e.g. if you are building one of the example games:
+
+```
+mkdir -p build/balls
+cd build/balls
+cmake ../../spn/examples/balls
+make
+ln -s ../../spn/examples/balls/assets/textures textures
+ln -s ../../spn/examples/balls/assets/fonts fonts
+./balls
+```
+
+However, this is just a recommendation and the method i use to keep my source directory nice and clean. In source building should work just fine but is rarely tested!
