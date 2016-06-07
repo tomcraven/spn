@@ -7,6 +7,6 @@ SET(tests_src
 	./ext/googletest/googletest/src/gtest-printers.cc
 	./ext/googletest/googletest/src/gtest-test-part.cc
 	./ext/googletest/googletest/src/gtest-typed-test.cc
-
 	./src/main.cpp
+	./src/core/AlgorithmTest.cpp
 )
