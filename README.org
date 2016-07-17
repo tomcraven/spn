@@ -18,7 +18,6 @@ Try to build out of source, your directory structure should look something like 
 
 #+BEGIN_EXAMPLE
 - spn
-- spn-sdl
 - my-awesome-game
 - build
   - my-awesome-game-build
