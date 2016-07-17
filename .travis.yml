@@ -1,10 +1,11 @@
 language: cpp
 before_install:
-  - sudo apt-get install software-properties-common
-  - sudo add-apt-repository ppa:george-edison55/cmake-3.x
-  - sudo apt-get update
-  - sudo apt-get upgrade
-  - sudo apt-get install cmake
+  - wget http://www.cmake.org/files/v3.0/cmake-3.0.0.tar.gz
+  - tar xf cmake-3.0.0.tar.gz
+  - cd cmake-3.0.0
+  - ./configure
+  - make
+  - make install
 compiler:
   - clang
   - gcc
