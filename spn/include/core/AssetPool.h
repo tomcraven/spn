@@ -10,6 +10,10 @@ namespace core
 	class AssetPool
 	{
 	public:
+		AssetPool() : data( 0 ), size( 0 )
+		{
+		}
+
 		bool shutdown()
 		{
 			delete[] data;
@@ -18,6 +22,7 @@ namespace core
 
 		bool init( uint32_t numAssets )
 		{
+			size = numAssets;
 			data = new Asset[ numAssets ];
 			VALIDATE( data );
 			for ( uint32_t i = 0; i < numAssets; ++i )
@@ -33,6 +38,7 @@ namespace core
 
 		T* alloc()
 		{
+			VALIDATE_AND_RETURN( data, 0 );
 			VALIDATE_AND_RETURN( !freeAssets.empty(), 0 );
 
 			typename FreeAssetsContainer::Iterator freeAssetsIter = freeAssets.begin();
@@ -43,11 +49,13 @@ namespace core
 			return &ret->value;
 		}
 
-		void free( T* ptr )
+		bool free( T* ptr )
 		{
 			Asset* asset = typeToAsset( ptr );
-			typeToAsset( ptr );
+			VALIDATE( asset >= data );
+			VALIDATE( asset < data + ( size * sizeof( T )));
 			freeAssets.push_back( asset );
+			return true;
 		}
 
 		uint32_t getNumFreeAssets()
@@ -74,6 +82,7 @@ namespace core
 		}
 
 		uint32_t offset;
+		uint32_t size;
 
 		Asset* data;
 
