@@ -4,13 +4,13 @@ before_install:
   - tar xf cmake-3.0.0.tar.gz
   - cd cmake-3.0.0
   - ./configure
-  - make
-  - make install
+  - make -j4
+  - sudo make install
 compiler:
   - clang
   - gcc
 script:
   - mkdir tests/build
   - cd tests/build
-  - cmake .. && make
+  - cmake .. && make -j4
   - ./tests
