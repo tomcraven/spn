@@ -9,4 +9,6 @@ SET(tests_src
 	./ext/googletest/googletest/src/gtest-typed-test.cc
 	./src/main.cpp
 	./src/core/AlgorithmTest.cpp
+	./src/core/PlatformTest.cpp
+	./src/core/AssetPoolTest.cpp
 )
