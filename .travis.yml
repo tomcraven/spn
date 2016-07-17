@@ -1,10 +1,9 @@
-# Enable C++ support
 language: cpp
-# Compiler selection
+before_install:
+  - sudo apt-get install cmake
 compiler:
   - clang
   - gcc
-# Build steps
 script:
   - mkdir tests/build
   - cd tests/build
