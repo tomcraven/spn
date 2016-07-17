@@ -7,9 +7,13 @@
 		CORE_TRAP;		\
 	}
 
-#define CORE_TRAP				\
+#ifdef DEBUG
+# define CORE_TRAP				\
 	int* core_trap = 0;			\
-	*core_trap = 0;				\
+	*core_trap = 0;
+#else
+# define CORE_TRAP 0;
+#endif
 
 #define VALIDATE_AND_RETURN( x, ret )	\
 	if ( !( x ) )						\
