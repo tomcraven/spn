@@ -32,6 +32,6 @@ cd build/tests
 cmake ../../spn/balls
 make
 ./tests
-#END_EXAMPLE
+#+END_EXAMPLE
 
 However, this is just a recommendation and the method i use to keep my source directory nice and clean. In source building should work just fine but is rarely tested!
