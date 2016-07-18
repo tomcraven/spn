@@ -1,4 +1,10 @@
-SET(tests_include ${CMAKE_CURRENT_LIST_DIR}/ext/googletest/googletest/include ${CMAKE_CURRENT_LIST_DIR}/ext/googletest/googletest)
+SET(tests_include 
+	${CMAKE_CURRENT_LIST_DIR}/ext/googletest/googletest/include
+	${CMAKE_CURRENT_LIST_DIR}/ext/googletest/googlemock/include 
+	${CMAKE_CURRENT_LIST_DIR}/ext/googletest/googletest
+	${CMAKE_CURRENT_LIST_DIR}/ext/googletest/googlemock
+	${CMAKE_CURRENT_LIST_DIR}/src
+)
 SET(tests_src
 	./ext/googletest/googletest/src/gtest.cc
 	./ext/googletest/googletest/src/gtest-death-test.cc
@@ -7,6 +13,7 @@ SET(tests_src
 	./ext/googletest/googletest/src/gtest-printers.cc
 	./ext/googletest/googletest/src/gtest-test-part.cc
 	./ext/googletest/googletest/src/gtest-typed-test.cc
+	./ext/googletest/googlemock/src/gmock-all.cc
 	./src/main.cpp
 	./src/core/AlgorithmTest.cpp
 	./src/core/PlatformTest.cpp
