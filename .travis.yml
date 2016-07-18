@@ -1,19 +1,13 @@
 language: cpp
 before_install:
-  - wget --no-check-certificate http://www.cmake.org/files/v3.0/cmake-3.0.0.tar.gz
-  - tar xf cmake-3.0.0.tar.gz
-  - cd cmake-3.0.0
-  - ./configure
-  - make -j4
-  - sudo make install
-  - cd ..
   - sudo apt-get install libsdl2-dev
   - sudo apt-get install libsdl-image1.2-dev
 compiler:
-  - clang
   - gcc
 script:
+  - set -e
   - mkdir tests/build
   - cd tests/build
-  - cmake .. && make -j4
+  - cmake ..
+  - make -j8
   - ./tests
