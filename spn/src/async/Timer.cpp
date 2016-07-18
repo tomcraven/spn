@@ -3,9 +3,9 @@
 
 namespace
 {
-	class NullExpiredListener : public async::Timer::IExpiredListener
+	class NullExpiredListener : public async::Timer::Listener
 	{
-	public: // PlayTimer::IExpiredListener
+	public: // PlayTimer::Listener
 		virtual bool onTimerExpired( uint32_t id )
 		{
 			return true;
@@ -28,7 +28,7 @@ namespace async
 		updateFunction( &Timer::updateNull ),
 		id( generateTimerId() )
 	{
-		setTimerExpiredListener( 0 );
+		setListener( 0 );
 	}
 	
 	void Timer::setTimeout( float inTimeoutSeconds )
@@ -85,7 +85,7 @@ namespace async
 		return id;
 	}
 
-	void Timer::setTimerExpiredListener( Timer::IExpiredListener* inListener )
+	void Timer::setListener( Timer::Listener* inListener )
 	{
 		if ( inListener )
 		{

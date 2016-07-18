@@ -8,7 +8,7 @@ namespace async
 	class Timer
 	{
 	public:
-		class IExpiredListener
+		class Listener
 		{
 		public:
 			virtual bool onTimerExpired( uint32_t id ) = 0;
@@ -18,7 +18,7 @@ namespace async
 
 		void setTimeout( float timeoutSeconds );
 		void setRepeat( bool shouldRepeat );
-		void setTimerExpiredListener( IExpiredListener* listener );
+		void setListener( Listener* listener );
 
 		bool update( float timeStep );
 
@@ -35,7 +35,7 @@ namespace async
 		float timeoutSeconds;
 		bool flagShouldRepeat;
 		
-		IExpiredListener* listener;
+		Listener* listener;
 
 		uint32_t id;
 	};

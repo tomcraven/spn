@@ -143,7 +143,7 @@ bool MainRoom::initialisePlayTimer()
 {
 	playTimer.setTimeout( 10.0f );
 	playTimer.setRepeat( false );
-	playTimer.setTimerExpiredListener( this );
+	playTimer.setListener( this );
 
 	return true;
 }

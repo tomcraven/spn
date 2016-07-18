@@ -12,7 +12,7 @@
 class MainRoom : 
 	public game::Room, 
 	public game::Button::Consumer, 
-	public PlayTimer::IExpiredListener,
+	public PlayTimer::Listener,
 	public game::transition::ITransition::IConsumer
 {
 public:
@@ -28,7 +28,7 @@ public: // game::IRoom
 public: // game::Button::Consumer
 	virtual bool onButtonConsumerClick( uint32_t id );
 
-public: // PlayTimer::IExpiredListener
+public: // PlayTimer::Listener
 	virtual bool onTimerExpired( uint32_t id );
 
 public: // game::ITransition::IConsumer
