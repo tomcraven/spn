@@ -13,24 +13,13 @@ I would be very surprised if anyone apart from me ends up using this, it's mainl
 * Examples
 There are examples of how to use the library in spn/examples. They all do something a little different, and are usually a little over the top to demonstrate a feature thoroughly
 
-* Building
-Try to build out of source, your directory structure should look something like this:
-
-#+BEGIN_EXAMPLE
-- spn
-- my-awesome-game
-- build
-  - my-awesome-game-build
-#+END_EXAMPLE
-
-e.g. building the tests
-
+* Unit tests
 #+BEGIN_EXAMPLE
 mkdir -p build/tests
 cd build/tests
-cmake ../../spn/balls
+cmake ../../spn/tests
 make
 ./tests
 #+END_EXAMPLE
 
-However, this is just a recommendation and the method i use to keep my source directory nice and clean. In source building should work just fine but is rarely tested!
+This is just a recommendation and the method i use to keep my source directory nice and clean. In source building should work just fine but is rarely tested!
