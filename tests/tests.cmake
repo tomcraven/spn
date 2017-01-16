@@ -18,4 +18,8 @@ SET(tests_src
 	./src/core/AlgorithmTest.cpp
 	./src/core/PlatformTest.cpp
 	./src/core/AssetPoolTest.cpp
+	./src/async/TimerTest.cpp
+	./src/component/PositionTest.cpp
+	./src/component/VelocityTest.cpp
+	./src/component/ComponentEntityTest.cpp
 )
